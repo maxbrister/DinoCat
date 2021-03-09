@@ -64,6 +64,9 @@ namespace DinoCat.Base
         public static bool operator !=(Rect left, Rect right) =>
             !(left == right);
 
+        public bool Contains(Point p) =>
+            p.X >= Left && p.Y >= Top && p.X <= Right && p.Y <= Bottom;
+
         public bool Equals(Rect other) =>
             Location == other.Location && Size == other.Size;
 

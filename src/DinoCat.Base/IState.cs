@@ -2,7 +2,7 @@
 
 namespace DinoCat.Base
 {
-    public interface IState
+    public interface IState : IDisposable
     {
         event EventHandler<EventArgs> StateChanged;
     }

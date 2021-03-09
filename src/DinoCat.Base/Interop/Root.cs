@@ -1,5 +1,7 @@
 ﻿using DinoCat.Base.Controls;
 using DinoCat.Base.Drawing;
+using DinoCat.Base.Elements;
+using DinoCat.Base.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,118 +13,52 @@ namespace DinoCat.Base.Interop
 {
     public class Root
     {
-        private Action<Action> scheduleUpdateState;
-        private Func<Element> genRoot;
-        private Element rootElement;
-        private IState? rootState;
-        private long lastUpdate;
-        private long changeCount = 1;
-        private BuildContext context = new BuildContext();
+        private Func<Element> root;
+        private Site rootNode;
+        private BuildContext context;
 
         public event EventHandler<EventArgs>? ArrangeInvalidated;
         public event EventHandler<EventArgs>? RenderInvalidated;
 
-        public Root(Action<Action> scheduleUpdateState, Func<Element> genRoot)
+        public Root(Action<Action> scheduleUpdate, Func<Element> root)
         {
-            this.scheduleUpdateState = scheduleUpdateState;
-            this.genRoot = genRoot;
+            this.root = root;
+            context = new BuildContext(
+                new StateManager(scheduleUpdate),
+                this.OnArrangeInvalidated,
+                this.OnRenderInvalidated);
 
-            rootElement = genRoot();
-            rootElement.ArrangeInvalidated += RootElement_ArrangeInvalidated;
-            rootElement.RenderInvalidated += RootElement_RenderInvalidated;
-            UpdateState();
+            var rootElement = root();
+            rootNode = new Site(-1, context, rootElement);
         }
 
-        public Func<Element> GenRoot
+        public Func<Element> RootElement
         {
-            get => genRoot;
+            get => root;
             set
             {
-                genRoot = value;
+                root = value;
                 Refresh();
             }
         }
 
         public Size Arrange(Size availableSpace) =>
-            BoundRoot.Arrange(availableSpace);
+            rootNode.Arrange(availableSpace);
 
         public void Render(IDrawingContext context) =>
-            BoundRoot.Render(context);
+            rootNode.Render(context);
 
         public void Refresh()
         {
-            RootElement = genRoot();
+            // TODO: Hook into hot reload infrastructure here
+            var newRoot = root();
+            rootNode.UpdateElement(newRoot);
+        }
+
+        private void OnArrangeInvalidated() =>
             ArrangeInvalidated?.Invoke(this, EventArgs.Empty);
+
+        private void OnRenderInvalidated() =>
             RenderInvalidated?.Invoke(this, EventArgs.Empty);
-            Interlocked.Increment(ref changeCount);
-            UpdateState();
-        }
-
-        private Element RootElement
-        {
-            get => rootElement;
-            set
-            {
-                if (rootElement != null)
-                {
-                    rootElement.ArrangeInvalidated -= RootElement_ArrangeInvalidated;
-                    rootElement.RenderInvalidated -= RootElement_RenderInvalidated;
-                }
-
-                rootElement = value;
-
-                if (rootElement != null)
-                {
-                    rootElement.ArrangeInvalidated += RootElement_ArrangeInvalidated;
-                    rootElement.RenderInvalidated += RootElement_RenderInvalidated;
-                }
-            }
-        }
-
-        private BoundElement BoundRoot => new BoundElement(RootElement, RootState);
-
-        private IState? RootState
-        {
-            get => rootState;
-            set
-            {
-                if (rootState != value)
-                {
-                    if (rootState != null)
-                    {
-                        rootState.StateChanged -= RootState_StateChanged;
-                    }
-
-                    rootState = value;
-
-                    if (rootState != null)
-                    {
-                        rootState.StateChanged += RootState_StateChanged;
-                    }
-                }
-            }
-        }
-
-        private void UpdateState()
-        {
-            if (changeCount == lastUpdate)
-                return;
-
-            lastUpdate = changeCount;
-            RootState = BoundRoot.CreateOrReuseState(context);
-            BoundRoot.UpdateState(context);
-        }
-
-        private void RootState_StateChanged(object? sender, EventArgs e)
-        {
-            Interlocked.Increment(ref changeCount);
-            scheduleUpdateState(this.UpdateState);
-        }
-
-        private void RootElement_ArrangeInvalidated(object? sender, EventArgs e) =>
-            ArrangeInvalidated?.Invoke(this, e);
-
-        private void RootElement_RenderInvalidated(object? sender, EventArgs e) =>
-            RenderInvalidated?.Invoke(this, e);
     }
 }

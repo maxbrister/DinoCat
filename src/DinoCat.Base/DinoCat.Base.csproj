@@ -10,8 +10,4 @@
     <Folder Include="Input\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
 </Project>

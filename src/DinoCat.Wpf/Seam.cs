@@ -1,10 +1,7 @@
-﻿using DinoCat.Base;
-using DinoCat.Base.Controls;
+﻿using DinoCat.Base.Elements;
 using DinoCat.Base.Interop;
 using System;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -17,14 +14,14 @@ namespace DinoCat.Wpf
         public Seam()
         {
             root = new Root(
-                scheduleUpdateState: action => Dispatcher.BeginInvoke(DispatcherPriority.DataBind, action),
-                genRoot: () => new Dummy());
+                scheduleUpdate: action => Dispatcher.BeginInvoke(DispatcherPriority.DataBind, action),
+                root: () => new Dummy());
         }
 
-        public Func<Element> GenRoot
+        public Func<Element> RootElement
         {
-            get => root.GenRoot;
-            set => root.GenRoot = value;
+            get => root.RootElement;
+            set => root.RootElement = value;
         }
 
         protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize)
