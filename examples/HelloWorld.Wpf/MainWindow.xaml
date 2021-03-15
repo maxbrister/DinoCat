@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <wpf:Seam x:Name="seam" />
+        <wpf:Host x:Name="host" />
+
+        <!--<Grid>
+            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Padding="8,0"
+                    Background="Purple" CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3" BlurRadius="3" Opacity=".2" Direction="270"/>
+                </Border.Effect>
+                <TextBlock Text="TEST" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="center"/>
+            </Border>
+        </Grid>-->
     </Grid>
 </Window>

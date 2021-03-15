@@ -4,10 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Drawing
+namespace DinoCat.Drawing
 {
-    public class Paint
+    public sealed class Paint
     {
-        public Color Foreground;
+        public Paint(Brush? fill = null, Pen? stroke = null)
+        {
+            Fill = fill;
+            Stroke = stroke;
+        }
+
+        public static implicit operator Paint(uint c) => new Paint(fill: c);
+
+        public Brush? Fill { get; }
+        public Pen? Stroke { get; }
     }
 }

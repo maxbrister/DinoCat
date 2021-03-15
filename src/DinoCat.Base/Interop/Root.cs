@@ -1,35 +1,23 @@
-﻿using DinoCat.Base.Controls;
-using DinoCat.Base.Drawing;
-using DinoCat.Base.Elements;
-using DinoCat.Base.Tree;
+﻿using DinoCat.Drawing;
+using DinoCat.Elements;
+using DinoCat.Tree;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace DinoCat.Base.Interop
+namespace DinoCat.Interop
 {
     public class Root
     {
         private Func<Element> root;
-        private Site rootNode;
-        private BuildContext context;
+        private Node rootNode;
+        private Context context;
 
-        public event EventHandler<EventArgs>? ArrangeInvalidated;
-        public event EventHandler<EventArgs>? RenderInvalidated;
-
-        public Root(Action<Action> scheduleUpdate, Func<Element> root)
+        public Root(Context context, Func<Element> root)
         {
+            this.context = context;
             this.root = root;
-            context = new BuildContext(
-                new StateManager(scheduleUpdate),
-                this.OnArrangeInvalidated,
-                this.OnRenderInvalidated);
 
             var rootElement = root();
-            rootNode = new Site(-1, context, rootElement);
+            rootNode = rootElement.CreateNode(-1, context);
         }
 
         public Func<Element> RootElement
@@ -39,6 +27,21 @@ namespace DinoCat.Base.Interop
             {
                 root = value;
                 Refresh();
+            }
+        }
+
+        public Context Context
+        {
+            get => context;
+            set
+            {
+                if (context != value)
+                {
+                    context = value;
+
+                    var currentRoot = root();
+                    rootNode = rootNode.UpdateElement(currentRoot, context);
+                }
             }
         }
 
@@ -52,13 +55,7 @@ namespace DinoCat.Base.Interop
         {
             // TODO: Hook into hot reload infrastructure here
             var newRoot = root();
-            rootNode.UpdateElement(newRoot);
+            rootNode = rootNode.UpdateElement(newRoot);
         }
-
-        private void OnArrangeInvalidated() =>
-            ArrangeInvalidated?.Invoke(this, EventArgs.Empty);
-
-        private void OnRenderInvalidated() =>
-            RenderInvalidated?.Invoke(this, EventArgs.Empty);
     }
 }

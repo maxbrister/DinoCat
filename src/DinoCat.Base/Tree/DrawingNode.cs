@@ -1,53 +1,34 @@
-﻿using DinoCat.Base.Drawing;
-using DinoCat.Base.Elements;
+﻿using DinoCat.Drawing;
+using DinoCat.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Tree
+namespace DinoCat.Tree
 {
-    public class DrawingNode : Node
+    public class DrawingNode : NodeBase<DrawingElementBase>
     {
-        private DrawingElementBase element;
-        private Size currentSize;
-
-        public DrawingNode(int depth, BuildContext context, DrawingElementBase element) : base(depth, context)
-        {
-            this.element = element;
-        }
+        public DrawingNode(int depth, Context context, DrawingElementBase element) : base(depth, context, element) { }
 
         public override IEnumerable<Node> Children =>
             Enumerable.Empty<Node>();
 
-        public override Size Arrange(Size availableSize)
+        protected override Size ArrangeOverride(Size availableSize) =>
+            Element.Arrange(availableSize);
+
+        protected override void RenderOverride(IDrawingContext context) =>
+            Element.Render(context, Size);
+
+        protected override void UpdateElement(DrawingElementBase oldElement)
         {
-            currentSize = element.Arrange(availableSize);
-            return currentSize;
-        }
-
-        public override void Dispose() { }
-
-        public override IEnumerable<(Node, Point)> HitTest(Point p)
-        {
-            if (new Rect(currentSize).Contains(p))
-                yield return (this, p);
-        }
-
-        public override void Render(IDrawingContext context) =>
-            element.Render(context, currentSize);
-
-        public override void UpdateElement(Element newElement)
-        {
-            var oldElement = element;
-            element = (DrawingElementBase)newElement;
-            if (!element.IsArrangeValid(oldElement))
+            if (!Element.IsArrangeValid(oldElement))
                 Context.InvalidateLayout();
-            if (!element.IsRenderValid(oldElement))
+            if (!Element.IsRenderValid(oldElement))
                 Context.InvalidateRender();
         }
 
-        public override void UpdateState() { }
+        protected override void UpdateContextOverride(Context oldContext) { }
     }
 }

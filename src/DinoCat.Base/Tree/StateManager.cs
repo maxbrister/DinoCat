@@ -4,30 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Tree
+namespace DinoCat.Tree
 {
     public class StateManager
     {
         private object sync = new object();
         private Action<Action> scheduleUpdate;
         private bool updateScheduled;
-        private List<Node> pending = new List<Node>();
+        private List<(int, Action)> pending = new List<(int, Action)>();
 
         public StateManager(Action<Action> scheduleUpdate)
         {
             this.scheduleUpdate = scheduleUpdate;
         }
 
-        public void Invalidate(Node node)
+        public void Invalidate(int depth, Action update)
         {
-            bool scheduled;
+            bool isScheduled;
             lock (sync)
             {
-                pending.Add(node);
-                scheduled = updateScheduled;
+                pending.Add((depth, update));
+                isScheduled = updateScheduled;
+                updateScheduled = true;
             }
 
-            if (!scheduled)
+            if (!isScheduled)
                 ScheduleUpdate();
         }
 
@@ -35,21 +36,21 @@ namespace DinoCat.Base.Tree
 
         private void Update()
         {
-            List<Node> work;
+            List<(int, Action)> work;
             lock (sync)
             {
                 if (!updateScheduled)
                     return;
 
                 work = pending;
-                pending = new List<Node>();
+                pending = new List<(int, Action)>();
                 updateScheduled = false;
             }
 
             // Enforce top down update, because nodes can remove their children
-            pending.Sort((a, b) => a.Depth.CompareTo(b.Depth));
-            foreach (var node in pending)
-                node.UpdateState();
+            pending.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+            foreach (var node in work)
+                node.Item2();
         }
     }
 }

@@ -4,59 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base
+namespace DinoCat
 {
     public struct Rect : IEquatable<Rect>
     {
-        public Rect(double left, double top, double right, double bottom)
-        {
-            Left = left;
-            Top = top;
-            Right = right;
-            Bottom = bottom;
-        }
+        public Rect(double left, double top, double right, double bottom) :
+            this(new Point(left, top), new Size(right - left, bottom - top))
+        { }
 
-        public Rect(Size size)
-        {
-            Left = 0;
-            Top = 0;
-            Right = size.Width;
-            Bottom = size.Height;
-        }
+        public Rect(Size size) : this(new Point(), size)
+        { }
 
         public Rect(Point location, Size size)
         {
-            Left = location.X;
-            Top = location.Y;
-            Right = location.X + size.Width;
-            Bottom = location.Y + size.Height;
+            Location = location;
+            Size = size;
         }
 
-        public double Left { get; set; }
-        public double Top { get; set; }
-        public double Right { get; set; }
-        public double Bottom { get; set; }
-        public Point Location
-        {
-            get => new Point(Left, Top);
-            set
-            {
-                Left = value.X;
-                Top = value.Y;
-            }
-        }
-        public Size Size
-        {
-            get => new Size(Right - Left, Bottom - Top);
-            set
-            {
-                Right = Left + value.Width;
-                Bottom = Top + value.Height;
-            }
-        }
+        public double Left => Location.X;
+        public double Top => Location.Y;
+        public double Right => Location.X + Width;
+        public double Bottom => Location.Y + Height;
+        public Point Location { get; set; }
+        public Size Size { get; set; }
 
-        public double Width => Right - Left;
-        public double Height => Bottom - Top;
+        public double Width => Size.Width;
+        public double Height => Size.Height;
 
         public static bool operator ==(Rect left, Rect right) =>
             left.Equals(right);

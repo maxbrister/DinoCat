@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
-namespace DinoCat.Base
+namespace DinoCat
 {
+    [DebuggerDisplay("{Width} x {Height}")]
     public struct Size : IEquatable<Size>
     {
         public Size(double width, double height)
@@ -18,6 +20,36 @@ namespace DinoCat.Base
 
         public static bool operator !=(Size left, Size right) =>
             !(left == right);
+
+        public double this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return Width;
+                    case 1:
+                        return Height;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0:
+                        Width = value;
+                        break;
+                    case 1:
+                        Height = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
 
         public bool Equals(Size other) =>
             Width == other.Width && Height == other.Height;

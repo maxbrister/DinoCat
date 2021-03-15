@@ -1,23 +1,19 @@
-﻿using DinoCat.Base.Controls;
-using DinoCat.Base.Drawing;
-using DinoCat.Base.Elements;
+﻿using DinoCat.Drawing;
+using DinoCat.Elements;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
-namespace DinoCat.Base.Tree
+namespace DinoCat.Tree
 {
-    internal sealed class ControlNode : Node
+    internal sealed class ControlNode : NodeBase<Control>
     {
-        private Control control;
-        private Site child;
+        private Node child;
 
-        public ControlNode(int depth, BuildContext context, Control control) : base(depth, context)
+        public ControlNode(int parentDepth, Context context, Control control) : base(parentDepth, context, control)
         {
-            this.control = control;
             var childElement = control.Build(context);
-            child = new Site(depth, context, childElement);
+            child = childElement.CreateNode(parentDepth, context);
         }
 
         public override IEnumerable<Node> Children
@@ -28,50 +24,41 @@ namespace DinoCat.Base.Tree
             }
         }
 
-        public override Size Arrange(Size availableSize) => child.Arrange(availableSize);
+        protected override Size ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
 
-        public override void Dispose() => child.Dispose();
-
-        public override IEnumerable<(Node, Point)> HitTest(Point p)
+        protected override void UpdateElement(Control oldElement)
         {
-            foreach (var hit in child.HitTest(p))
-                yield return hit;
-            yield return (this, p);
-        }
-
-        public override void Render(IDrawingContext context) => child.Render(context);
-
-        public override void UpdateElement(Element newElement)
-        {
-            var newControl = (Control)newElement;
-            if (!Equals(newControl, control))
+            if (!Equals(Element, oldElement))
             {
-                control = newControl;
-                var newChild = control.Build(Context);
-                child.UpdateElement(newChild);
+                var newChild = Element.Build(Context);
+                child = child.UpdateElement(newChild);
             }
         }
 
-        public override void UpdateState() { }
+        protected override void UpdateContextOverride(Context oldContext)
+        {
+            var newChild = Element.Build(Context);
+            child = child.UpdateElement(newChild, Context);
+        }
     }
 
-    internal sealed class ControlNode<TState> : Node where TState : IState, new()
+    internal sealed class ControlNode<TState> : NodeBase<Control<TState>> where TState : IState, new()
     {
-        private Control<TState> control;
         private TState state;
-        private Site child;
+        private Node child;
         private bool disposed;
         private long modificationCount;
         private long lastUpdate;
 
-        public ControlNode(int depth, BuildContext context, Control<TState> control) : base(depth, context)
+        public ControlNode(int parentDepth, Context context, Control<TState> control) : base(parentDepth, context, control)
         {
-            state = new TState();
-            state.StateChanged += State_StateChanged;
+            state = new();
 
-            this.control = control;
+            if (control.Safe)
+                state.StateChanged += State_StateChanged;
+
             var childElement = control.Build(context, state);
-            child = new Site(depth, context, childElement);
+            child = childElement.CreateNode(parentDepth, context);
         }
 
         public override IEnumerable<Node> Children
@@ -82,48 +69,41 @@ namespace DinoCat.Base.Tree
             }
         }
 
-        public override Size Arrange(Size availableSize) =>
+        protected override Size ArrangeOverride(Size availableSize) =>
             child.Arrange(availableSize);
 
         public override void Dispose()
         {
             disposed = true;
             state.StateChanged -= State_StateChanged;
-            state.Dispose();
             child.Dispose();
+            state.Dispose();
         }
 
-        public override IEnumerable<(Node, Point)> HitTest(Point p)
+        protected override void UpdateElement(Control<TState> oldElement)
         {
-            foreach (var hit in child.HitTest(p))
-                yield return hit;
-            yield return (this, p);
-        }
-
-        public override void Render(IDrawingContext context) =>
-            child.Render(context);
-
-        public override void UpdateElement(Element newElement)
-        {
-            var newControl = (Control<TState>)newElement;
-            if (!Equals(newControl, control))
+            if (!Equals(oldElement, Element))
             {
-                control = newControl;
-
-                var newChild = control.Build(Context, state);
-                child.UpdateElement(newChild);
+                var newChild = Element.Build(Context, state);
+                child = child.UpdateElement(newChild);
             }
         }
 
-        public override void UpdateState()
+        protected override void UpdateContextOverride(Context oldContext)
+        {
+            var newChild = Element.Build(Context, state);
+            child = child.UpdateElement(newChild, Context);
+        }
+
+        private void UpdateState()
         {
             if (disposed || modificationCount == lastUpdate)
                 return;
 
             lastUpdate = modificationCount;
 
-            var newChild = control.Build(Context, state);
-            child.UpdateElement(newChild);
+            var newChild = Element.Build(Context, state);
+            child = child.UpdateElement(newChild);
         }
 
         private void State_StateChanged(object? sender, EventArgs e)
@@ -131,7 +111,7 @@ namespace DinoCat.Base.Tree
             if (modificationCount == lastUpdate)
             {
                 Interlocked.Increment(ref modificationCount);
-                Context.InvalidateState(this);
+                Context.InvalidateState(Depth, UpdateState);
             }
         }
     }

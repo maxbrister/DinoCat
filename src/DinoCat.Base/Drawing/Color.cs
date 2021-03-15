@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Drawing
+namespace DinoCat.Drawing
 {
     public struct Color : IEquatable<Color>
     {
         private uint color;
+
+        public static implicit operator Paint(Color c) => new Paint(fill: c);
+        public static implicit operator Pen(Color c) => new Pen(c);
+        public static implicit operator Brush(Color c) => new SolidColorBrush(c);
 
         public Color(uint value) => color = value;
         public Color(byte red, byte green, byte blue, byte alpha = 255) =>

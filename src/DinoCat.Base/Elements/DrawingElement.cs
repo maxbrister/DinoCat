@@ -1,16 +1,16 @@
-﻿using DinoCat.Base.Drawing;
-using DinoCat.Base.Tree;
+﻿using DinoCat.Drawing;
+using DinoCat.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Elements
+namespace DinoCat.Elements
 {
     public abstract class DrawingElementBase : Element
     {
-        public Node CreateNode(int depth, BuildContext context) =>
+        public override Node CreateNode(int depth, Context context) =>
             new DrawingNode(depth, context, this);
 
         public abstract Size Arrange(Size availableSize);

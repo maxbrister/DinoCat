@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DinoCat.Base
+namespace DinoCat
 {
     public interface IState : IDisposable
     {

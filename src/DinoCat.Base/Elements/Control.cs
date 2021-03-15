@@ -1,25 +1,28 @@
-﻿using DinoCat.Base.Tree;
+﻿using DinoCat.Tree;
 using System;
 
-namespace DinoCat.Base.Elements
+namespace DinoCat.Elements
 {
     public abstract class Control : Element
     {
-        public abstract Element Build(BuildContext context);
+        public abstract Element Build(Context context);
 
-        Node Element.CreateNode(int depth, BuildContext context)
-        {
-            throw new NotImplementedException();
-        }
+        public override Node CreateNode(int depth, Context context) =>
+            new ControlNode(depth, context, this);
     }
 
     public abstract class Control<TState> : Element where TState: IState, new()
     {
-        public abstract Element Build(BuildContext context, TState state);
+        public abstract Element Build(Context context, TState state);
 
-        Node Element.CreateNode(int depth, BuildContext context)
-        {
-            throw new NotImplementedException();
-        }
+        internal virtual bool Safe { get; } = true;
+
+        public override Node CreateNode(int depth, Context context) =>
+            new ControlNode<TState>(depth, context, this);
+    }
+
+    public abstract class UnsafeControl<TState> : Control<TState> where TState : IState, new()
+    {
+        internal override bool Safe => false;
     }
 }

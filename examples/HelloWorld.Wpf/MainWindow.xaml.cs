@@ -1,6 +1,11 @@
-﻿using DinoCat.Base.Drawing;
-using DinoCat.Base.Elements;
+﻿using DinoCat;
+using DinoCat.Drawing;
+using DinoCat.Elements;
+using DinoCat.Wpf;
+using System.Diagnostics;
 using System.Windows;
+
+using WpfButton = DinoCat.Wpf.Native.Button;
 
 namespace HelloWorld.Wpf
 {
@@ -12,7 +17,17 @@ namespace HelloWorld.Wpf
         public MainWindow()
         {
             InitializeComponent();
-            seam.RootElement = () => new Rectangle(Colors.Red, 100, 100);
+
+            host.RootElement = () => State.Inject<int>(state =>
+                new Row(
+                    new Stack(
+                        new WpfButton($"Hello world {state}", click: _ => ++state.Value)
+                            .PadUniform(10)
+                        // ,new Rectangle(0x55FF0000).Expand()
+                    ),
+                    new Button(text: $"Hello World 🐱‍🐉 {state}", click: () => ++state.Value)
+                        .PadUniform(10)
+                ));
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using DinoCat.Base.Tree;
+﻿using DinoCat.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Elements
+namespace DinoCat.Elements
 {
-    public interface Element
+    public abstract class Element
     {
-        Node CreateNode(int depth, BuildContext context);
+        public abstract Node CreateNode(int parentDepth, Context context);
     }
 }
