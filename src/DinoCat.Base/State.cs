@@ -11,9 +11,9 @@ namespace DinoCat
         public static InjectState<State<T>> Inject<T>(Func<T> newState, Func<State<T>, Element> callback) =>
             new InjectState<State<T>>(() => new State<T>(newState()), callback);
         public static InjectState<State<T>> UnsafeInject<T>(Func<State<T>, Element> callback) where T : new() =>
-            new InjectState<State<T>>(() => new(), callback);
+            new UnsafeInjectState<State<T>>(() => new(), callback);
         public static InjectState<State<T>> UnsafeInject<T>(Func<T> newState, Func<State<T>, Element> callback) =>
-            new InjectState<State<T>>(() => new State<T>(newState()), callback);
+            new UnsafeInjectState<State<T>>(() => new State<T>(newState()), callback);
     }
 
     public sealed class State<T> : IState
