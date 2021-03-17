@@ -66,8 +66,8 @@ namespace DinoCat.Elements
         public Action? Hover { get; }
         public Action? Invoke => invoke ?? Tap;
 
-        public override Node CreateNode(int depth, Context context) =>
-            new InputNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new InputNode(parent, context, this);
     }
 
     public class InputNode : LayerNode<Input>
@@ -77,11 +77,11 @@ namespace DinoCat.Elements
 
         public event EventHandler<EventArgs>? ElementChanged;
 
-        public InputNode(int parentDepth, Context context, Input element) : base(parentDepth, context, element)
+        public InputNode(Node? parent, Context context, Input element) : base(parent, context, element)
         {
             layer = context.Layer.AddChild(this);
             var childContext = new Context(Context, Layer);
-            child = Element.Child.CreateNode(parentDepth, childContext);
+            child = Element.Child.CreateNode(this, childContext);
         }
 
         public override ILayer Layer => layer;
@@ -105,24 +105,27 @@ namespace DinoCat.Elements
             }
         }
 
-        protected override void UpdateElement(Input oldElement)
+        protected override void UpdateElement(Input oldElement, Context oldContext)
         {
-            child = child.UpdateElement(Element.Child);
-            ElementChanged?.Invoke(this, EventArgs.Empty);
+            var childContext = child.Context;
+            if (oldContext != Context)
+            {
+                if (Context.Layer != oldContext.Layer)
+                {
+                    layer.Dispose();
+                    layer = Context.Layer.AddChild(this);
+                }
+
+
+                childContext = new Context(Context, Layer);
+            }
+
+            child = child.UpdateElement(Element.Child, childContext);
+
+            if (oldElement != Element)
+                ElementChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected override Size ArrangeOverrideImpl(Size availableSize) => child.Arrange(availableSize);
-
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            if (Context.Layer != oldContext.Layer)
-            {
-                layer.Dispose();
-                layer = Context.Layer.AddChild(this);
-            }
-
-            var childContext = new Context(Context, Layer);
-            child = child.UpdateElement(Element.Child, childContext);
-        }
     }
 }

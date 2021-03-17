@@ -9,39 +9,41 @@ namespace DinoCat.Tree
 {
     public abstract class Node : IDisposable
     {
-        public Node(int parentDepth, Context context)
+        public Node(Node? parent, Context context)
         {
-            Depth = parentDepth + 1;
+            Depth = (parent?.Depth + 1) ?? 0;
             Context = context;
         }
 
-        public Node UpdateElement(Element newElement, Context? newContext = null)
+        public Node UpdateElement(Element newElement, Context newContext)
         {
             var oldElement = RawElement;
             if (!Equals(newElement, oldElement))
             {
                 if (newElement.GetType() == oldElement.GetType())
                 {
-                    SetElement(newElement);
-                    if (newContext != null)
-                        UpdateContext(newContext);
+                    var oldContext = Context;
+                    Context = newContext;
+                    SetElement(newElement, oldContext);
                     return this;
                 }
                 else
                 {
-                    var depth = Depth;
                     var context = newContext ?? Context;
                     Dispose();
 
-                    var newNode = newElement.CreateNode(depth - 1, context);
+                    var newNode = newElement.CreateNode(this, context);
                     context.InvalidateLayout();
                     context.InvalidateRender();
                     return newNode;
                 }
             }
-
-            if (newContext != null)
-                UpdateContext(newContext);
+            else if (newContext != Context)
+            {
+                var oldContext = Context;
+                Context = newContext;
+                SetElement(newElement, oldContext);
+            }
 
             return this;
         }
@@ -101,16 +103,8 @@ namespace DinoCat.Tree
                     RenderOverride(context);
             }
         }
-        public void UpdateContext(Context newContext)
-        {
-            var oldContext = Context;
-            Context = newContext;
-            UpdateContextOverride(oldContext);
-        }
-        public abstract void SetElement(Element newElement);
-
+        protected abstract void SetElement(Element newElement, Context oldContext);
         protected abstract Size ArrangeOverride(Size availableSize);
-        protected abstract void UpdateContextOverride(Context oldContext);
         protected virtual void RenderOverride(IDrawingContext context)
         {
             foreach (var child in Children)

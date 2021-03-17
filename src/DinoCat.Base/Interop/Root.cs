@@ -11,13 +11,15 @@ namespace DinoCat.Interop
         private Node rootNode;
         private Context context;
 
+        public event EventHandler<EventArgs>? RootNodeChanged;
+
         public Root(Context context, Func<Element> root)
         {
             this.context = context;
             this.root = root;
 
             var rootElement = root();
-            rootNode = rootElement.CreateNode(-1, context);
+            rootNode = rootElement.CreateNode(null, context);
         }
 
         public Func<Element> RootElement
@@ -27,6 +29,20 @@ namespace DinoCat.Interop
             {
                 root = value;
                 Refresh();
+            }
+        }
+
+        public Node RootNode
+        {
+            get => rootNode;
+            private set
+            {
+                if (rootNode != value)
+                {
+                    rootNode.Dispose();
+                    rootNode = value;
+                    RootNodeChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -40,7 +56,7 @@ namespace DinoCat.Interop
                     context = value;
 
                     var currentRoot = root();
-                    rootNode = rootNode.UpdateElement(currentRoot, context);
+                    RootNode = rootNode.UpdateElement(currentRoot, context);
                 }
             }
         }
@@ -55,7 +71,7 @@ namespace DinoCat.Interop
         {
             // TODO: Hook into hot reload infrastructure here
             var newRoot = root();
-            rootNode = rootNode.UpdateElement(newRoot);
+            RootNode = rootNode.UpdateElement(newRoot, rootNode.Context);
         }
     }
 }

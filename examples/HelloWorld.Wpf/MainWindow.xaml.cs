@@ -18,14 +18,14 @@ namespace HelloWorld.Wpf
         {
             InitializeComponent();
 
-            host.RootElement = () => State.Inject<int>(state =>
+            host.RootElement = () => State.Inject<int>((state, setState) =>
                 new Row(
                     new Stack(
-                        new WpfButton($"Hello world {state}", click: _ => ++state.Value)
+                        new WpfButton($"Hello world {state}", click: _ => setState(state + 1))
                             .PadUniform(10)
-                        // ,new Rectangle(0x55FF0000).Expand()
+                        //,new Rectangle(0x55FF0000).Expand()
                     ),
-                    new Button(text: $"Hello World 🐱‍🐉 {state}", click: () => ++state.Value)
+                    new Button(text: $"Hello World 🐱‍🐉 {state}", click: () => setState(state + 1))
                         .PadUniform(10)
                 ));
         }

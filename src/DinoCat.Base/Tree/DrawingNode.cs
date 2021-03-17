@@ -10,7 +10,7 @@ namespace DinoCat.Tree
 {
     public class DrawingNode : NodeBase<DrawingElementBase>
     {
-        public DrawingNode(int depth, Context context, DrawingElementBase element) : base(depth, context, element) { }
+        public DrawingNode(Node? parent, Context context, DrawingElementBase element) : base(parent, context, element) { }
 
         public override IEnumerable<Node> Children =>
             Enumerable.Empty<Node>();
@@ -21,14 +21,12 @@ namespace DinoCat.Tree
         protected override void RenderOverride(IDrawingContext context) =>
             Element.Render(context, Size);
 
-        protected override void UpdateElement(DrawingElementBase oldElement)
+        protected override void UpdateElement(DrawingElementBase oldElement, Context oldContext)
         {
             if (!Element.IsArrangeValid(oldElement))
                 Context.InvalidateLayout();
             if (!Element.IsRenderValid(oldElement))
                 Context.InvalidateRender();
         }
-
-        protected override void UpdateContextOverride(Context oldContext) { }
     }
 }

@@ -117,7 +117,11 @@ namespace DinoCat.Wpf
                 RemoveChild(element);
         }
 
-        public void OnArrange(Size size) => this.size = size.Into();
+        public void OnArrange(Size size)
+        {
+            this.size = size.Into();
+            InvalidateVisual();
+        }
 
         void ILayer.OnRender(IDrawingContext drawingContext)
         {
@@ -142,8 +146,6 @@ namespace DinoCat.Wpf
         {
             InvalidateVisual();
             parent?.InvalidateRender();
-            if (VisualParent is Host host)
-                host.InvalidateVisual();
         }
 
         public void InvalidateLayout()

@@ -10,8 +10,8 @@ namespace DinoCat.Elements
 {
     public abstract class DrawingElementBase : Element
     {
-        public override Node CreateNode(int depth, Context context) =>
-            new DrawingNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new DrawingNode(parent, context, this);
 
         public abstract Size Arrange(Size availableSize);
         public abstract void Render(IDrawingContext context, Size size);

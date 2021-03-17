@@ -10,13 +10,13 @@ namespace DinoCat.Elements
 {
     public class Dummy : Element
     {
-        public override Node CreateNode(int depth, Context context) =>
-            new DummyNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new DummyNode(parent, context, this);
     }
 
     internal class DummyNode : NodeBase<Dummy>
     {
-        public DummyNode(int depth, Context context, Dummy dummy) : base(depth, context, dummy)
+        public DummyNode(Node? parent, Context context, Dummy dummy) : base(parent, context, dummy)
         {
         }
 
@@ -25,8 +25,6 @@ namespace DinoCat.Elements
         protected override Size ArrangeOverride(Size availableSize) => new Size();
 
 
-        protected override void UpdateElement(Dummy oldElement) { }
-
-        protected override void UpdateContextOverride(Context oldContext) { }
+        protected override void UpdateElement(Dummy oldElement, Context oldContext) { }
     }
 }

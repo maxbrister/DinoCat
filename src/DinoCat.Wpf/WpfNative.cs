@@ -30,8 +30,8 @@ namespace DinoCat.Wpf
         public Func<TNative> Create { get; }
         public Action<TNative> Update { get; }
 
-        public override Node CreateNode(int depth, Context context) =>
-            new WpfNativeNode<TNative>(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new WpfNativeNode<TNative>(parent, context, this);
     }
 
     internal class WpfNativeNode<TNative> : NodeBase<WpfNative<TNative>> where TNative : UIElement, new()
@@ -39,7 +39,7 @@ namespace DinoCat.Wpf
         private TNative control;
         private NativeLayer layer;
 
-        public WpfNativeNode(int depth, Context context, WpfNative<TNative> element) : base(depth, context, element)
+        public WpfNativeNode(Node? parent, Context context, WpfNative<TNative> element) : base(parent, context, element)
         {
             control = element.Create();
 
@@ -83,10 +83,7 @@ namespace DinoCat.Wpf
             layer.Parent.OnChildRendered(control);
         }
 
-        protected override void UpdateElement(WpfNative<TNative> oldElement) =>
-            Element.Update(control);
-
-        protected override void UpdateContextOverride(Context oldContext)
+        protected override void UpdateElement(WpfNative<TNative> oldElement, Context oldContext)
         {
             if (oldContext.Layer != Context.Layer)
             {

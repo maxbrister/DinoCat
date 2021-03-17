@@ -34,8 +34,8 @@ namespace DinoCat.Elements
         public double Right { get; }
         public double Bottom { get; }
 
-        public override Node CreateNode(int depth, Context context) =>
-            new PadNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new PadNode(parent, context, this);
     }
 
     public static class PadExtensions
@@ -50,9 +50,9 @@ namespace DinoCat.Elements
     {
         private Node child;
 
-        public PadNode(int parentDepth, Context context, Pad pad) : base(parentDepth, context, pad)
+        public PadNode(Node? parent, Context context, Pad pad) : base(parent, context, pad)
         {
-            child = pad.Child.CreateNode(parentDepth, context);
+            child = pad.Child.CreateNode(this, context);
         }
 
         public override IEnumerable<Node> Children
@@ -76,7 +76,7 @@ namespace DinoCat.Elements
             return new Size(childSize.Width + hpad, childSize.Height + vpad);
         }
 
-        protected override void UpdateElement(Pad oldPad)
+        protected override void UpdateElement(Pad oldPad, Context oldContext)
         {
             var newPad = Element;
             if (oldPad.Left != newPad.Left ||
@@ -85,10 +85,7 @@ namespace DinoCat.Elements
                 oldPad.Bottom != newPad.Bottom)
                 Context.InvalidateLayout();
 
-            child = child.UpdateElement(newPad.Child);
+            child = child.UpdateElement(newPad.Child, Context);
         }
-
-        protected override void UpdateContextOverride(Context oldContext) =>
-            child = child.UpdateElement(Element.Child, Context);
     }
 }

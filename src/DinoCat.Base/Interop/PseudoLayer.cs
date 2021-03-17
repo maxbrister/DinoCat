@@ -12,14 +12,14 @@ namespace DinoCat.Interop
         private PseudoLayer? next;
         private List<ILayer> children = new List<ILayer>();
 
-        public PseudoLayer(int parentDepth, Context context, Element childElement,
+        public PseudoLayer(Node? parent, Context context, Element childElement,
             PseudoLayer? previous)
         {
-            parent = context.Layer;
+            this.parent = context.Layer;
             var childContext = new Context(context, this);
             if (previous != null)
                 previous.Next = this;
-            Node = childElement.CreateNode(parentDepth, childContext);
+            Node = childElement.CreateNode(parent, childContext);
         }
 
         public Node Node { get; private set; }
@@ -38,7 +38,7 @@ namespace DinoCat.Interop
 
         public Size Size => Node.Size;
 
-        public void UpdateElement(Element newElement) => Node = Node.UpdateElement(newElement);
+        public void UpdateElement(Element newElement, Context newContext) => Node = Node.UpdateElement(newElement, newContext);
 
         public void UpdateContext(Element newElement, Context newContext)
         {

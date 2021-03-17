@@ -9,7 +9,7 @@ namespace DinoCat.Tree
 {
     public abstract class NodeBase<TElement>: Node where TElement: Element
     {
-        public NodeBase(int depth, Context context, TElement element) : base(depth, context)
+        public NodeBase(Node? parent, Context context, TElement element) : base(parent, context)
         {
             Element = element;
         }
@@ -17,13 +17,13 @@ namespace DinoCat.Tree
         public TElement Element { get; private set; }
         public override Element RawElement => Element;
 
-        public sealed override void SetElement(Element newElement)
+        protected sealed override void SetElement(Element newElement, Context oldContext)
         {
             var oldElement = Element;
             Element = (TElement)newElement;
-            UpdateElement(oldElement);
+            UpdateElement(oldElement, oldContext);
         }
 
-        protected abstract void UpdateElement(TElement oldElement);
+        protected abstract void UpdateElement(TElement oldElement, Context oldContext);
     }
 }

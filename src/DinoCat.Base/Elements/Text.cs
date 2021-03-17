@@ -21,15 +21,15 @@ namespace DinoCat.Elements
         public Brush Foreground { get; }
         public ITypeface? Typeface { get; }
 
-        public override Node CreateNode(int depth, Context context) =>
-            new TextNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new TextNode(parent, context, this);
     }
 
     internal class TextNode : NodeBase<Text>
     {
         private IFormattedText? formatted;
 
-        public TextNode(int depth, Context context, Text text) : base(depth, context, text) { }
+        public TextNode(Node? parent, Context context, Text text) : base(parent, context, text) { }
 
         public override IEnumerable<Node> Children => Enumerable.Empty<Node>();
 
@@ -46,14 +46,7 @@ namespace DinoCat.Elements
             context.DrawText(Formatted, new Point());
         }
 
-        protected override void UpdateElement(Text oldElement)
-        {
-            formatted = null;
-            Context.InvalidateLayout();
-            Context.InvalidateRender();
-        }
-
-        protected override void UpdateContextOverride(Context oldContext)
+        protected override void UpdateElement(Text oldElement, Context oldContext)
         {
             formatted = null;
             Context.InvalidateLayout();
