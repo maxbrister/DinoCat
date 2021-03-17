@@ -10,10 +10,10 @@ namespace DinoCat.Tree
     {
         private Node child;
 
-        public ControlNode(int parentDepth, Context context, Control control) : base(parentDepth, context, control)
+        public ControlNode(Node? parent, Context context, Control control) : base(parent, context, control)
         {
             var childElement = control.Build(context);
-            child = childElement.CreateNode(parentDepth, context);
+            child = childElement.CreateNode(this, context);
         }
 
         public override IEnumerable<Node> Children
@@ -26,23 +26,19 @@ namespace DinoCat.Tree
 
         protected override Size ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
 
-        protected override void UpdateElement(Control oldElement)
+        protected override void UpdateElement(Control oldElement, Context oldContext)
         {
             if (!Equals(Element, oldElement))
             {
                 var newChild = Element.Build(Context);
-                child = child.UpdateElement(newChild);
+                child = child.UpdateElement(newChild, Context);
             }
-        }
-
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            var newChild = Element.Build(Context);
-            child = child.UpdateElement(newChild, Context);
+            else if (Context != oldContext)
+                child = child.UpdateElement(child.RawElement, Context);
         }
     }
 
-    internal sealed class ControlNode<TState> : NodeBase<Control<TState>> where TState : IState, new()
+    internal sealed class ControlNode<TState> : NodeBase<ControlBase<TState>> where TState : IState, new()
     {
         private TState state;
         private Node child;
@@ -50,7 +46,7 @@ namespace DinoCat.Tree
         private long modificationCount;
         private long lastUpdate;
 
-        public ControlNode(int parentDepth, Context context, Control<TState> control) : base(parentDepth, context, control)
+        public ControlNode(Node? parent, Context context, ControlBase<TState> control) : base(parent, context, control)
         {
             state = new();
 
@@ -58,7 +54,7 @@ namespace DinoCat.Tree
                 state.StateChanged += State_StateChanged;
 
             var childElement = control.Build(context, state);
-            child = childElement.CreateNode(parentDepth, context);
+            child = childElement.CreateNode(this, context);
         }
 
         public override IEnumerable<Node> Children
@@ -80,19 +76,15 @@ namespace DinoCat.Tree
             state.Dispose();
         }
 
-        protected override void UpdateElement(Control<TState> oldElement)
+        protected override void UpdateElement(ControlBase<TState> oldElement, Context oldContext)
         {
             if (!Equals(oldElement, Element))
             {
                 var newChild = Element.Build(Context, state);
-                child = child.UpdateElement(newChild);
+                child = child.UpdateElement(newChild, Context);
             }
-        }
-
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            var newChild = Element.Build(Context, state);
-            child = child.UpdateElement(newChild, Context);
+            else if (oldContext != Context)
+                child = child.UpdateElement(child.RawElement, Context);
         }
 
         private void UpdateState()
@@ -103,7 +95,7 @@ namespace DinoCat.Tree
             lastUpdate = modificationCount;
 
             var newChild = Element.Build(Context, state);
-            child = child.UpdateElement(newChild);
+            child = child.UpdateElement(newChild, Context);
         }
 
         private void State_StateChanged(object? sender, EventArgs e)

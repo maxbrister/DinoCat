@@ -19,8 +19,8 @@ namespace DinoCat.Elements
         public TState State { get; }
         public Func<Element> Child { get; }
 
-        public override Node CreateNode(int parentDepth, Context context) =>
-            new BindingNode<TState>(parentDepth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new BindingNode<TState>(parent, context, this);
     }
 
     public static class BindingHelper
@@ -34,12 +34,12 @@ namespace DinoCat.Elements
         private bool disposed;
         private Node child;
 
-        public BindingNode(int parentDepth, Context context, BindingElement<TState> binding) : base(parentDepth, context, binding)
+        public BindingNode(Node? parent, Context context, BindingElement<TState> binding) : base(parent, context, binding)
         {
             Element.State.StateChanged += State_StateChanged;
 
             var realChild = binding.Child();
-            child = realChild.CreateNode(parentDepth, context);
+            child = realChild.CreateNode(this, context);
         }
 
         public override IEnumerable<Node> Children
@@ -58,7 +58,7 @@ namespace DinoCat.Elements
             disposed = true;
         }
 
-        protected override void UpdateElement(BindingElement<TState> oldElement)
+        protected override void UpdateElement(BindingElement<TState> oldElement, Context? oldContext)
         {
             if (!ReferenceEquals(Element.State, oldElement.State))
             {
@@ -69,19 +69,13 @@ namespace DinoCat.Elements
             UpdateState();
         }
 
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            var newChild = Element.Child();
-            child = child.UpdateElement(newChild, Context);
-        }
-
         private void UpdateState()
         {
             if (disposed)
                 return;
 
             var newChild = Element.Child();
-            child = child.UpdateElement(newChild);
+            child = child.UpdateElement(newChild, Context);
         }
 
         private void State_StateChanged(object? sender, EventArgs e) =>

@@ -1,5 +1,6 @@
 ﻿using DinoCat.Drawing;
 using DinoCat.Elements.Events;
+using DinoCat.Elements.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DinoCat.Elements
 {
-    public class Button : Control<State.ButtonState>
+    public class Button : Control<ButtonState>
     {
         public Button(Action click, string text) : this(click, new Text(text))
         { }
@@ -22,35 +23,37 @@ namespace DinoCat.Elements
         public Action Click { get; }
         public Element Content { get; }
 
-        public override Element Build(Context context, State.ButtonState state) =>
+        public override Element Build(Context context, ButtonState state, Action<ButtonState> setState) =>
             new Input(
                 controlType: ControlType.Button,
                 tap: () => Click(),
-                mouseEnter: () => state.MouseOver = true,
-                mouseExit: () => state.MouseOver = false,
+                mouseEnter: () => setState(state with { MouseOver = true }),
+                mouseExit: () => setState(state with { MouseOver = false }),
                 keyDown: e =>
                 {
                     switch (e.Key)
                     {
                         case Key.Space:
-                            state.SpaceDown = true;
+                            e.Handled = true;
+                            setState(state with { SpaceDown = true });
                             break;
                         case Key.Enter:
+                            e.Handled = true;
                             Click();
                             break;
                     }
                 },
                 keyUp: e =>
                 {
-                    if (e.Key == Key.Space && state.SpaceDown)
+                    if (e.Key == Key.Space)
                     {
-                        state.SpaceDown = false;
+                        setState(state with { SpaceDown = false });
                         Click();
                         e.Handled = true;
                     }
                 },
-                gotFocus: fromKeyboard => state.Focused = fromKeyboard,
-                lostFocus: () => state.Focused = false,
+                gotFocus: fromKeyboard => setState(state with { Focused = fromKeyboard }),
+                lostFocus: () => setState(state with { Focused = false, SpaceDown = false }),
                 child: new Stack(
                         new Rectangle(
                             new Paint(
@@ -68,5 +71,14 @@ namespace DinoCat.Elements
                         ).PadUniform(2)
                     )
                 );
+    }
+
+    namespace State
+    {
+        public record ButtonState(bool MouseOver = false, bool SpaceDown = false, bool Focused = false)
+        {
+            public ButtonState() : this(false, false, false) { }
+            public bool Highlight => MouseOver || SpaceDown;
+        }
     }
 }

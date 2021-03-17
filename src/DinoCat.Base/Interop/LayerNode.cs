@@ -6,7 +6,7 @@ namespace DinoCat.Interop
 {
     public abstract class LayerNode<TElement> : NodeBase<TElement>, ILayerNode where TElement: Element
     {
-        protected LayerNode(int depth, Context context, TElement element) : base(depth, context, element) { }
+        protected LayerNode(Node? parent, Context context, TElement element) : base(parent, context, element) { }
 
         public abstract ILayer Layer { get; }
 

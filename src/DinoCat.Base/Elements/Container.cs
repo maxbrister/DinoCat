@@ -17,7 +17,7 @@ namespace DinoCat.Elements
 
         public abstract Size Arrange(Size availableSize, List<Node> children);
 
-        public override Node CreateNode(int depth, Context context) => new ContainerNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) => new ContainerNode(parent, context, this);
 
         public abstract bool IsLayoutInvalid(Container oldContainer);
     }
@@ -26,9 +26,9 @@ namespace DinoCat.Elements
     {
         private List<Node> children;
 
-        public ContainerNode(int depth, Context context, Container container) : base(depth, context, container)
+        public ContainerNode(Node? parent, Context context, Container container) : base(parent, context, container)
         {
-            children = Element.Children.Select(c => c.CreateNode(depth, context)).ToList();
+            children = Element.Children.Select(c => c.CreateNode(this, context)).ToList();
         }
 
         public override IEnumerable<Node> Children => children;
@@ -39,7 +39,7 @@ namespace DinoCat.Elements
         protected override Size ArrangeOverride(Size availableSize) =>
             Element.Arrange(availableSize, children);
 
-        protected override void UpdateElement(Container oldContainer)
+        protected override void UpdateElement(Container oldContainer, Context? oldContext)
         {
             var newCount = Element.Children.Count;
             var updateCount = Math.Min(children.Count, newCount);
@@ -48,7 +48,7 @@ namespace DinoCat.Elements
                 Context.InvalidateLayout();
                 for (int i = children.Count; i < newCount; ++i)
                 {
-                    children.Add(Element.Children[i].CreateNode(Depth, Context));
+                    children.Add(Element.Children[i].CreateNode(this, Context));
                 }
             }
             else if (children.Count > newCount)
@@ -66,14 +66,8 @@ namespace DinoCat.Elements
             for (int i = 0; i < newCount; ++i)
             {
                 var node = children[i];
-                children[i] = node.UpdateElement(Element.Children[i]);
+                children[i] = node.UpdateElement(Element.Children[i], Context);
             }
-        }
-
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            for (int i = 0; i < children.Count; ++i)
-                children[i] = children[i].UpdateElement(Element.Children[i], Context);
         }
     }
 }

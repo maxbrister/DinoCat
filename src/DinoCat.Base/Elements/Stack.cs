@@ -23,15 +23,15 @@ namespace DinoCat.Elements
 
         public override bool IsLayoutInvalid(Container oldContainer) => false;
 
-        public override Node CreateNode(int depth, Context context) =>
-            new StackNode(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new StackNode(parent, context, this);
     }
 
     internal class StackNode : NodeBase<Stack>
     {
         private List<PseudoLayer> children;
 
-        public StackNode(int depth, Context context, Stack stack) : base(depth, context, stack)
+        public StackNode(Node? parent, Context context, Stack stack) : base(parent, context, stack)
         {
             var elementChildren = stack.Children;
             children = new List<PseudoLayer>(elementChildren.Count);
@@ -39,7 +39,7 @@ namespace DinoCat.Elements
             PseudoLayer? previous = null;
             foreach (var element in elementChildren)
             {
-                var child = new PseudoLayer(depth, context, element, previous);
+                var child = new PseudoLayer(this, context, element, previous);
                 previous = child;
                 children.Add(child);
             }
@@ -91,7 +91,7 @@ namespace DinoCat.Elements
                 child.OnRender(context);
         }
 
-        protected override void UpdateElement(Stack oldStack)
+        protected override void UpdateElement(Stack oldStack, Context oldContext)
         {
             var newCount = Element.Children.Count;
             if (children.Count < newCount)
@@ -100,7 +100,7 @@ namespace DinoCat.Elements
                 var previous = children.LastOrDefault();
                 for (int i = children.Count; i < newCount; ++i)
                 {
-                    var child = new PseudoLayer(Depth, Context, Element.Children[i], previous);
+                    var child = new PseudoLayer(this, Context, Element.Children[i], previous);
                     children.Add(child);
                     previous = child;
                 }
@@ -114,14 +114,8 @@ namespace DinoCat.Elements
             }
 
             for (int i = 0; i < newCount; ++i)
-                children[i].UpdateElement(Element.Children[i]);
+                children[i].UpdateElement(Element.Children[i], Context);
 
-        }
-
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            for (int i = 0; i < children.Count; ++i)
-                children[i].UpdateContext(Element.Children[i], Context);
         }
     }
 }

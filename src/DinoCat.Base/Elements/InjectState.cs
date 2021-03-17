@@ -21,8 +21,8 @@ namespace DinoCat.Elements
 
         public virtual bool Safe { get; } = true;
 
-        public override Node CreateNode(int depth, Context context) =>
-            new InjectStateNode<TState>(depth, context, this);
+        public override Node CreateNode(Node? parent, Context context) =>
+            new InjectStateNode<TState>(parent, context, this);
     }
 
     public class UnsafeInjectState<TState> : InjectState<TState> where TState : IState
@@ -39,7 +39,7 @@ namespace DinoCat.Elements
         private Node child;
 
 
-        public InjectStateNode(int parentDepth, Context context, InjectState<TState> element) : base(parentDepth, context, element)
+        public InjectStateNode(Node? parent, Context context, InjectState<TState> element) : base(parent, context, element)
         {
             state = element.NewState();
 
@@ -47,7 +47,7 @@ namespace DinoCat.Elements
                 state.StateChanged += State_StateChanged;
 
             var childElement = element.Callback(state);
-            child = childElement.CreateNode(parentDepth, context);
+            child = childElement.CreateNode(this, context);
         }
 
         public override IEnumerable<Node> Children
@@ -60,18 +60,12 @@ namespace DinoCat.Elements
 
         protected override Size ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
 
-        protected override void UpdateElement(InjectState<TState> oldElement) => UpdateState();
-
-        protected override void UpdateContextOverride(Context oldContext)
-        {
-            var newChild = Element.Callback(state);
-            child = child.UpdateElement(newChild, Context);
-        }
+        protected override void UpdateElement(InjectState<TState> oldElement, Context oldContext) => UpdateState();
 
         private void UpdateState()
         {
             var newChild = Element.Callback(state);
-            child = child.UpdateElement(newChild);
+            child = child.UpdateElement(newChild, Context);
         }
 
         private void State_StateChanged(object? sender, EventArgs e) =>

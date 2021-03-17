@@ -21,8 +21,7 @@ namespace DinoCat.Wpf
     {
         private StateManager stateManager;
         private Root root;
-        private Layer rootLayer;
-        private (WpfSize, WpfSize)? lastMeasure;
+        private RootLayer rootLayer;
         private DpiScale? dpi;
 
         public Host()
@@ -30,12 +29,17 @@ namespace DinoCat.Wpf
             var source = PresentationSource.FromVisual(this);
             var source2 = PresentationSource.CurrentSources.Cast<PresentationSource>().FirstOrDefault();
             stateManager = new StateManager(action => Dispatcher.BeginInvoke(DispatcherPriority.DataBind, action));
-            rootLayer = new Layer();
+            rootLayer = new RootLayer();
             AddVisualChild(rootLayer);
             root = new Root(
                 CreateContext(),
                 root: () => new Dummy());
+            root.RootNodeChanged += Root_RootNodeChanged;
+            rootLayer.RootNode = root.RootNode;
         }
+
+        private void Root_RootNodeChanged(object? sender, EventArgs e) =>
+            rootLayer.RootNode = root.RootNode;
 
         public Func<Element> RootElement
         {
@@ -45,23 +49,15 @@ namespace DinoCat.Wpf
 
         protected override WpfSize ArrangeOverride(WpfSize finalSize)
         {
-            // rootLayer.Arrange(new WpfRect(finalSize));
-
-            if (lastMeasure is var (measureAvailable, measureResult))
-                if (finalSize == measureAvailable)
-                    return measureResult;
-
-            var size = root.Arrange(finalSize.Into()).Into();
-            return size;
+            rootLayer.Arrange(new(rootLayer.DesiredSize));
+            return rootLayer.DesiredSize;
         }
 
         protected override WpfSize MeasureOverride(WpfSize availableSize)
         {
             CheckDpi();
             rootLayer.Measure(availableSize);
-            var size = root.Arrange(availableSize.Into()).Into();
-            lastMeasure = (availableSize, size);
-            return size;
+            return rootLayer.DesiredSize;
         }
 
         protected override Visual GetVisualChild(int index)
@@ -77,8 +73,6 @@ namespace DinoCat.Wpf
         protected override void OnRender(DrawingContext drawingContext)
         {
             CheckDpi();
-            var adapter = new DrawingAdapter(drawingContext);
-            root.Render(adapter);
             base.OnRender(drawingContext);
         }
 

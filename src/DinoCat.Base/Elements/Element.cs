@@ -9,6 +9,6 @@ namespace DinoCat.Elements
 {
     public abstract class Element
     {
-        public abstract Node CreateNode(int parentDepth, Context context);
+        public abstract Node CreateNode(Node? parent, Context context);
     }
 }
