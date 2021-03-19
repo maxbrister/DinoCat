@@ -20,6 +20,12 @@ namespace DinoCat.Elements
             Content = content;
         }
 
+        public Button(Action click, Func<Element> content)
+        {
+            Click = click;
+            Content = new ScopeElement(content);
+        }
+
         public Action Click { get; }
         public Element Content { get; }
 
@@ -68,7 +74,7 @@ namespace DinoCat.Elements
                                         width: .75f,
                                         dashStyle: new DashStyle(new double[] { .25f, 4 }, 0)) : null)
                                 ).Expand()
-                        ).PadUniform(2)
+                        ).Margin(2)
                     )
                 );
     }

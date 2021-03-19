@@ -2,6 +2,7 @@
 using DinoCat.Elements;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 
 namespace DinoCat.Tree
@@ -38,7 +39,7 @@ namespace DinoCat.Tree
         }
     }
 
-    internal sealed class ControlNode<TState> : NodeBase<ControlBase<TState>> where TState : IState, new()
+    internal sealed class ControlNode<TState> : NodeBase<ControlBase<TState>> where TState : INotifyPropertyChanged, new()
     {
         private TState state;
         private Node child;
@@ -51,7 +52,7 @@ namespace DinoCat.Tree
             state = new();
 
             if (control.Safe)
-                state.StateChanged += State_StateChanged;
+                state.PropertyChanged += State_PropertyChanged;
 
             var childElement = control.Build(context, state);
             child = childElement.CreateNode(this, context);
@@ -71,9 +72,9 @@ namespace DinoCat.Tree
         public override void Dispose()
         {
             disposed = true;
-            state.StateChanged -= State_StateChanged;
+            state.PropertyChanged -= State_PropertyChanged;
             child.Dispose();
-            state.Dispose();
+            (state as IDisposable)?.Dispose();
         }
 
         protected override void UpdateElement(ControlBase<TState> oldElement, Context oldContext)
@@ -98,7 +99,7 @@ namespace DinoCat.Tree
             child = child.UpdateElement(newChild, Context);
         }
 
-        private void State_StateChanged(object? sender, EventArgs e)
+        private void State_PropertyChanged(object? sender, EventArgs e)
         {
             if (modificationCount == lastUpdate)
             {

@@ -1,8 +1,9 @@
 ﻿using DinoCat.Elements;
 using System;
+using System.ComponentModel;
 using System.Threading;
 
-namespace DinoCat
+namespace DinoCat.State
 {
     public static class State
     {
@@ -17,10 +18,11 @@ namespace DinoCat
             new UnsafeInjectState<State<T>>(() => new State<T>(newState()), callback);
     }
 
-    public sealed class State<T> : IState
+    public sealed class State<T> : INotifyPropertyChanged, IDisposable
     {
         private int disposed;
-        public event EventHandler<EventArgs>? StateChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         private T v;
 
         public static implicit operator T(State<T> state) => state.Value;
@@ -35,7 +37,7 @@ namespace DinoCat
             set
             {
                 v = value;
-                StateChanged?.Invoke(this, EventArgs.Empty);
+                PropertyChanged?.Invoke(this, PropertyChangedHelper.All);
             }
         }
 

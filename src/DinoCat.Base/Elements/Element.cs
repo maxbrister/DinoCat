@@ -9,6 +9,8 @@ namespace DinoCat.Elements
 {
     public abstract class Element
     {
+        public static implicit operator Element(string text) => new Text(text);
+
         public abstract Node CreateNode(Node? parent, Context context);
     }
 }

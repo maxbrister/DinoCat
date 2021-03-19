@@ -2,13 +2,14 @@
 using DinoCat.Tree;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DinoCat.Elements
 {
-    public class InjectState<TState> : Element where TState: IState
+    public class InjectState<TState> : Element where TState: INotifyPropertyChanged
     {
         public InjectState(Func<TState> newState, Func<TState, Element> callback)
         {
@@ -25,7 +26,7 @@ namespace DinoCat.Elements
             new InjectStateNode<TState>(parent, context, this);
     }
 
-    public class UnsafeInjectState<TState> : InjectState<TState> where TState : IState
+    public class UnsafeInjectState<TState> : InjectState<TState> where TState : INotifyPropertyChanged
     {
         public UnsafeInjectState(Func<TState> newState, Func<TState, Element> callback) : base(newState, callback)
         { }
@@ -33,7 +34,7 @@ namespace DinoCat.Elements
         public override bool Safe { get; } = false;
     }
 
-    internal class InjectStateNode<TState> : NodeBase<InjectState<TState>> where TState: IState
+    internal class InjectStateNode<TState> : NodeBase<InjectState<TState>> where TState: INotifyPropertyChanged
     {
         private TState state;
         private Node child;
@@ -44,7 +45,7 @@ namespace DinoCat.Elements
             state = element.NewState();
 
             if (element.Safe)
-                state.StateChanged += State_StateChanged;
+                state.PropertyChanged += State_PropertyChanged;
 
             var childElement = element.Callback(state);
             child = childElement.CreateNode(this, context);
@@ -68,7 +69,7 @@ namespace DinoCat.Elements
             child = child.UpdateElement(newChild, Context);
         }
 
-        private void State_StateChanged(object? sender, EventArgs e) =>
+        private void State_PropertyChanged(object? sender, EventArgs e) =>
             Context.InvalidateState(Depth, UpdateState);
     }
 }

@@ -1,23 +1,50 @@
 ﻿using DinoCat.Drawing;
+using DinoCat.State;
 using DinoCat.Tree;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DinoCat.Elements
 {
-    public class BindingElement<TState> : Element where TState: IState
+    public abstract class BindingElementBase : Element, INotifyPropertyChanged
     {
-        public BindingElement(TState state, Func<Element> child)
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public BindingElementBase(INotifyPropertyChanged basedOn)
         {
-            State = state;
+            BasedOn = basedOn;
+            basedOn.PropertyChanged += BasedOn_PropertyChanged;
+        }
+
+        public INotifyPropertyChanged BasedOn { get; }
+
+        public abstract object Value { get; }
+
+        public Element EvaluateAsElement()
+        {
+            var obj = Value;
+            if (obj is Element e)
+                return e;
+            return new Text(obj.ToString() ?? "");
+        }
+
+        private void BasedOn_PropertyChanged(object? sender, PropertyChangedEventArgs e) =>
+            PropertyChanged?.Invoke(this, PropertyChangedHelper.All);
+    }
+
+    public class BindingElement<TState, TOutput> : BindingElementBase where TState: INotifyPropertyChanged where TOutput : notnull
+    {
+        public BindingElement(TState state, Func<TOutput> child) : base(state)
+        {
             Child = child;
         }
 
-        public TState State { get; }
-        public Func<Element> Child { get; }
+        public Func<TOutput> Child { get; }
+        public override object Value => Child();
 
         public override Node CreateNode(Node? parent, Context context) =>
             new BindingNode<TState>(parent, context, this);
@@ -25,21 +52,23 @@ namespace DinoCat.Elements
 
     public static class BindingHelper
     {
-        public static BindingElement<TState> Binding<TState>(this TState state, Func<Element> child) where TState : IState =>
-            new BindingElement<TState>(state, child);
+        public static BindingElement<TState, TOutput> Bind<TState, TOutput>(this TState state, Func<TOutput> child)
+            where TState : INotifyPropertyChanged
+            where TOutput : notnull =>
+            new BindingElement<TState, TOutput>(state, child);
     }
 
-    internal class BindingNode<TState> : NodeBase<BindingElement<TState>> where TState : IState
+    internal class BindingNode<TState> : NodeBase<BindingElementBase>
     {
         private bool disposed;
         private Node child;
 
-        public BindingNode(Node? parent, Context context, BindingElement<TState> binding) : base(parent, context, binding)
+        public BindingNode(Node? parent, Context context, BindingElementBase binding) : base(parent, context, binding)
         {
-            Element.State.StateChanged += State_StateChanged;
+            binding.PropertyChanged += State_PropertyChanged;
 
-            var realChild = binding.Child();
-            child = realChild.CreateNode(this, context);
+            var element = binding.EvaluateAsElement();
+            child = element.CreateNode(this, context);
         }
 
         public override IEnumerable<Node> Children
@@ -58,12 +87,12 @@ namespace DinoCat.Elements
             disposed = true;
         }
 
-        protected override void UpdateElement(BindingElement<TState> oldElement, Context? oldContext)
+        protected override void UpdateElement(BindingElementBase oldElement, Context? oldContext)
         {
-            if (!ReferenceEquals(Element.State, oldElement.State))
+            if (!ReferenceEquals(Element.BasedOn, oldElement.BasedOn))
             {
-                oldElement.State.StateChanged -= State_StateChanged;
-                Element.State.StateChanged += State_StateChanged;
+                oldElement.BasedOn.PropertyChanged -= State_PropertyChanged;
+                Element.BasedOn.PropertyChanged += State_PropertyChanged;
             }
 
             UpdateState();
@@ -74,11 +103,11 @@ namespace DinoCat.Elements
             if (disposed)
                 return;
 
-            var newChild = Element.Child();
+            var newChild = Element.EvaluateAsElement();
             child = child.UpdateElement(newChild, Context);
         }
 
-        private void State_StateChanged(object? sender, EventArgs e) =>
+        private void State_PropertyChanged(object? sender, EventArgs e) =>
             Context.InvalidateState(Depth, UpdateState);
     }
 }

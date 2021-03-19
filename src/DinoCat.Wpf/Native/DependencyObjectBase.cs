@@ -1,8 +1,12 @@
-﻿using DinoCat.Wpf.Native.Internal;
+﻿using DinoCat.Elements;
+using DinoCat.State;
+using DinoCat.Wpf.Native.Internal;
 using System;
 using System.Collections.Immutable;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 
 namespace DinoCat.Wpf.Native
 {
@@ -41,11 +45,31 @@ namespace DinoCat.Wpf.Native
             state.Previous = this;
 
             foreach (var pair in LocalValues)
-                dobj.SetValue(pair.Key, pair.Value);
+            {
+                if (pair.Value is BindingElementBase dinoBinding)
+                {
+                    var wpfBinding = new Binding("Value");
+                    wpfBinding.Mode = BindingMode.OneWay;
+                    wpfBinding.Source = dinoBinding;
+                    BindingOperations.SetBinding(dobj, pair.Key, wpfBinding);
+                }
+                else if (pair.Value is ImplicitStateScope<object> implicitState)
+                {
+                    Binding wpfBinding = new("Execute");
+                    wpfBinding.Mode = BindingMode.OneWay;
+                    wpfBinding.Source = implicitState;
+                    BindingOperations.SetBinding(dobj, pair.Key, wpfBinding);
+                }
+                else
+                    dobj.SetValue(pair.Key, pair.Value);
+            }
 
             foreach (var dp in previousLocal.Keys)
                 if (!LocalValues.ContainsKey(dp))
+                {
+                    BindingOperations.ClearBinding(dobj, dp);
                     dobj.ClearValue(dp);
+                }
 
             foreach (var prev in previousOperations)
                 prev.Unapply(dobj);
@@ -57,12 +81,14 @@ namespace DinoCat.Wpf.Native
 
     namespace Internal
     {
-        public class DependencyObjectState<TSubclass> : IState where TSubclass : DependencyObject, new()
+        public class DependencyObjectState<TSubclass> : INotifyPropertyChanged where TSubclass : DependencyObject, new()
         {
-            public event EventHandler<EventArgs> StateChanged
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            public DependencyObjectState()
             {
-                add { }
-                remove { }
+                // Ugly way to supress unused warning
+                PropertyChanged?.Invoke(this, PropertyChangedHelper.All);
             }
 
             public void Dispose() { }

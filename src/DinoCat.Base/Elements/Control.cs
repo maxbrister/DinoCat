@@ -1,5 +1,7 @@
-﻿using DinoCat.Tree;
+﻿using DinoCat.State;
+using DinoCat.Tree;
 using System;
+using System.ComponentModel;
 
 namespace DinoCat.Elements
 {
@@ -11,7 +13,7 @@ namespace DinoCat.Elements
             new ControlNode(parent, context, this);
     }
 
-    public abstract class ControlBase<TState> : Element where TState: IState, new()
+    public abstract class ControlBase<TState> : Element where TState: INotifyPropertyChanged, new()
     {
         public abstract Element Build(Context context, TState state);
 
@@ -29,7 +31,7 @@ namespace DinoCat.Elements
         public abstract Element Build(Context context, T state, Action<T> setState);
     }
 
-    public abstract class UnsafeControl<TState> : ControlBase<TState> where TState : IState, new()
+    public abstract class UnsafeControl<TState> : ControlBase<TState> where TState : INotifyPropertyChanged, new()
     {
         internal override bool Safe => false;
     }

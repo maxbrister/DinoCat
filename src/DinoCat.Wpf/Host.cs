@@ -20,7 +20,7 @@ namespace DinoCat.Wpf
     public class Host : FrameworkElement
     {
         private StateManager stateManager;
-        private Root root;
+        protected Root root;
         private RootLayer rootLayer;
         private DpiScale? dpi;
 
