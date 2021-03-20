@@ -31,11 +31,11 @@ namespace DinoCat.Elements
 
     public static class MarginExtensions
     {
-        public static Margin Margin(this Element e, double uniform) =>
+        public static Margin Margin(this Element e, float uniform) =>
             new Margin(e, new(uniform));
-        public static Margin Margin(this Element e, double left, double top) =>
+        public static Margin Margin(this Element e, float left, float top) =>
             new Margin(e, new(left, top));
-        public static Margin Margin(this Element e, double left, double top, double right, double bottom) =>
+        public static Margin Margin(this Element e, float left, float top, float right, float bottom) =>
             new Margin(e, new(left, right, top, bottom));
         public static Margin Margin(this Element e, Thickness margin) =>
             new Margin(e, margin);

@@ -8,13 +8,13 @@ namespace DinoCat
 {
     public struct Thickness : IEquatable<Thickness>
     {
-        public Thickness(double uniform) : this(uniform, uniform, uniform, uniform)
-        {}
-
-        public Thickness(double left, double top) : this(left, top, 0, 0)
+        public Thickness(float uniform) : this(uniform, uniform, uniform, uniform)
         { }
 
-        public Thickness(double left, double top, double right, double bottom)
+        public Thickness(float left, float top) : this(left, top, 0, 0)
+        { }
+
+        public Thickness(float left, float top, float right, float bottom)
         {
             Left = left;
             Top = top;
@@ -22,10 +22,10 @@ namespace DinoCat
             Bottom = bottom;
         }
 
-        public double Left { get; }
-        public double Top { get; }
-        public double Right { get; }
-        public double Bottom { get; }
+        public float Left { get; }
+        public float Top { get; }
+        public float Right { get; }
+        public float Bottom { get; }
 
         public bool Equals(Thickness other) =>
             Left == other.Left && Top == other.Top && Right == other.Right && Bottom == other.Bottom;

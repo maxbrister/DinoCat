@@ -8,7 +8,7 @@ namespace DinoCat
 {
     public struct Rect : IEquatable<Rect>
     {
-        public Rect(double left, double top, double right, double bottom) :
+        public Rect(float left, float top, float right, float bottom) :
             this(new Point(left, top), new Size(right - left, bottom - top))
         { }
 
@@ -21,15 +21,15 @@ namespace DinoCat
             Size = size;
         }
 
-        public double Left => Location.X;
-        public double Top => Location.Y;
-        public double Right => Location.X + Width;
-        public double Bottom => Location.Y + Height;
+        public float Left => Location.X;
+        public float Top => Location.Y;
+        public float Right => Location.X + Width;
+        public float Bottom => Location.Y + Height;
         public Point Location { get; set; }
         public Size Size { get; set; }
 
-        public double Width => Size.Width;
-        public double Height => Size.Height;
+        public float Width => Size.Width;
+        public float Height => Size.Height;
 
         public static bool operator ==(Rect left, Rect right) =>
             left.Equals(right);

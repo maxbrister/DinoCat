@@ -11,14 +11,14 @@ namespace DinoCat
         // | m11 m12 0 |
         // | m21 m22 0 |
         // | m31 m32 1 |
-        public double m11;
-        public double m12;
-        public double m21;
-        public double m22;
-        public double m31;
-        public double m32;
+        public float m11;
+        public float m12;
+        public float m21;
+        public float m22;
+        public float m31;
+        public float m32;
 
-        public Matrix(double m11, double m12, double m21, double m22, double m31, double m32)
+        public Matrix(float m11, float m12, float m21, float m22, float m31, float m32)
         {
             this.m11 = m11;
             this.m12 = m12;
@@ -31,7 +31,7 @@ namespace DinoCat
         public static Matrix Identity =>
             new Matrix(1, 0, 0, 1, 0, 0);
 
-        public static Matrix Translate(double offsetX, double offsetY) =>
+        public static Matrix Translate(float offsetX, float offsetY) =>
             new Matrix(1, 0, 0, 1, offsetX, offsetY);
 
         public static Matrix Translate(Point offset) => Translate(offset.X, offset.Y);

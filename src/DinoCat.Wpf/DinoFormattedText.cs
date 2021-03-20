@@ -14,15 +14,15 @@ namespace DinoCat.Wpf
     {
         private FormattedText txt;
 
-        public DinoFormattedText(ITypeface typeface, Brush brush, double fontPt, string text, double dpi) =>
+        public DinoFormattedText(ITypeface typeface, Brush brush, float fontPt, string text, double dpi) =>
             txt = new FormattedText(text, CultureInfo.CurrentUICulture, System.Windows.FlowDirection.LeftToRight,
                 (Typeface)((DinoTypeface)typeface).NativeObject, fontPt, brush.Into(), dpi);
 
         public string Text => txt.Text;
 
-        public double Width => txt.Width;
+        public float Width => (float)txt.Width;
 
-        public double Height => txt.Height;
+        public float Height => (float)txt.Height;
 
         public object NativeObject => txt;
     }

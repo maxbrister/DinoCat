@@ -29,9 +29,9 @@ namespace DinoCat.Wpf
         public static WpfSize Into(this Size size) =>
             new WpfSize(size.Width, size.Height);
         public static Size Into(this WpfSize size) =>
-            new Size(size.Width, size.Height);
+            new Size((float)size.Width, (float)size.Height);
         public static Point Into(this WpfPoint point) =>
-            new Point(point.X, point.Y);
+            new Point((float)point.X, (float)point.Y);
         public static WpfPoint Into(this Point point) =>
             new WpfPoint(point.X, point.Y);
         public static WpfBrush Into(this Brush brush)

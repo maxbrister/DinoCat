@@ -22,7 +22,7 @@ namespace DinoCat.Wpf
         public ITypeface CreateTypeface(string fontName, FontSlant slant, int weight) =>
             new DinoTypeface(fontName, slant, weight);
 
-        public IFormattedText FormatText(ITypeface typeface, Brush brush, double fontPt, string text) =>
+        public IFormattedText FormatText(ITypeface typeface, Brush brush, float fontPt, string text) =>
             new DinoFormattedText(typeface, brush, fontPt, text, dpi);
     }
 }

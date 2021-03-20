@@ -75,7 +75,7 @@ namespace DinoCat.Wpf
             {
                 Mouse.Capture(null);
                 var p = e.GetPosition(this);
-                if (new Rect(new Size(ActualWidth, ActualHeight)).Contains(p.Into()))
+                if (new Rect(new Size((float)ActualWidth, (float)ActualHeight)).Contains(p.Into()))
                     Input.Tap?.Invoke();
             }
         }

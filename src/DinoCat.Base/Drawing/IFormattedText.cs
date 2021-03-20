@@ -8,9 +8,9 @@ namespace DinoCat.Drawing
 {
     public interface IFormattedText
     {
-        public string Text { get; }
-        public double Width { get; }
-        public double Height { get; }
-        public object NativeObject { get; }
+        string Text { get; }
+        float Width { get; }
+        float Height { get; }
+        object NativeObject { get; }
     }
 }

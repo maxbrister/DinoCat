@@ -35,7 +35,8 @@ namespace DinoCat.Wpf
 
         protected override WpfSize ArrangeOverride(WpfSize finalSize)
         {
-            if (layout is (WpfSize originalAvailable, WpfSize result) && originalAvailable == finalSize)
+            if (layout is (WpfSize originalAvailable, WpfSize result) &&
+                (originalAvailable == finalSize || finalSize == result))
                 return result;
             return DoLayout(finalSize);
         }

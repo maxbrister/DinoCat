@@ -11,7 +11,7 @@ namespace DinoCat.Elements
 {
     public class Rectangle : DrawingElement<Rectangle>
     {
-        public Rectangle(Paint paint, double? width = null, double? height = null)
+        public Rectangle(Paint paint, float? width = null, float? height = null)
         {
             Paint = paint;
             Width = width;
@@ -19,8 +19,8 @@ namespace DinoCat.Elements
         }
 
         public Paint Paint { get; }
-        public double? Width { get; }
-        public double? Height { get; }
+        public float? Width { get; }
+        public float? Height { get; }
 
         public override Size Arrange(Size availableSize) =>
             new Size(Width ?? availableSize.Width, Height ?? availableSize.Height);
