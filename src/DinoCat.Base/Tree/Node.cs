@@ -92,7 +92,7 @@ namespace DinoCat.Tree
             }
             yield return (this, p);
         }
-        public void Render(IDrawingContext context)
+        public void Render(DrawingContext context)
         {
             if (Offset == new Point())
                 RenderOverride(context);
@@ -105,7 +105,7 @@ namespace DinoCat.Tree
         }
         protected abstract void SetElement(Element newElement, Context oldContext);
         protected abstract Size ArrangeOverride(Size availableSize);
-        protected virtual void RenderOverride(IDrawingContext context)
+        protected virtual void RenderOverride(DrawingContext context)
         {
             foreach (var child in Children)
                 child.Render(context);

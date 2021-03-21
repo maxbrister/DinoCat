@@ -72,7 +72,7 @@ namespace DinoCat.Elements
                                 new Paint(
                                     stroke: state.Focused ? new Pen(Colors.Black,
                                         width: .75f,
-                                        dashStyle: new DashStyle(new double[] { .25f, 4 }, 0)) : null)
+                                        dashStyle: new DashStyle(new[] { .25f, 4 }, 0)) : null)
                                 ).Expand()
                         ).Margin(2)
                     )

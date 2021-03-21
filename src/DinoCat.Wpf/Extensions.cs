@@ -22,8 +22,6 @@ namespace DinoCat.Wpf
 {
     public static class Extensions
     {
-        public static WpfColor Into(this Color color) =>
-            WpfColor.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
         public static WpfRect Into(this Rect rect) =>
             new WpfRect(rect.Left, rect.Top, rect.Width, rect.Height);
         public static WpfSize Into(this Size size) =>
@@ -34,19 +32,6 @@ namespace DinoCat.Wpf
             new Point((float)point.X, (float)point.Y);
         public static WpfPoint Into(this Point point) =>
             new WpfPoint(point.X, point.Y);
-        public static WpfBrush Into(this Brush brush)
-        {
-            if (brush is SolidColorBrush b)
-                return new WpfSolidColorBrush(b.Color.Into());
-            throw new NotImplementedException();
-        }
-        public static WpfPen Into(this Pen pen)
-        {
-            var wp = new WpfPen(pen.Brush.Into(), pen.Width);
-            if (pen.DashStyle is DashStyle s)
-                wp.DashStyle = new WpfDashStyle(s.Dashes, s.Offset);
-            return wp;
-        }
         public static KeyEvent Into(this KeyEventArgs args) =>
             new KeyEvent((Elements.Events.Key)args.Key, args.IsRepeat, (KeyState)args.KeyStates);
     }

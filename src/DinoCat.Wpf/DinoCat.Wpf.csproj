@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" Condition="'$(TargetFramework)'=='net472'" />
     <ProjectReference Include="..\DinoCat.Base\DinoCat.Base.csproj" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using DinoCat.Tree;
 
 namespace DinoCat.Interop
 {
-    public abstract class LayerNode<TElement> : NodeBase<TElement>, ILayerNode where TElement: Element
+    public abstract class LayerNode<TElement> : NodeBase<TElement>, ILayerNode where TElement : Element
     {
         protected LayerNode(Node? parent, Context context, TElement element) : base(parent, context, element) { }
 
@@ -20,9 +20,9 @@ namespace DinoCat.Interop
         // OverrideImpl??? how else do we do this???
         protected abstract Size ArrangeOverrideImpl(Size availableSize);
 
-        protected override void RenderOverride(IDrawingContext context) => Layer.OnRender(context);
+        protected override void RenderOverride(DrawingContext context) => Layer.OnRender(context);
 
-        public virtual void RenderLayer(IDrawingContext context)
+        public virtual void RenderLayer(DrawingContext context)
         {
             foreach (var child in Children)
                 child.Render(context);

@@ -11,18 +11,21 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 
+using DrawingContext = DinoCat.Drawing.DrawingContext;
+using WpfDrawingContext = System.Windows.Media.DrawingContext;
 using WpfSize = System.Windows.Size;
 using WpfRect = System.Windows.Rect;
-using System.Windows.Controls;
+using SkiaSharp;
 
 namespace DinoCat.Wpf
 {
-    public class Host : FrameworkElement
+    public class Host : System.Windows.Controls.Control
     {
         private StateManager stateManager;
         protected Root root;
         private RootLayer rootLayer;
         private DpiScale? dpi;
+        private FontManager fontManager = new FontManager(SKFontManager.Default);
 
         public Host()
         {
@@ -70,7 +73,7 @@ namespace DinoCat.Wpf
 
         protected override int VisualChildrenCount => 1;
 
-        protected override void OnRender(DrawingContext drawingContext)
+        protected override void OnRender(WpfDrawingContext drawingContext)
         {
             CheckDpi();
             base.OnRender(drawingContext);
@@ -83,18 +86,16 @@ namespace DinoCat.Wpf
             root.Context = CreateContext();
         }
 
-        private Context CreateContext() =>
-            new Context(stateManager, rootLayer, new Dictionary<Type, object>
+        private Context CreateContext()
+        {
+            return new Context(stateManager, rootLayer, new Dictionary<Type, object>
             {
-                { typeof(ITypeface),
-                    new DinoTypeface(
-                        new Typeface(
-                            new System.Windows.Controls.TextBlock().FontFamily,
-                            FontStyles.Normal, System.Windows.FontWeights.Normal, FontStretches.Normal)) },
+                { typeof(ITypeface), fontManager.CreateTypeface("Segoe UI") },
                 // TODO can we come up with a better default?
-                {  typeof(IFontManager), new FontManager(dpi?.DpiScaleX ?? 2) }
+                {  typeof(IFontManager), fontManager }
             });
-        
+        }
+
         private void CheckDpi()
         {
             if (dpi == null)

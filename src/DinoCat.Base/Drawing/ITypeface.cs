@@ -8,9 +8,9 @@ namespace DinoCat.Drawing
 {
     public interface ITypeface
     {
-        public string FamilyName { get; }
-        public FontSlant Slant { get; }
-        public int Weight { get; }
-        public object NativeObject { get; }
+        string FamilyName { get; }
+        FontSlant Slant { get; }
+        int Weight { get; }
+        object NativeObject { get; }
     }
 }

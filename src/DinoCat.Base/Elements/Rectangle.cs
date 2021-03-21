@@ -25,7 +25,7 @@ namespace DinoCat.Elements
         public override Size Arrange(Size availableSize) =>
             new Size(Width ?? availableSize.Width, Height ?? availableSize.Height);
 
-        public override void Render(IDrawingContext context, Size size) =>
+        public override void Render(DrawingContext context, Size size) =>
             context.DrawRectangle(Paint, new Rect(new Size(Width ?? size.Width, Height ?? size.Height)));
 
         protected override bool IsArrangeValid(Rectangle oldElement) =>

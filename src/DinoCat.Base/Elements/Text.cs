@@ -41,7 +41,7 @@ namespace DinoCat.Elements
             return new Size(Formatted.Width, Formatted.Height);
         }
 
-        protected override void RenderOverride(IDrawingContext context)
+        protected override void RenderOverride(DrawingContext context)
         {
             context.DrawText(Formatted, new Point());
         }

@@ -12,7 +12,7 @@ namespace DinoCat.Interop
     {
         public ILayer AddChild(ILayerNode child);
         public void OnArrange(Size size);
-        public void OnRender(IDrawingContext drawingContext);
+        public void OnRender(DrawingContext drawingContext);
         public void OnUpdated();
         public void InvalidateLayout();
         public void InvalidateRender();

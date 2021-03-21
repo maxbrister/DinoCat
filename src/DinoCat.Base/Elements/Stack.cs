@@ -85,7 +85,7 @@ namespace DinoCat.Elements
             yield return (this, p);
         }
 
-        protected override void RenderOverride(IDrawingContext context)
+        protected override void RenderOverride(DrawingContext context)
         {
             foreach (var child in children)
                 child.OnRender(context);

@@ -18,7 +18,7 @@ namespace DinoCat.Tree
         protected override Size ArrangeOverride(Size availableSize) =>
             Element.Arrange(availableSize);
 
-        protected override void RenderOverride(IDrawingContext context) =>
+        protected override void RenderOverride(DrawingContext context) =>
             Element.Render(context, Size);
 
         protected override void UpdateElement(DrawingElementBase oldElement, Context oldContext)

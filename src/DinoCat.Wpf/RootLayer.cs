@@ -1,4 +1,5 @@
 ﻿using DinoCat.Tree;
+using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
+using DrawingContext = DinoCat.Drawing.DrawingContext;
 using WpfSize = System.Windows.Size;
 
 namespace DinoCat.Wpf
@@ -41,11 +43,11 @@ namespace DinoCat.Wpf
             return DoLayout(finalSize);
         }
 
-        protected override void OnRender(DrawingContext drawingContext)
+        protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
-            DrawingAdapter adapter = new(drawingContext);
-            rootNode?.Render(adapter);
-            base.OnRender(drawingContext);
+            DrawingContext context = new(e.Surface.Canvas, Matrix.Identity);
+            rootNode?.Render(context);
+            base.OnPaintSurface(e);
         }
 
         private WpfSize DoLayout(WpfSize availableSize)

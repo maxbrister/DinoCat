@@ -115,7 +115,7 @@ namespace DinoCat.Interop
             real?.OnArrange(size);
         }
 
-        public void OnRender(IDrawingContext drawingContext)
+        public void OnRender(DrawingContext drawingContext)
         {
             if (real != null)
                 real?.OnRender(drawingContext);
@@ -136,7 +136,7 @@ namespace DinoCat.Interop
             }
         }
 
-        void ILayerNode.RenderLayer(IDrawingContext context) =>
+        void ILayerNode.RenderLayer(DrawingContext context) =>
             Node.Render(context);
     }
 }
