@@ -42,6 +42,8 @@ namespace DinoCat.Wpf
             Focusable = false;
         }
 
+        public Host(Func<Element> rootElement): this() => RootElement = rootElement;
+
         private void Root_RootNodeChanged(object? sender, EventArgs e) =>
             rootLayer.RootNode = root.RootNode;
 
