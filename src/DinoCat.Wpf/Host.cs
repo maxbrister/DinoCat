@@ -39,6 +39,7 @@ namespace DinoCat.Wpf
                 root: () => new Dummy());
             root.RootNodeChanged += Root_RootNodeChanged;
             rootLayer.RootNode = root.RootNode;
+            Focusable = false;
         }
 
         private void Root_RootNodeChanged(object? sender, EventArgs e) =>
@@ -90,7 +91,7 @@ namespace DinoCat.Wpf
         {
             return new Context(stateManager, rootLayer, new Dictionary<Type, object>
             {
-                { typeof(ITypeface), fontManager.CreateTypeface("Segoe UI") },
+                { typeof(ITypeface), fontManager.CreateTypeface("Segoe UI Emoji") },
                 // TODO can we come up with a better default?
                 {  typeof(IFontManager), fontManager }
             });

@@ -61,7 +61,7 @@ namespace DinoCat.Elements
                 {
                     var typeface = Element.Typeface ?? Context.TryGet<ITypeface>();
                     var fontManager = Context.TryGet<IFontManager>();
-                    formatted = fontManager!.FormatText(typeface!, Element.Foreground, 12, Element.Content);
+                    formatted = fontManager!.FormatText(typeface!, Element.Foreground, 18, Element.Content);
                 }
 
                 return formatted;

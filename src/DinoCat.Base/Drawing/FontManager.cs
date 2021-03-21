@@ -21,9 +21,17 @@ namespace DinoCat.Drawing
 
         public IFormattedText FormatText(ITypeface typeface, Brush brush, float fontPt, string text)
         {
-            SKFont font = new((SKTypeface)typeface.NativeObject, fontPt);
+            // For some reason SKTextBlob bounds are too wide. Measure separately.
+            var paint = brush.Into();
+            paint.Typeface = (SKTypeface)typeface.NativeObject;
+            paint.TextSize = fontPt;
+            var width = paint.MeasureText(text);
+
+            SKFont font = new(paint.Typeface, fontPt);
+            font.BaselineSnap = true;
+            var metrics = font.Metrics;
             var blob = SKTextBlob.Create(text, font);
-            return new FormattedText(blob, text, brush.Into());
+            return new FormattedText(blob, metrics, width, text, brush.Into());
         }
 
         private class Typeface : ITypeface

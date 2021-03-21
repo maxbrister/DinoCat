@@ -2,11 +2,9 @@ using SkiaSharp;
 
 namespace DinoCat.Drawing
 {
-    record FormattedText(SKTextBlob Blob, string Text, SKPaint Paint) : IFormattedText
+    record FormattedText(SKTextBlob Blob, SKFontMetrics Metrics, float Width, string Text, SKPaint Paint) : IFormattedText
     {
-        public float Width => Blob.Bounds.Width;
-
-        public float Height => Blob.Bounds.Height;
+        public float Height => Metrics.Descent - Metrics.Ascent;
 
         public object NativeObject => Blob;
     }

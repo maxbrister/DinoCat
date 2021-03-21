@@ -34,6 +34,7 @@ namespace DinoCat.Wpf
             this.root = root;
             this.parent = parent;
             IsHitTestVisible = false;
+            Focusable = false;
         }
 
         public DinoCat.Matrix TotalTransform { get; private set; }

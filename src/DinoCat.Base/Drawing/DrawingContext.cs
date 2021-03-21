@@ -21,13 +21,24 @@ namespace DinoCat.Drawing
         {
             var paints = paint.Into();
             foreach (var p in paints)
-                canvas.DrawRect(rect.Into(), p);
+            {
+                var current = rect.Into();
+                if (p.StrokeWidth > 0)
+                {
+                    var v = p.StrokeWidth * 0.5f;
+                    current.Left += v;
+                    current.Top += v;
+                    current.Right -= v;
+                    current.Bottom -= v;
+                }
+                canvas.DrawRect(current, p);
+            }
         }
 
         public void DrawText(IFormattedText text, Point offset)
         {
             var txt = (FormattedText)text;
-            canvas.DrawText(txt.Blob, offset.X, offset.Y + txt.Height, txt.Paint);
+            canvas.DrawText(txt.Blob, offset.X, offset.Y - txt.Metrics.Ascent, txt.Paint);
         }
 
         public IDisposable Push(Matrix transform)
