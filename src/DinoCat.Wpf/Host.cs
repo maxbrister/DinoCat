@@ -1,28 +1,30 @@
-﻿using DinoCat;
-using DinoCat.Drawing;
+﻿using DinoCat.Drawing;
 using DinoCat.Elements;
 using DinoCat.Interop;
 using DinoCat.Tree;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-
+using Colors = DinoCat.Drawing.Colors;
+using DpiScale = DinoCat.Drawing.DpiScale;
+using WpfDpiScale = System.Windows.DpiScale;
+using WpfDrawingContext = System.Windows.Media.DrawingContext;
 using WpfSize = System.Windows.Size;
-using WpfRect = System.Windows.Rect;
-using System.Windows.Controls;
 
 namespace DinoCat.Wpf
 {
-    public class Host : FrameworkElement
+    public class Host : System.Windows.Controls.Control
     {
         private StateManager stateManager;
         protected Root root;
         private RootLayer rootLayer;
-        private DpiScale? dpi;
+        // TODO default to current system dpi?
+        private DpiScale dpi = new();
+        private FontManager fontManager = new FontManager(SKFontManager.Default);
 
         public Host()
         {
@@ -36,7 +38,10 @@ namespace DinoCat.Wpf
                 root: () => new Dummy());
             root.RootNodeChanged += Root_RootNodeChanged;
             rootLayer.RootNode = root.RootNode;
+            Focusable = false;
         }
+
+        public Host(Func<Element> rootElement): this() => RootElement = rootElement;
 
         private void Root_RootNodeChanged(object? sender, EventArgs e) =>
             rootLayer.RootNode = root.RootNode;
@@ -70,43 +75,42 @@ namespace DinoCat.Wpf
 
         protected override int VisualChildrenCount => 1;
 
-        protected override void OnRender(DrawingContext drawingContext)
+        protected override void OnRender(WpfDrawingContext drawingContext)
         {
             CheckDpi();
             base.OnRender(drawingContext);
         }
 
-        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        protected override void OnDpiChanged(WpfDpiScale oldDpi, WpfDpiScale newDpi)
         {
             base.OnDpiChanged(oldDpi, newDpi);
-            dpi = newDpi;
+            dpi = newDpi.Into();
             root.Context = CreateContext();
         }
 
-        private Context CreateContext() =>
-            new Context(stateManager, rootLayer, new Dictionary<Type, object>
+        private Context CreateContext()
+        {
+            var typeface = fontManager.CreateTypeface("Segoe UI Emoji");
+            return new Context(stateManager, rootLayer, new Dictionary<Type, object>
             {
-                { typeof(ITypeface),
-                    new DinoTypeface(
-                        new Typeface(
-                            new System.Windows.Controls.TextBlock().FontFamily,
-                            FontStyles.Normal, System.Windows.FontWeights.Normal, FontStretches.Normal)) },
-                // TODO can we come up with a better default?
-                {  typeof(IFontManager), new FontManager(dpi?.DpiScaleX ?? 2) }
+                { typeof(DpiScale), dpi },
+                { typeof(TextTheme), new TextTheme(typeface, 12, Colors.Black) },
+                { typeof(IFontManager), fontManager }
             });
-        
+        }
+
         private void CheckDpi()
         {
-            if (dpi == null)
+            var source = PresentationSource.FromVisual(this);
+            if (source != null)
             {
-                var source = PresentationSource.FromVisual(this);
-                if (source != null)
+                var dpix = source.CompositionTarget.TransformToDevice.M11;
+                var dpiy = source.CompositionTarget.TransformToDevice.M22;
+                var currentDpi = new DpiScale((float)dpix, (float)dpiy);
+                if (currentDpi != dpi)
                 {
-                    var dpix = source.CompositionTarget.TransformToDevice.M11;
-                    var dpiy = source.CompositionTarget.TransformToDevice.M22;
-                    dpi = new DpiScale(dpix, dpiy);
-                    if (dpix != 2)
-                        root.Context = CreateContext();
+                    dpi = currentDpi;
+                    root.Context = CreateContext();
                 }
             }
         }

@@ -18,6 +18,6 @@ namespace DinoCat.Drawing
     {
         ITypeface CreateTypeface(string fontName);
         ITypeface CreateTypeface(string fontName, FontSlant slant, int weight);
-        IFormattedText FormatText(ITypeface typeface, Brush brush, double fontPt, string text);
+        IFormattedText FormatText(ITypeface typeface, Brush brush, float fontPt, DpiScale scale, string text);
     }
 }

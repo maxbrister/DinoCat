@@ -36,14 +36,14 @@ namespace DinoCat
         public Context With<V>(V value) where V : notnull =>
             new Context(this, new Dictionary<Type, object> { { typeof(V), value } });
 
-        public T Get<T>() where T : new()
+        public T Get<T>()
         {
             if (values.TryGetValue(typeof(T), out var v))
             {
                 return (T)v;
             }
 
-            var value = parent != null ? parent.Get<T>() : new T();
+            var value = parent != null ? parent.Get<T>() : Activator.CreateInstance<T>();
 #pragma warning disable CS8601 // Possible null reference assignment.
             values[typeof(T)] = value;
 #pragma warning restore CS8601 // Possible null reference assignment.

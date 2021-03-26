@@ -6,14 +6,14 @@ namespace DinoCat
     [DebuggerDisplay("{Width} x {Height}")]
     public struct Size : IEquatable<Size>
     {
-        public Size(double width, double height)
+        public Size(float width, float height)
         {
             Width = width;
             Height = height;
         }
 
-        public double Width { get; set; }
-        public double Height { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
 
         public static bool operator ==(Size left, Size right) =>
             left.Equals(right);
@@ -21,7 +21,7 @@ namespace DinoCat
         public static bool operator !=(Size left, Size right) =>
             !(left == right);
 
-        public double this[int i]
+        public float this[int i]
         {
             get
             {

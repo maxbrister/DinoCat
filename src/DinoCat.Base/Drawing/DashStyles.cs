@@ -8,7 +8,7 @@ namespace DinoCat.Drawing
 {
     public static class DashStyles
     {
-        public static DashStyle Dash { get; } = new DashStyle(new double[] { 2, 2 }, 1);
-        public static DashStyle Dot { get; } = new DashStyle(new double[] { 0, 2 }, 0);
+        public static DashStyle Dash { get; } = new DashStyle(new[] { 2.0f, 2.0f }, 1);
+        public static DashStyle Dot { get; } = new DashStyle(new[] { 0.0f, 2.0f }, 0);
     }
 }

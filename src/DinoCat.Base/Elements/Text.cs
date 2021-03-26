@@ -10,16 +10,18 @@ namespace DinoCat.Elements
 {
     public class Text : Element
     {
-        public Text(string text, Brush? foreground = null, ITypeface? typeface = null)
+        public Text(string text, Brush? foreground = null, float? fontSize = null, ITypeface? typeface = null)
         {
             Content = text;
-            Foreground = foreground ?? Colors.Black;
+            Foreground = foreground;
             Typeface = typeface;
+            FontSize = fontSize;
         }
 
         public string Content { get; }
-        public Brush Foreground { get; }
+        public Brush? Foreground { get; }
         public ITypeface? Typeface { get; }
+        public float? FontSize { get; }
 
         public override Node CreateNode(Node? parent, Context context) =>
             new TextNode(parent, context, this);
@@ -37,11 +39,10 @@ namespace DinoCat.Elements
 
         protected override Size ArrangeOverride(Size availableSize)
         {
-
             return new Size(Formatted.Width, Formatted.Height);
         }
 
-        protected override void RenderOverride(IDrawingContext context)
+        protected override void RenderOverride(DrawingContext context)
         {
             context.DrawText(Formatted, new Point());
         }
@@ -59,9 +60,14 @@ namespace DinoCat.Elements
             {
                 if (formatted == null)
                 {
-                    var typeface = Element.Typeface ?? Context.TryGet<ITypeface>();
-                    var fontManager = Context.TryGet<IFontManager>();
-                    formatted = fontManager!.FormatText(typeface!, Element.Foreground, 12, Element.Content);
+                    var theme = Context.Get<TextTheme>();
+                    var fontManager = Context.Get<IFontManager>();
+                    formatted = fontManager.FormatText(
+                        Element.Typeface ?? theme.Typeface,
+                        Element.Foreground ?? theme.Foreground,
+                        Element.FontSize ?? theme.FontSize,
+                        Context.Get<DpiScale>(),
+                        Element.Content);
                 }
 
                 return formatted;

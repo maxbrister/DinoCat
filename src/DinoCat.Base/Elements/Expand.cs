@@ -8,7 +8,7 @@
             Flex = flex;
         }
 
-        private Expand(Expand e, double? x = null, double? y = null)
+        private Expand(Expand e, float? x = null, float? y = null)
         {
             Child = e.Child;
             X = x ?? e.X;
@@ -28,11 +28,11 @@
         public static implicit operator Expand(Element e) => new Expand(e, flex: 0);
 
         public Element Child { get; }
-        public double? X { get; }
-        public double? Y { get; }
+        public float? X { get; }
+        public float? Y { get; }
         public int Flex { get; }
 
-        public Expand Align(double? x = null, double? y = null) => new Expand(this, x, y);
+        public Expand Align(float? x = null, float? y = null) => new Expand(this, x, y);
         public Expand Left() => new Expand(this, 0, null);
         public Expand Top() => new Expand(this, null, 0);
         public Expand Right() => new Expand(this, 1, null);
@@ -41,7 +41,7 @@
         public Expand TopRight() => new Expand(this, 1, 0);
         public Expand BottomLeft() => new Expand(this, 0, 1);
         public Expand BottomRight() => new Expand(this, 1, 1);
-        public Expand Center() => new Expand(this, 0.5, 0.5);
+        public Expand Center() => new Expand(this, 0.5f, 0.5f);
     }
 
     public static class ExpandHelper

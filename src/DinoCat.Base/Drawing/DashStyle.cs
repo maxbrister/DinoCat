@@ -8,13 +8,13 @@ namespace DinoCat.Drawing
 {
     public sealed class DashStyle
     {
-        public DashStyle(double[] dashes, double offset)
+        public DashStyle(float[] dashes, float offset)
         {
             Dashes = dashes;
             Offset = offset;
         }
 
-        public IReadOnlyList<double> Dashes { get; }
-        public double Offset { get; }
+        public float[] Dashes { get; }
+        public float Offset { get; }
     }
 }

@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
+using DrawingContext = DinoCat.Drawing.DrawingContext;
+
 namespace DinoCat.Wpf
 {
-    public class WpfNative<TNative> : Element where TNative: UIElement, new()
+    public class WpfNative<TNative> : Element where TNative : UIElement, new()
     {
         public WpfNative(Func<TNative> create, Action<TNative> update)
         {
@@ -68,7 +70,7 @@ namespace DinoCat.Wpf
             yield return (this, p);
         }
 
-        protected override void RenderOverride(IDrawingContext context)
+        protected override void RenderOverride(DrawingContext context)
         {
             // TODO support rotation/scale
             var currentTransform = context.TotalTransform;
@@ -103,7 +105,7 @@ namespace DinoCat.Wpf
 
         public UIElement Native { get; }
 
-        public void RenderLayer(IDrawingContext context) => throw new NotImplementedException();
+        public void RenderLayer(DrawingContext context) => throw new NotImplementedException();
     }
 
     internal class NativeLayer : ILayer
@@ -134,7 +136,7 @@ namespace DinoCat.Wpf
 
         public void OnArrange(Size size) => throw new NotImplementedException();
 
-        public void OnRender(IDrawingContext drawingContext) => throw new NotImplementedException();
+        public void OnRender(DrawingContext drawingContext) => throw new NotImplementedException();
 
         public void OnUpdated() => throw new NotImplementedException();
 

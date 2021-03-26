@@ -71,8 +71,8 @@ namespace DinoCat.Elements
                             new Rectangle(
                                 new Paint(
                                     stroke: state.Focused ? new Pen(Colors.Black,
-                                        width: .75f,
-                                        dashStyle: new DashStyle(new double[] { .25f, 4 }, 0)) : null)
+                                        width: 1,
+                                        dashStyle: new DashStyle(new float[] { 2, 2.5f }, 0)) : null)
                                 ).Expand()
                         ).Margin(2)
                     )

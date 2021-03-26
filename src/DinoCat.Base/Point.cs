@@ -6,16 +6,16 @@ namespace DinoCat
     [DebuggerDisplay("{X}, {Y}")]
     public struct Point : IEquatable<Point>
     {
-        public Point(double x, double y)
+        public Point(float x, float y)
         {
             X = x;
             Y = y;
         }
 
-        public double X { get; set; }
-        public double Y { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
 
-        public double this[int i]
+        public float this[int i]
         {
             get
             {

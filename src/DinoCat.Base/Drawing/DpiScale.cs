@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace DinoCat.Drawing
 {
-    public interface IFormattedText
+    public record DpiScale(float X = 1, float Y = 1)
     {
-        string Text { get; }
-        float Width { get; }
-        float Height { get; }
-        object NativeObject { get; }
+        public DpiScale() : this(1, 1) { }
     }
 }

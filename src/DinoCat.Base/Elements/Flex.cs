@@ -18,8 +18,8 @@ namespace DinoCat.Elements
 
         public override Size Arrange(Size availableSize, List<Node> children)
         {
-            double remaining = availableSize[MainAxis];
-            double availableCross = availableSize[CrossAxis];
+            float remaining = availableSize[MainAxis];
+            float availableCross = availableSize[CrossAxis];
             int totalFlex = 0;
             int expandCount = 0;
 
@@ -43,13 +43,13 @@ namespace DinoCat.Elements
             if (expandCount > 0)
             {
                 // Layout flex children dividing up the remaining space
-                double spacePerUnit = totalFlex != 0 ? remaining / totalFlex : 0;
+                float spacePerUnit = totalFlex != 0 ? remaining / totalFlex : 0;
                 for (int i = 0; i < Children.Count; ++i)
                 {
                     var expand = Expand[i];
                     if (expand.Flex != 0)
                     {
-                        double space = spacePerUnit * expand.Flex;
+                        float space = spacePerUnit * expand.Flex;
                         var childSize = MakeSize(space, availableCross);
                         children[i].Arrange(childSize);
                     }
@@ -57,8 +57,8 @@ namespace DinoCat.Elements
             }
 
             // Place children along the main axis
-            double pos = 0;
-            double crossExtents = 0;
+            float pos = 0;
+            float crossExtents = 0;
             for (int i = 0; i < children.Count; ++i)
             {
                 var size = children[i].Size;
@@ -85,7 +85,7 @@ namespace DinoCat.Elements
         public override bool IsLayoutInvalid(Container oldContainer) =>
             ((Flex)oldContainer).Orientation != Orientation;
 
-        private Point MakePoint(double mainAxisValue, double crossAxisValue)
+        private Point MakePoint(float mainAxisValue, float crossAxisValue)
         {
             var point = new Point();
             point[MainAxis] = mainAxisValue;
@@ -93,7 +93,7 @@ namespace DinoCat.Elements
             return point;
         }
 
-        private Size MakeSize(double mainAxisValue, double crossAxisValue)
+        private Size MakeSize(float mainAxisValue, float crossAxisValue)
         {
             var size = new Size();
             size[MainAxis] = mainAxisValue;

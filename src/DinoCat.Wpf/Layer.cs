@@ -2,6 +2,8 @@
 using DinoCat.Elements;
 using DinoCat.Interop;
 using DinoCat.Wpf.Automation;
+using SkiaSharp.Views.Desktop;
+using SkiaSharp.Views.WPF;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -11,10 +13,12 @@ using System.Windows.Media;
 using Colors = System.Windows.Media.Colors;
 using WpfRect = System.Windows.Rect;
 using WpfSize = System.Windows.Size;
+using DrawingContext = DinoCat.Drawing.DrawingContext;
+using WpfDrawingContext = System.Windows.Media.DrawingContext;
 
 namespace DinoCat.Wpf
 {
-    internal class Layer : FrameworkElement, ILayer
+    internal class Layer : SKElement, ILayer
     {
         protected ILayerNode? root;
         private Layer? parent;
@@ -30,6 +34,7 @@ namespace DinoCat.Wpf
             this.root = root;
             this.parent = parent;
             IsHitTestVisible = false;
+            Focusable = false;
         }
 
         public DinoCat.Matrix TotalTransform { get; private set; }
@@ -92,9 +97,24 @@ namespace DinoCat.Wpf
                 return finalSize;
         }
 
-        protected override void OnRender(DrawingContext drawingContext)
+        protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
-            root?.RenderLayer(new DrawingAdapter(drawingContext));
+            if (root != null)
+            {
+                var source = PresentationSource.FromVisual(this);
+                var dpix = (float)source.CompositionTarget.TransformToDevice.M11;
+                var dpiy = (float)source.CompositionTarget.TransformToDevice.M22;
+                var canvas = e.Surface.Canvas;
+                canvas.Scale(dpix, dpiy);
+
+                DrawingContext context = new(e.Surface.Canvas, Matrix.Identity);
+                root.RenderLayer(context);
+                canvas.Restore();
+            }
+        }
+
+        protected override void OnRender(WpfDrawingContext drawingContext)
+        {
             if (renderedChildren.Count > 0)
             {
                 children = renderedChildren;
@@ -123,7 +143,7 @@ namespace DinoCat.Wpf
             InvalidateVisual();
         }
 
-        void ILayer.OnRender(IDrawingContext drawingContext)
+        void ILayer.OnRender(DrawingContext drawingContext)
         {
             parent?.OnChildRendered(this);
 

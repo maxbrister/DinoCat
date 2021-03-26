@@ -14,12 +14,12 @@ namespace DinoCat.Elements
             new DrawingNode(parent, context, this);
 
         public abstract Size Arrange(Size availableSize);
-        public abstract void Render(IDrawingContext context, Size size);
+        public abstract void Render(DrawingContext context, Size size);
         public abstract bool IsArrangeValid(DrawingElementBase oldElement);
         public abstract bool IsRenderValid(DrawingElementBase oldElement);
     }
 
-    public abstract class DrawingElement<Self> : DrawingElementBase where Self: DrawingElementBase
+    public abstract class DrawingElement<Self> : DrawingElementBase where Self : DrawingElementBase
     {
         public override bool IsArrangeValid(DrawingElementBase oldElement) =>
             IsArrangeValid((Self)oldElement);
