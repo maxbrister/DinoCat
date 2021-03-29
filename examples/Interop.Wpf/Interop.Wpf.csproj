@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <!-- Important!!! Must set UICulture because markup compile pass 2 doesn't support source generators!!! (yet??) -->
+    <UICulture>en-US</UICulture>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DinoCat.Base\DinoCat.Base.csproj" />
+    <ProjectReference Include="..\..\src\DinoCat.Wpf.Generator\DinoCat.Wpf.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\src\DinoCat.Wpf\DinoCat.Wpf.csproj" />
+  </ItemGroup>
+
+</Project>

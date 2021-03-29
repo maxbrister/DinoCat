@@ -45,13 +45,13 @@ namespace DinoCat.Wpf
         private void InputLayer_LostFocus(object sender, RoutedEventArgs e) =>
             Input.LostFocus?.Invoke();
 
-        private void InputLayer_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) =>
+        private void InputLayer_MouseEnter(object sender, global::System.Windows.Input.MouseEventArgs e) =>
             Input.MouseEnter?.Invoke();
 
-        private void InputLayer_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) =>
+        private void InputLayer_MouseLeave(object sender, global::System.Windows.Input.MouseEventArgs e) =>
             Input.MouseLeave?.Invoke();
 
-        private void InputLayer_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InputLayer_MouseDown(object sender, global::System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && Input.Tap != null)
             {
@@ -69,7 +69,7 @@ namespace DinoCat.Wpf
             }
         }
 
-        private void InputLayer_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InputLayer_MouseUp(object sender, global::System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Mouse.Captured == this)
             {

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows;net472</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -11,6 +11,7 @@
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" Condition="'$(TargetFramework)'=='net472'" />
     <ProjectReference Include="..\DinoCat.Base\DinoCat.Base.csproj" />
+    <ProjectReference Include="..\DinoCat.Wpf.Generator\DinoCat.Wpf.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

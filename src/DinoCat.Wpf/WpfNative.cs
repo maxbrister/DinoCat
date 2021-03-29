@@ -81,7 +81,7 @@ namespace DinoCat.Wpf
             var offsetY = currentTransform.m32;
             offsetX -= parentOffsetX;
             offsetY -= parentOffsetY;
-            control.Arrange(new System.Windows.Rect(offsetX, offsetY, Size.Width, Size.Height));
+            control.Arrange(new global::System.Windows.Rect(offsetX, offsetY, Size.Width, Size.Height));
             layer.Parent.OnChildRendered(control);
         }
 

@@ -1,6 +1,6 @@
 ﻿using DinoCat.Elements;
 using DinoCat.State;
-using DinoCat.Wpf.Native.Internal;
+using DinoCat.Wpf.System.Windows.Internal;
 using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DinoCat.Wpf.Native
+namespace DinoCat.Wpf.System.Windows
 {
-    public abstract class DependencyObjectBase<TDependencyObject> : Elements.UnsafeControl<DependencyObjectState<TDependencyObject>> where TDependencyObject : DependencyObject, new()
+    public abstract class DependencyObjectBase<TSubclass, TDependencyObject> : Elements.UnsafeControl<DependencyObjectState<TSubclass, TDependencyObject>> where TDependencyObject : DependencyObject, new()
     {
         public DependencyObjectBase()
         {
@@ -37,8 +37,9 @@ namespace DinoCat.Wpf.Native
 
         public ImmutableDictionary<DependencyProperty, object> LocalValues { get; }
         public ImmutableList<Operation<TDependencyObject>> Operations { get; }
+        public abstract TSubclass Set(global::System.Windows.DependencyProperty dp, object value);
 
-        protected void Update(TDependencyObject dobj, Internal.DependencyObjectState<TDependencyObject> state)
+        protected void Update(TDependencyObject dobj, Internal.DependencyObjectState<TSubclass, TDependencyObject> state)
         {
             var previousLocal = state.Previous?.LocalValues ?? ImmutableDictionary.Create<DependencyProperty, object>();
             var previousOperations = state.Previous?.Operations ?? ImmutableList.Create<Operation<TDependencyObject>>();
@@ -170,7 +171,7 @@ namespace DinoCat.Wpf.Native
 
     namespace Internal
     {
-        public class DependencyObjectState<TSubclass> : INotifyPropertyChanged where TSubclass : DependencyObject, new()
+        public class DependencyObjectState<TSubclass, TWpf> : INotifyPropertyChanged where TWpf : DependencyObject, new()
         {
             public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -182,13 +183,13 @@ namespace DinoCat.Wpf.Native
 
             public void Dispose() { }
 
-            public DependencyObjectBase<TSubclass>? Previous;
+            public DependencyObjectBase<TSubclass, TWpf>? Previous;
         }
 
-        public struct Operation<TSubclass>
+        public struct Operation<TWpf>
         {
-            public Action<TSubclass> Apply;
-            public Action<TSubclass> Unapply;
+            public Action<TWpf> Apply;
+            public Action<TWpf> Unapply;
         }
     }
 }

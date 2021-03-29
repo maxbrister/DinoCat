@@ -157,7 +157,7 @@ namespace DinoCat.Wpf
             var offsetY = TotalTransform.m32;
             offsetX -= parentOffsetX;
             offsetY -= parentOffsetY;
-            Arrange(new System.Windows.Rect(offsetX, offsetY, size.Width, size.Height));
+            Arrange(new global::System.Windows.Rect(offsetX, offsetY, size.Width, size.Height));
         }
 
         public virtual void OnUpdated() { }

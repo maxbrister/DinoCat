@@ -6,7 +6,8 @@ using DinoCat.Wpf;
 using System.Diagnostics;
 using System.Windows;
 
-using WpfButton = DinoCat.Wpf.Native.Button;
+using WpfButton = DinoCat.Wpf.System.Windows.Controls.Button;
+using WpfCheckBox = DinoCat.Wpf.System.Windows.Controls.CheckBox;
 
 namespace HelloWorld.Wpf
 {
@@ -94,6 +95,9 @@ namespace HelloWorld.Wpf
                         content: state.Bind(value => $"Hello world {value}"),
                         click: _ => state.Set(c => c + 1))
                         .Margin(10),
+                    new WpfCheckBox()
+                        .Content("Hello world")
+                        .Center(),
                     new Button(
                         content: state.Bind(value => $"Hello World 🐱‍🐉 {value}"),
                         click: () => state.Set(c => c + 1))
@@ -124,10 +128,10 @@ namespace HelloWorld.Wpf
             ImplicitState.Inject<int>(state =>
                 new Row(
                     new WpfButton(click: _ => state.Value += 1)
-                        .Set(WpfButton.ContentProperty, () => $"Hello world {state}")
+                        // TODO: .Set(WpfButton.ContentProperty, () => $"Hello world {state}")
                         .Margin(10),
                     new Button(
-                        content: () => $"Hello World 🐱‍🐉 {state}",
+                        content: new ScopeElement(() => $"Hello World 🐱‍🐉 {state}"),
                         click: () => state.Value += 1)
                         .Margin(10)
                 ));

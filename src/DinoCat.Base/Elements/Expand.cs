@@ -2,10 +2,12 @@
 {
     public class Expand
     {
-        public Expand(Element child, int flex = 1)
+        public Expand(Element child, int flex = 1, float? x = null, float? y = null)
         {
             Child = child;
             Flex = flex;
+            X = x;
+            Y = y;
         }
 
         private Expand(Expand e, float? x = null, float? y = null)

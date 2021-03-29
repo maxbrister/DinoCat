@@ -17,10 +17,10 @@ using WpfSize = System.Windows.Size;
 
 namespace DinoCat.Wpf
 {
-    public class Host : System.Windows.Controls.Control
+    public class Host : global::System.Windows.Controls.Control
     {
         private StateManager stateManager;
-        protected Root root;
+        private Root root;
         private RootLayer rootLayer;
         // TODO default to current system dpi?
         private DpiScale dpi = new();
@@ -51,6 +51,8 @@ namespace DinoCat.Wpf
             get => root.RootElement;
             set => root.RootElement = value;
         }
+
+        public void Refresh() => root.Refresh();
 
         protected override WpfSize ArrangeOverride(WpfSize finalSize)
         {

@@ -1,0 +1,32 @@
+﻿<Window x:Class="Interop.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:wpf="clr-namespace:DinoCat.Wpf;assembly=DinoCat.Wpf"
+        xmlns:dino="clr-namespace:DinoCat.Wpf.Projected;assembly=DinoCat.Wpf"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Interop.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <!-- Not procedurally generated yet. Still trying to figure out how to do this well. -->
+            <wpf:DinoRow>
+                <!-- Need to figure out how to get rid of DinoExpand here. (or just don't project Row/Column/Stack) -->
+                <wpf:DinoExpand>
+                    <!-- dino:Button is an procedurally generated projection -->
+                    <dino:Button Click="Button_Click">
+                        <TextBlock Margin="2">
+                            <Run Text="abc"/>
+                            <Run Foreground="Red" Text="efg"/>
+                        </TextBlock>
+                    </dino:Button>
+                </wpf:DinoExpand>
+                <wpf:DinoExpand Y="0.5">
+                    <CheckBox Content="Hello World" Margin="2,2,2,2" />
+                </wpf:DinoExpand>
+            </wpf:DinoRow>
+            <wpf:Host x:Name="host" />
+        </StackPanel>
+    </Grid>
+</Window>

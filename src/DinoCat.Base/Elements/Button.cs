@@ -11,19 +11,10 @@ namespace DinoCat.Elements
 {
     public class Button : Control<ButtonState>
     {
-        public Button(Action click, string text) : this(click, new Text(text))
-        { }
-
         public Button(Action click, Element content)
         {
             Click = click;
             Content = content;
-        }
-
-        public Button(Action click, Func<Element> content)
-        {
-            Click = click;
-            Content = new ScopeElement(content);
         }
 
         public Action Click { get; }
