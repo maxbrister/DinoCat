@@ -8,7 +8,7 @@ Create high quality UI that is consistent and runs with native performance acros
 
 ## Easy to Learn and Use
 
-If you already know C# you can get started writing UI today! DinoCat makes your life easier by reducing the number of new concepts you have to learn. You can take advantage of the next generation of C# tooling to make writing UI high efficient.
+If you already know C# you can get started writing UI today! DinoCat makes your life easier by reducing the number of new concepts you have to learn. You can take advantage of the next generation of C# tooling to make writing UI highly efficient.
 
 If you're already using an existing C# UI framework (WinForms, Wpf, Xamarin, Uwp, WinUI) that's great too! You can start using DinoCat in your current projects by referencing a single NuGet package. You can even write new controls in DinoCat that reuse your existing user controls and view models. DinoCat works best with MVVM so your existing experience transfers directly into DinoCat.
 
