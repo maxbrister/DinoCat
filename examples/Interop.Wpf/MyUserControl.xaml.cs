@@ -19,13 +19,15 @@ namespace Interop.Wpf
     /// <summary>
     /// Interaction logic for MyUserControl.xaml
     /// </summary>
-    [FromWpfType("Interop.Wpf.DinoUserControl")]
+    [FromWpfType("Interop.Wpf.MyUserControlWrapper")]
     public partial class MyUserControl : UserControl
     {
-        public static DependencyProperty MyValueProperty = DependencyProperty.Register(nameof(MyValue), typeof(int), typeof(MyUserControl), new PropertyMetadata(0));
-        
+        public static readonly DependencyProperty MyValueProperty = DependencyProperty.Register(nameof(MyValue), typeof(int), typeof(MyUserControl), new PropertyMetadata(0));
+        private static int nextId;
+
         public MyUserControl()
         {
+            Id = nextId++;
             InitializeComponent();
         }
 
@@ -34,5 +36,7 @@ namespace Interop.Wpf
             get => (int)GetValue(MyValueProperty);
             set => SetValue(MyValueProperty, value);
         }
+
+        public int Id { get; set; }
     }
 }

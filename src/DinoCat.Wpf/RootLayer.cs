@@ -45,8 +45,7 @@ namespace DinoCat.Wpf
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
-            DrawingContext context = new(e.Surface.Canvas, Matrix.Identity);
-            rootNode?.Render(context);
+            Paint(e, context => rootNode?.Render(context));
             base.OnPaintSurface(e);
         }
 

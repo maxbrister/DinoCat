@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsWindows>false</IsWindows>
+    <IsWindows Condition="$(TargetFramework.EndsWith('-windows'))">true</IsWindows>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DinoCat.Base\DinoCat.Base.csproj" />
+    <ProjectReference Include="..\DinoCat.Wpf\DinoCat.Wpf.csproj" Condition="$(IsWindows)" />
+  </ItemGroup>
+
+</Project>

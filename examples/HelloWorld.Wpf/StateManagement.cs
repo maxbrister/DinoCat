@@ -1,27 +1,15 @@
 ﻿using DinoCat;
-using DinoCat.Drawing;
 using DinoCat.Elements;
 using DinoCat.State;
-using DinoCat.Wpf;
-using System.Diagnostics;
-using System.Windows;
 
 using WpfButton = DinoCat.Wpf.System.Windows.Controls.Button;
-using WpfCheckBox = DinoCat.Wpf.System.Windows.Controls.CheckBox;
 
-namespace HelloWorld.Wpf
+namespace StateManagement
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    class StateManagement
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-
-            host.RootElement = ExplicitStateExample;
-        }
+        public static void Main(string[] args) =>
+            App.Run(ExplicitStateExample);
 
         /// <summary>
         /// Simple "immutable" state management
@@ -38,7 +26,7 @@ namespace HelloWorld.Wpf
         ///       This is incorrect in practice. Each control (or component) should have its own state. Might
         ///       be difficult to message this/convince existing Wpf developers this approach is fine.
         /// </summary>
-        private Element StateExample() =>
+        static Element StateExample() =>
             State.Inject<int>((state, setState) =>
                 new Row(
                     new WpfButton(content: $"Hello world {state}", click: _ => setState(state + 1))
@@ -61,7 +49,7 @@ namespace HelloWorld.Wpf
         /// experiencing perf issues due to regular State behavior, they can switch to UnsafeState
         /// and optimize that section of code by hand.
         /// </summary>
-        private Element UnsafeStateExample() =>
+        static Element UnsafeStateExample() =>
             State.UnsafeInject<int>(state =>
                 new Row(
                     new WpfButton(content: state.Bind(() => $"Hello world {state}"), click: _ => state.Value += 1)
@@ -88,16 +76,13 @@ namespace HelloWorld.Wpf
         ///        on the "state". There's no good way of protecting against this at compile time.
         ///        This could get confusing for new users.
         /// </summary>
-        private Element ExplicitStateExample() =>
+        static Element ExplicitStateExample() =>
             ExplicitState.Inject<int>(state =>
                 new Row(
                     new WpfButton(
                         content: state.Bind(value => $"Hello world {value}"),
                         click: _ => state.Set(c => c + 1))
                         .Margin(10),
-                    new WpfCheckBox()
-                        .Content("Hello world")
-                        .Center(),
                     new Button(
                         content: state.Bind(value => $"Hello World 🐱‍🐉 {value}"),
                         click: () => state.Set(c => c + 1))
@@ -124,7 +109,7 @@ namespace HelloWorld.Wpf
         ///            to in each scope. This is only and issue if apps are switching between threads while
         ///            generating multiple UI trees.
         /// </summary>
-        private Element ImplicitStateExample() =>
+        static Element ImplicitStateExample() =>
             ImplicitState.Inject<int>(state =>
                 new Row(
                     new WpfButton(click: _ => state.Value += 1)

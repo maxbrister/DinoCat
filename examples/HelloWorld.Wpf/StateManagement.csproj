@@ -3,12 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DinoCat.Base\DinoCat.Base.csproj" />
-    <ProjectReference Include="..\..\src\DinoCat.Wpf\DinoCat.Wpf.csproj" />
+    <ProjectReference Include="..\..\src\DinoCat\DinoCat.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,7 @@ using WpfRect = System.Windows.Rect;
 using WpfSize = System.Windows.Size;
 using DrawingContext = DinoCat.Drawing.DrawingContext;
 using WpfDrawingContext = System.Windows.Media.DrawingContext;
+using SkiaSharp;
 
 namespace DinoCat.Wpf
 {
@@ -37,7 +38,7 @@ namespace DinoCat.Wpf
             Focusable = false;
         }
 
-        public DinoCat.Matrix TotalTransform { get; private set; }
+        public DinoCat.Matrix TotalTransform { get; private set; } = DinoCat.Matrix.Identity;
 
         public void AddChild(UIElement child)
         {
@@ -101,14 +102,26 @@ namespace DinoCat.Wpf
         {
             if (root != null)
             {
-                var source = PresentationSource.FromVisual(this);
-                var dpix = (float)source.CompositionTarget.TransformToDevice.M11;
-                var dpiy = (float)source.CompositionTarget.TransformToDevice.M22;
-                var canvas = e.Surface.Canvas;
-                canvas.Scale(dpix, dpiy);
+                Paint(e, context => root.RenderLayer(context));
+            }
+        }
 
-                DrawingContext context = new(e.Surface.Canvas, Matrix.Identity);
-                root.RenderLayer(context);
+        protected void Paint(SKPaintSurfaceEventArgs e, Action<DrawingContext> paintImpl)
+        {
+            var source = PresentationSource.FromVisual(this);
+            var dpix = (float)source.CompositionTarget.TransformToDevice.M11;
+            var dpiy = (float)source.CompositionTarget.TransformToDevice.M22;
+            var canvas = e.Surface.Canvas;
+            canvas.Clear();
+
+            DrawingContext context = new(e.Surface.Canvas);
+            try
+            {
+                canvas.Scale(dpix, dpiy);
+                paintImpl(context);
+            }
+            finally
+            {
                 canvas.Restore();
             }
         }
@@ -149,12 +162,12 @@ namespace DinoCat.Wpf
 
             TotalTransform = drawingContext.TotalTransform;
 
-            // TODO support rotation/scale
+            // TODO support rotation. Render transform somehow?
             var parentTransform = parent?.TotalTransform ?? DinoCat.Matrix.Identity;
-            var parentOffsetX = parentTransform.m31;
-            var parentOffsetY = parentTransform.m32;
-            var offsetX = TotalTransform.m31;
-            var offsetY = TotalTransform.m32;
+            var parentOffsetX = parentTransform.m31 / parentTransform.m11;
+            var parentOffsetY = parentTransform.m32 / parentTransform.m22;
+            var offsetX = TotalTransform.m31 / TotalTransform.m11;
+            var offsetY = TotalTransform.m32 / TotalTransform.m22;
             offsetX -= parentOffsetX;
             offsetY -= parentOffsetY;
             Arrange(new global::System.Windows.Rect(offsetX, offsetY, size.Width, size.Height));

@@ -8,14 +8,9 @@ namespace DinoCat.Drawing
     {
         private SKCanvas canvas;
 
-        public DrawingContext(SKCanvas canvas, Matrix deviceTransform)
-        {
-            this.canvas = canvas;
-            DeviceTransform = deviceTransform;
-        }
+        public DrawingContext(SKCanvas canvas) => this.canvas = canvas;
 
         public Matrix TotalTransform => canvas.TotalMatrix.Into();
-        public Matrix DeviceTransform { get; }
 
         public void DrawRectangle(Paint paint, Rect rect)
         {

@@ -25,8 +25,6 @@ namespace Interop.Wpf
         public MainWindow()
         {
             InitializeComponent();
-
-            host.RootElement = () => new DinoUserControl().MyValue(42);
         }
 
         private void Button_Click(object sender, EventArgs args)

@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel>
             <!-- Not procedurally generated yet. Still trying to figure out how to do this well. -->
-            <wpf:DinoRow>
+            <wpf:DinoRow Margin="10">
                 <!-- Need to figure out how to get rid of DinoExpand here. (or just don't project Row/Column/Stack) -->
                 <wpf:DinoExpand>
                     <!-- dino:Button is an procedurally generated projection -->
@@ -26,7 +26,7 @@
                     <CheckBox Content="Hello World" Margin="2,2,2,2" />
                 </wpf:DinoExpand>
             </wpf:DinoRow>
-            <wpf:Host x:Name="host" />
+            <local:DinoControlWrapper />
         </StackPanel>
     </Grid>
 </Window>
