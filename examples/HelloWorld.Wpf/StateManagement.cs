@@ -3,8 +3,12 @@ using DinoCat.Elements;
 using DinoCat.State;
 using System.Collections.Generic;
 using System.Linq;
+using static DinoCat.Elements.Factories;
 using WpfButton = DinoCat.Wpf.System.Windows.Controls.Button;
 using WpfComboBox = DinoCat.Wpf.System.Windows.Controls.ComboBox;
+
+WpfButton WpfButton() => new();
+WpfComboBox WpfComboBox() => new();
 
 /// <summary>
 /// Simple "immutable" state management
@@ -23,10 +27,12 @@ using WpfComboBox = DinoCat.Wpf.System.Windows.Controls.ComboBox;
 /// </summary>
 Element StateExample() =>
     State.Inject<int>((state, setState) =>
-        new Row(
-            new WpfButton(content: $"Hello world {state}", click: _ => setState(state + 1))
+        Row(
+            WpfButton()
+                .Content($"Hello world {state}")
+                .OnClick(_ => setState(state + 1))
                 .Margin(10),
-            new Button(
+            Button(
                 content: $"Hello World 🐱‍🐉 {state}",
                 click: () => setState(state + 1)
             ).Margin(10)
@@ -46,13 +52,12 @@ Element StateExample() =>
 /// </summary>
 Element UnsafeStateExample() =>
     State.UnsafeInject<int>(state =>
-        new Row(
-            new WpfButton(content: state.Bind(() => $"Hello world {state}"), click: _ => state.Value += 1)
+        Row(
+            WpfButton()
+                .Content(state.Bind(() => $"Hello world {state}"))
+                .OnClick(_ => state.Value += 1)
                 .Margin(10),
-            new Button(
-                content: state.Bind(() => $"Hello World 🐱‍🐉 {state}"),
-                click: () => state.Value += 1
-            ).Margin(10)
+            Button(content: state.Bind(() => $"Hello World 🐱‍🐉 {state}"), click: () => state.Value += 1).Margin(10)
         ));
 
 /// <summary>
@@ -73,12 +78,12 @@ Element UnsafeStateExample() =>
 /// </summary>
 Element ExplicitStateExample() =>
     ExplicitState.Inject<int>(state =>
-        new Row(
-            new WpfButton(
-                content: state.Bind(value => $"Hello world {value}"),
-                click: _ => state.Set(c => c + 1))
+        Row(
+            WpfButton()
+                .Content(state.Bind(value => $"Hello world {value}"))
+                .OnClick(_ => state.Set(c => c + 1))
                 .Margin(10),
-            new Button(
+            Button(
                 content: state.Bind(value => $"Hello World 🐱‍🐉 {value}"),
                 click: () => state.Set(c => c + 1))
                 .Margin(10)
@@ -106,11 +111,12 @@ Element ExplicitStateExample() =>
 /// </summary>
 Element ImplicitStateExample() =>
     ImplicitState.Inject<int>(state =>
-        new Row(
-            new WpfButton(click: _ => state.Value += 1)
+        Row(
+            WpfButton()
                 .Content("TODO")
+                .OnClick(_ => state.Value += 1)
                 .Margin(10),
-            new Button(
+            Button(
                 content: new ScopeElement(() => $"Hello World 🐱‍🐉 {state}"),
                 click: () => state.Value += 1)
                 .Margin(10)
@@ -126,8 +132,8 @@ App.Run(() => {
     };
     var exampleNames = examples.Select(ex => ex.Item1).ToList();
 
-    return State.Inject<int>((state, setState) => new Column(
-            new WpfComboBox()
+    return State.Inject<int>((state, setState) => Column(
+            WpfComboBox()
                 .ItemsSource(exampleNames)
                 .SelectedIndex(state)
                 .OnSelectionChanged(args =>

@@ -1,16 +1,13 @@
 ﻿using DinoCat.Drawing;
 using DinoCat.Tree;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DinoCat.Elements
 {
-    public class Text : Element
+    public class TextBlock : Element
     {
-        public Text(string text, Brush? foreground = null, float? fontSize = null, ITypeface? typeface = null)
+        public TextBlock(string text, Brush? foreground = null, float? fontSize = null, ITypeface? typeface = null)
         {
             Content = text;
             Foreground = foreground;
@@ -24,14 +21,14 @@ namespace DinoCat.Elements
         public float? FontSize { get; }
 
         public override Node CreateNode(Node? parent, Context context) =>
-            new TextNode(parent, context, this);
+            new TextBlockNode(parent, context, this);
     }
 
-    internal class TextNode : NodeBase<Text>
+    internal class TextBlockNode : NodeBase<TextBlock>
     {
         private IFormattedText? formatted;
 
-        public TextNode(Node? parent, Context context, Text text) : base(parent, context, text) { }
+        public TextBlockNode(Node? parent, Context context, TextBlock text) : base(parent, context, text) { }
 
         public override IEnumerable<Node> Children => Enumerable.Empty<Node>();
 
@@ -47,7 +44,7 @@ namespace DinoCat.Elements
             context.DrawText(Formatted, new Point());
         }
 
-        protected override void UpdateElement(Text oldElement, Context oldContext)
+        protected override void UpdateElement(TextBlock oldElement, Context oldContext)
         {
             formatted = null;
             Context.InvalidateLayout();

@@ -1,12 +1,9 @@
-﻿using DinoCat.Drawing;
-using DinoCat.State;
+﻿using DinoCat.State;
 using DinoCat.Tree;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static DinoCat.Elements.Factories;
 
 namespace DinoCat.Elements
 {
@@ -29,7 +26,7 @@ namespace DinoCat.Elements
             var obj = Value;
             if (obj is Element e)
                 return e;
-            return new Text(obj.ToString() ?? "");
+            return Text(obj.ToString() ?? "");
         }
 
         private void BasedOn_PropertyChanged(object? sender, PropertyChangedEventArgs e) =>

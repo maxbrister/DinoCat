@@ -112,10 +112,6 @@ namespace DinoCat.Wpf.Generator
                     if (split != -1)
                         projectedNamespace += partialName.Substring(0, split);
                     projectedTypeName = partialName.Substring(split + 1);
-
-                    // TODO Need a better workaround for conflict between property name and type name
-                    if (projectedTypeName == "Text")
-                        projectedTypeName = "TextBlock";
                 }
                 else
                     return;

@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DinoCat.Elements.Factories;
 
 namespace DinoCat.Elements
 {
     public class Button : Control<ButtonState>
     {
-        public Button(Action click, Element content)
+        public Button(Element content, Action click)
         {
             Click = click;
             Content = content;
@@ -21,7 +22,7 @@ namespace DinoCat.Elements
         public Element Content { get; }
 
         public override Element Build(Context context, ButtonState state, Action<ButtonState> setState) =>
-            new Input(
+            Input(
                 controlType: ControlType.Button,
                 tap: () => Click(),
                 mouseEnter: () => setState(state with { MouseOver = true }),
@@ -51,15 +52,15 @@ namespace DinoCat.Elements
                 },
                 gotFocus: fromKeyboard => setState(state with { Focused = fromKeyboard }),
                 lostFocus: () => setState(state with { Focused = false, SpaceDown = false }),
-                child: new Stack(
-                        new Rectangle(
+                child: Stack(
+                        Rectangle(
                             new Paint(
                                 fill: state.Highlight ? 0xFFBEE6FD : 0xFFDDDDDD,
                                 stroke: state.Highlight ? 0xFF3C7FB1 : 0xFF707070)
                             ).Expand(),
-                        new Stack(
+                        Stack(
                             Content,
-                            new Rectangle(
+                            Rectangle(
                                 new Paint(
                                     stroke: state.Focused ? new Pen(Colors.Black,
                                         width: 1,

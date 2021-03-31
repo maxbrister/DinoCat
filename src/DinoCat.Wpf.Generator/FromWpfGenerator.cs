@@ -51,6 +51,8 @@ namespace DinoCat.Wpf.Generator
                 translate.NamespacePostfix = "Impl";
                 compilation.Assembly.Accept(translate);
             }
+
+            translate.WriteFactories();
         }
 
         public void Initialize(GeneratorInitializationContext context)
@@ -64,6 +66,7 @@ namespace DinoCat.Wpf.Generator
             Types types;
             bool allowInternal;
             bool generatePlatformTypes;
+            Dictionary<string, List<string>> factoryMethods = new();
 
             public TranslateTypes(GeneratorExecutionContext context,
                 Dictionary<INamedTypeSymbol, string> translated,
@@ -91,6 +94,7 @@ namespace DinoCat.Wpf.Generator
             {
                 foreach (var type in symbol.GetTypeMembers())
                     type.Accept(this);
+
                 foreach (var ns in symbol.GetNamespaceMembers())
                     ns.Accept(this);
             }
@@ -100,6 +104,26 @@ namespace DinoCat.Wpf.Generator
                 if (symbol.IsSubclassOf(types.UIElement) && IsDefaultConstructable(symbol) &&
                     (generatePlatformTypes || symbol.GetAttributes().Any(types.IsFromWpfTypeAttribute)))
                     Translate(symbol);
+            }
+
+            public void WriteFactories()
+            {
+                foreach (var pair in factoryMethods)
+                {
+                    StringBuilder source = new();
+                    source.AppendLine($@"namespace {pair.Key}
+{{
+    public static partial class Factories
+    {{");
+                    foreach (var method in pair.Value)
+                    {
+                        source.Append(' ', 8);
+                        source.AppendLine(method);
+                    }
+                    source.AppendLine("    }");
+                    source.Append('}');
+                    context.AddSource($"{pair.Key}.Factories.cs", source.ToString());
+                }
             }
 
             private bool IsDefaultConstructable(INamedTypeSymbol symbol) =>
@@ -120,14 +144,15 @@ namespace DinoCat.Wpf.Generator
                 if (translated.TryGetValue(wpfType, out var v))
                     return v;
 
-                var qualifiedWpfType = wpfType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                if (!generatePlatformTypes && qualifiedWpfType.StartsWith("global::System.Windows"))
+                var qualifiedWpfType = wpfType.ToDisplayString();
+                if (!generatePlatformTypes && qualifiedWpfType.StartsWith("System.Windows"))
                 {
-                    var dinoTypeName = qualifiedWpfType.Substring("global::".Length);
-                    dinoTypeName = $"global::DinoCat.Wpf.{dinoTypeName}Base";
+                    var dinoTypeName = $"global::DinoCat.Wpf.{qualifiedWpfType}Base";
                     translated[wpfType] = dinoTypeName;
                     return dinoTypeName;
                 }
+
+                qualifiedWpfType = $"global::{qualifiedWpfType}";
 
                 var name = wpfType.Name;
                 string dinoNamespace;
@@ -163,6 +188,8 @@ namespace DinoCat.Wpf.Generator
                     context.PrintDebug($"Failed to find base type for {wpfType.Name}");
                     return string.Empty;
                 }
+
+                var access = wpfType.DeclaredAccessibility.Format();
                 var basedOn = Translate(wpfBaseType);
                 StringBuilder source = new();
                 source.AppendLine($@"#pragma warning disable CS0108
@@ -172,7 +199,7 @@ namespace {dinoNamespace}
                 if (!wpfType.IsSealed)
                 {
                     source.AppendLine($@"
-    public abstract partial class {name}Base<TSubclass, TWpf> : {basedOn}<TSubclass, TWpf> where TWpf : {qualifiedWpfType}, new()
+    {access} abstract partial class {name}Base<TSubclass, TWpf> : {basedOn}<TSubclass, TWpf> where TWpf : {qualifiedWpfType}, new()
     {{");
                     WriteConstructors(source, name + "Base", "TWpf");
                     WriteBase(source, wpfType, qualifiedWpfType, "TWpf", "TSubclass");
@@ -185,17 +212,24 @@ namespace {dinoNamespace}
                 {
                     string parent = wpfType.IsSealed ? basedOn : name + "Base";
                     source.AppendLine($@"
-    public sealed partial class {name} : {parent}<{name}, {qualifiedWpfType}>
+    {access} sealed partial class {name} : {parent}<{name}, {qualifiedWpfType}>
     {{");
                     WriteConstructors(source, name, qualifiedWpfType);
                     if (wpfType.IsSealed)
                         WriteBase(source, wpfType, qualifiedWpfType, qualifiedWpfType, name);
                     WriteReal(source, name, qualifiedWpfType);
                     source.AppendLine("    }");
+
+                    if (!factoryMethods.TryGetValue(dinoNamespace, out var methods))
+                    {
+                        methods = new();
+                        factoryMethods[dinoNamespace] = methods;
+                    }
+                    methods.Add($"{access} static global::{dinoNamespace}.{name} {name}() => new();");
                 }
                 source.Append("}");
 
-                var sourceFile = $"DinoCat_Wpf_{name}";
+                var sourceFile = $"{dinoType}.cs";
                 context.AddSource(sourceFile, source.ToString());
 
                 // I can't find a way to see the generator output. Just write it to a file for debugging.
