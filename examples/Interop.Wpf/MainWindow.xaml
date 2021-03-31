@@ -10,22 +10,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel>
-            <!-- Not procedurally generated yet. Still trying to figure out how to do this well. -->
-            <wpf:DinoRow Margin="10">
-                <!-- Need to figure out how to get rid of DinoExpand here. (or just don't project Row/Column/Stack) -->
-                <wpf:DinoExpand>
-                    <!-- dino:Button is an procedurally generated projection -->
-                    <dino:Button Click="Button_Click">
-                        <TextBlock Margin="2">
-                            <Run Text="abc"/>
-                            <Run Foreground="Red" Text="efg"/>
-                        </TextBlock>
-                    </dino:Button>
-                </wpf:DinoExpand>
-                <wpf:DinoExpand Y="0.5">
-                    <CheckBox Content="Hello World" Margin="2,2,2,2" />
-                </wpf:DinoExpand>
-            </wpf:DinoRow>
+            <dino:Button Content="dino:Button" Click="Button_Click" />
             <local:DinoControlWrapper />
         </StackPanel>
     </Grid>
