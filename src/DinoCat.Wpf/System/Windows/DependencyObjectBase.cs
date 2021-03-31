@@ -37,7 +37,9 @@ namespace DinoCat.Wpf.System.Windows
 
         public ImmutableDictionary<DependencyProperty, object> LocalValues { get; }
         public ImmutableList<Operation<TDependencyObject>> Operations { get; }
-        public abstract TSubclass Set(global::System.Windows.DependencyProperty dp, object value);
+        public TSubclass Set(global::System.Windows.DependencyProperty dp, object value) =>
+            NewImpl(LocalValues.Add(dp, value), Operations);
+        protected abstract TSubclass NewImpl(ImmutableDictionary<DependencyProperty, object> localValues, ImmutableList<Operation<TDependencyObject>> operations);
 
         protected void Update(TDependencyObject dobj, Internal.DependencyObjectState<TSubclass, TDependencyObject> state)
         {

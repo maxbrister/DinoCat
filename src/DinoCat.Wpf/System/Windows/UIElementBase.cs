@@ -15,6 +15,18 @@ namespace DinoCat.Wpf.System.Windows
         public override Element Build(Context context, DependencyObjectState<TSubclass, TWpf> state) =>
             new WpfNative<TWpf>(element => Update(element, state));
 
+        public TSubclass On(RoutedEvent routedEvent, Action<RoutedEventArgs> onEvent, bool handledEventsToo = false)
+        {
+            var op = AddHandler(routedEvent, onEvent, handledEventsToo);
+            return NewImpl(LocalValues, Operations.Add(op));
+        }
+
+        public TSubclass On(RoutedEvent routedEvent, Action<object, RoutedEventArgs> onEvent, bool handledEventsToo = false)
+        {{
+            var op = AddHandler(routedEvent, onEvent, handledEventsToo);
+            return NewImpl(LocalValues, Operations.Add(op));
+        }}
+
         protected static Operation<TWpf>? MaybeAddHandler(RoutedEvent routedEvent, Action<RoutedEventArgs>? onEvent, bool handledEventsToo = false)
         {
             if (onEvent != null)

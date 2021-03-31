@@ -175,7 +175,7 @@ namespace {dinoNamespace}
     public abstract partial class {name}Base<TSubclass, TWpf> : {basedOn}<TSubclass, TWpf> where TWpf : {qualifiedWpfType}, new()
     {{");
                     WriteConstructors(source, name + "Base", "TWpf");
-                    WriteBase(source, wpfType, qualifiedWpfType, "TSubclass");
+                    WriteBase(source, wpfType, qualifiedWpfType, "TWpf", "TSubclass");
                     source.AppendLine("    }");
                 }
 
@@ -189,8 +189,8 @@ namespace {dinoNamespace}
     {{");
                     WriteConstructors(source, name, qualifiedWpfType);
                     if (wpfType.IsSealed)
-                        WriteBase(source, wpfType, qualifiedWpfType, name);
-                    WriteReal(source, name);
+                        WriteBase(source, wpfType, qualifiedWpfType, qualifiedWpfType, name);
+                    WriteReal(source, name, qualifiedWpfType);
                     source.AppendLine("    }");
                 }
                 source.Append("}");
@@ -226,7 +226,7 @@ namespace {dinoNamespace}
 ");
             }
 
-            private void WriteBase(StringBuilder source, INamedTypeSymbol wpfType, string qualifedWpfType, string meType)
+            private void WriteBase(StringBuilder source, INamedTypeSymbol wpfType, string qualifedWpfType, string tWpf, string meType)
             {
                 Dictionary<string, (INamedTypeSymbol, Accessibility)> properties = new();
                 foreach (var property in wpfType.GetMembers().OfType<IPropertySymbol>())
@@ -242,16 +242,40 @@ namespace {dinoNamespace}
 
                 foreach (var member in wpfType.GetMembers())
                 {
-                    if (!(member.IsStatic && IsAccessible(member.DeclaredAccessibility)))
+                    if (!IsAccessible(member.DeclaredAccessibility))
                         continue;
 
                     ITypeSymbol? fieldType = null;
-                    if (member is IPropertySymbol property && !property.IsWriteOnly && !property.IsWithEvents)
+                    if (member.IsStatic && member is IPropertySymbol property && !property.IsWriteOnly && !property.IsWithEvents)
                         fieldType = property.Type;
-                    else if (member is IFieldSymbol field)
+                    else if (member.IsStatic && member is IFieldSymbol field)
                         fieldType = field.Type;
+                    else if (!member.IsStatic && member is IEventSymbol evt)
+                    {
+                        var accessibility = evt.DeclaredAccessibility.Format();
+                        string typeName;
+                        if (evt.Type is INamedTypeSymbol eventType &&
+                            eventType.DelegateInvokeMethod?.Parameters.Length == 2)
+                            typeName = eventType.DelegateInvokeMethod.Parameters[1].Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                        else
+                            continue;
 
-                    if (fieldType == null)
+                        source.Append(' ', 8);
+                        source.Append($@"{accessibility} {meType} On{evt.Name}(global::System.Action<{typeName}> callback)
+        {{
+            void OnEvent(object? sender, {typeName} args)
+            {{
+                callback(args);
+            }}
+            return NewImpl(LocalValues, Operations.Add(new global::DinoCat.Wpf.System.Windows.Internal.Operation<{tWpf}>
+            {{
+                Apply = element => element.{evt.Name} += OnEvent,
+                Unapply = element => element.{evt.Name} -= OnEvent
+            }}));
+        }}");
+                        continue;
+                    }
+                    else
                         continue;
 
                     bool isDependencyProperty = fieldType.Equals(types.DependencyProperty, SymbolEqualityComparer.Default);
@@ -283,29 +307,21 @@ namespace {dinoNamespace}
                 }
             }
 
-            private void TransferField(StringBuilder source, string qualifedWpfType, ITypeSymbol fieldType, ISymbol field)
+            private void TransferField(StringBuilder source, string qualifiedWpfType, ITypeSymbol fieldType, ISymbol field)
             {
                 var typeName = fieldType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
                 var access = field.DeclaredAccessibility.Format();
                 source.Append(new string(' ', 8));
-                source.AppendLine($"{access} static readonly {typeName} {field.Name} = {qualifedWpfType}.{field.Name};");
+                source.AppendLine($"{access} static readonly {typeName} {field.Name} = {qualifiedWpfType}.{field.Name};");
             }
 
-            private void WriteReal(StringBuilder source, string name)
+            private void WriteReal(StringBuilder source, string name, string qualifiedWpfType)
             {
                 source.AppendLine($@"
-        public override {name} Set(global::System.Windows.DependencyProperty dp, object v) =>
-            new(LocalValues.Add(dp, v), Operations);
-        public {name} On(global::System.Windows.RoutedEvent routedEvent, global::System.Action<global::System.Windows.RoutedEventArgs> onEvent, bool handledEventsToo = false)
-        {{
-            var op = AddHandler(routedEvent, onEvent, handledEventsToo);
-            return new(LocalValues, Operations.Add(op));
-        }}
-        public {name} On(global::System.Windows.RoutedEvent routedEvent, global::System.Action<object, global::System.Windows.RoutedEventArgs> onEvent, bool handledEventsToo = false)
-        {{
-            var op = AddHandler(routedEvent, onEvent, handledEventsToo);
-            return new(LocalValues, Operations.Add(op));
-        }}
+        protected override {name} NewImpl(
+            global::System.Collections.Immutable.ImmutableDictionary<global::System.Windows.DependencyProperty, object> localValues,
+            global::System.Collections.Immutable.ImmutableList<global::DinoCat.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>> operations) =>
+            new(localValues, operations);
 ");
             }
         }

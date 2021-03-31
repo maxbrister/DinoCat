@@ -72,6 +72,7 @@ namespace DinoCat.Wpf
         public void RemoveChild(UIElement child)
         {
             children.Remove(child);
+            renderedChildren.Remove(child);
             RemoveVisualChild(child);
         }
 
@@ -130,7 +131,10 @@ namespace DinoCat.Wpf
         {
             if (renderedChildren.Count > 0)
             {
-                children = renderedChildren;
+                // In some cases children will be removed before measure is called again.
+                // Don't update child order unless we're up to date.
+                if (children.Count == renderedChildren.Count)
+                    children = renderedChildren;
                 renderedChildren = new List<UIElement>();
             }
             base.OnRender(drawingContext);

@@ -20,6 +20,12 @@ namespace DinoCat.Interop
         // OverrideImpl??? how else do we do this???
         protected abstract Size ArrangeOverrideImpl(Size availableSize);
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            Layer.Dispose();
+        }
+
         protected override void RenderOverride(DrawingContext context) => Layer.OnRender(context);
 
         public virtual void RenderLayer(DrawingContext context)

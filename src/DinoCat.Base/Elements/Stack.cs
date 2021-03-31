@@ -77,6 +77,12 @@ namespace DinoCat.Elements
             return size;
         }
 
+        public override void Dispose()
+        {
+            foreach (var layer in children)
+                layer.Dispose();
+        }
+
         public override IEnumerable<(Node, Point)> HitTest(Point p)
         {
             foreach (var child in Children.Reverse())
