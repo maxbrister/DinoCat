@@ -90,13 +90,21 @@ namespace DinoCat.Wpf
             root.Context = CreateContext();
         }
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.Property == FontSizeProperty)
+                root.Context = CreateContext();
+        }
+
         private Context CreateContext()
         {
             var typeface = fontManager.CreateTypeface("Segoe UI Emoji");
             return new Context(stateManager, rootLayer, new Dictionary<Type, object>
             {
                 { typeof(DpiScale), dpi },
-                { typeof(TextTheme), new TextTheme(typeface, 12, Colors.Black) },
+                { typeof(TextTheme), new TextTheme(typeface, (float)FontSize, Colors.Black) },
                 { typeof(IFontManager), fontManager }
             });
         }
