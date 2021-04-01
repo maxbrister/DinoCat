@@ -11,8 +11,13 @@ namespace Interop.Wpf
     [ToWpfType("Interop.Wpf.DinoControlWrapper")]
     class DinoControl : DinoCat.Elements.Control<int>
     {
+        public DinoControl(string incomming) => Incomming = incomming;
+
+        public string Incomming { get; }
+
         public override Element Build(Context context, int state, Action<int> setState) =>
             Column(
+                TextBlock().Text(Incomming),
                 MyUserControlWrapper().MyValue(state),
                 Button()
                     .Content("Increment 🐱‍🐉")

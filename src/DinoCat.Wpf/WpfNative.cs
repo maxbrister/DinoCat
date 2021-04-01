@@ -38,8 +38,8 @@ namespace DinoCat.Wpf
 
     internal class WpfNativeNode<TNative> : NodeBase<WpfNative<TNative>> where TNative : UIElement, new()
     {
-        private TNative control;
-        private NativeLayer layer;
+        TNative control;
+        NativeLayer layer;
 
         public WpfNativeNode(Node? parent, Context context, WpfNative<TNative> element) : base(parent, context, element)
         {
@@ -54,6 +54,10 @@ namespace DinoCat.Wpf
 
         protected override DinoCat.Size ArrangeOverride(DinoCat.Size availableSize)
         {
+            // Wpf controls need to know when their offset changes. Currently dino controls don't.
+            // Need a good way to notify controls when their offset changes. Maybe an event on NativeLayer?
+            // For now invalidating render works in most cases.
+            Context.InvalidateRender();
             control.Measure(availableSize.Into());
             return control.DesiredSize.Into();
         }

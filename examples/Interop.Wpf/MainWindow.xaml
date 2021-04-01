@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel>
             <dino:Button Content="dino:Button" Click="Button_Click" />
-            <local:DinoControlWrapper />
+            <local:DinoControlWrapper Incomming="Hello World" />
         </StackPanel>
     </Grid>
 </Window>

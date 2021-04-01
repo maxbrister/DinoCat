@@ -7,15 +7,15 @@ namespace DinoCat.Interop
 {
     public class PseudoLayer : ILayer, ILayerNode
     {
-        private ILayer parent;
-        private ILayer? real;
-        private PseudoLayer? next;
-        private List<ILayer> children = new List<ILayer>();
+        Context incommingContext;
+        ILayer? real;
+        PseudoLayer? next;
+        List<ILayer> children = new List<ILayer>();
 
         public PseudoLayer(Node? parent, Context context, Element childElement,
             PseudoLayer? previous)
         {
-            this.parent = context.Layer;
+            incommingContext = context;
             var childContext = new Context(context, this);
             if (previous != null)
                 previous.Next = this;
@@ -38,18 +38,33 @@ namespace DinoCat.Interop
 
         public Size Size => Node.Size;
 
-        public void UpdateElement(Element newElement, Context newContext) => Node = Node.UpdateElement(newElement, newContext);
-
-        public void UpdateContext(Element newElement, Context newContext)
+        public void UpdateElement(Element newElement, Context newContext)
         {
-            if (newContext.Layer != parent)
+            Context childContext;
+            if (newContext == incommingContext)
+                childContext = Node.Context;
+            else
             {
-                parent = newContext.Layer;
-                foreach (var child in children)
-                    child.Reparent(parent);
-            }
+                if (newContext.Layer != Parent)
+                {
+                    ILayer realParent = newContext.Layer;
+                    while (realParent is PseudoLayer pseudoParent)
+                        realParent = pseudoParent.Parent;
 
-            var childContext = new Context(newContext, this);
+                    if (real != null)
+                    {
+                        real.Reparent(realParent);
+                    }
+                    else
+                    {
+                        foreach (var child in children)
+                            child.Reparent(realParent);
+                    }
+                }
+
+                incommingContext = newContext;
+                childContext = new(newContext, this);
+            }
             Node = Node.UpdateElement(newElement, childContext);
         }
 
@@ -66,7 +81,7 @@ namespace DinoCat.Interop
             if (real != null)
                 childLayer = real.AddChild(child);
             else
-                childLayer = parent.AddChild(child);
+                childLayer = Parent.AddChild(child);
             children.Add(childLayer);
             next?.Realize();
             return childLayer;
@@ -77,7 +92,7 @@ namespace DinoCat.Interop
             if (real != null)
                 return;
 
-            real = parent.AddChild(this);
+            real = Parent.AddChild(this);
             foreach (var child in children)
                 child.Reparent(real);
         }
@@ -88,18 +103,18 @@ namespace DinoCat.Interop
             real?.Dispose();
         }
 
-        public void Focus() => (real ?? parent).Focus();
+        public void Focus() => (real ?? Parent).Focus();
 
-        public void FocusNext() => (real ?? parent).FocusNext();
+        public void FocusNext() => (real ?? Parent).FocusNext();
 
-        public void FocusPrevious() => (real ?? parent).FocusPrevious();
+        public void FocusPrevious() => (real ?? Parent).FocusPrevious();
 
         public void InvalidateLayout()
         {
             if (real != null)
                 real.InvalidateLayout();
             else
-                parent.InvalidateLayout();
+                Parent.InvalidateLayout();
         }
 
         public void InvalidateRender()
@@ -107,7 +122,7 @@ namespace DinoCat.Interop
             if (real != null)
                 real.InvalidateRender();
             else
-                parent.InvalidateRender();
+                Parent.InvalidateRender();
         }
 
         public void OnArrange(Size size)
@@ -138,5 +153,7 @@ namespace DinoCat.Interop
 
         void ILayerNode.RenderLayer(DrawingContext context) =>
             Node.Render(context);
+
+        ILayer Parent => incommingContext.Layer;
     }
 }

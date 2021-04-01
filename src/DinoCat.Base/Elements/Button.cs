@@ -50,8 +50,8 @@ namespace DinoCat.Elements
                         e.Handled = true;
                     }
                 },
-                gotFocus: fromKeyboard => setState(state with { Focused = fromKeyboard }),
-                lostFocus: () => setState(state with { Focused = false, SpaceDown = false }),
+                gotFocus: visualizeFocus => setState(state with { VisualizeFocus = visualizeFocus }),
+                lostFocus: () => setState(state with { VisualizeFocus = false, SpaceDown = false }),
                 child: Stack(
                         Rectangle(
                             new Paint(
@@ -62,7 +62,7 @@ namespace DinoCat.Elements
                             Content,
                             Rectangle(
                                 new Paint(
-                                    stroke: state.Focused ? new Pen(Colors.Black,
+                                    stroke: state.VisualizeFocus ? new Pen(Colors.Black,
                                         width: 1,
                                         dashStyle: new DashStyle(new float[] { 2, 2.5f }, 0)) : null)
                                 ).Expand()
@@ -73,7 +73,7 @@ namespace DinoCat.Elements
 
     namespace State
     {
-        public record ButtonState(bool MouseOver = false, bool SpaceDown = false, bool Focused = false)
+        public record ButtonState(bool MouseOver = false, bool SpaceDown = false, bool VisualizeFocus = false)
         {
             public ButtonState() : this(false, false, false) { }
             public bool Highlight => MouseOver || SpaceDown;

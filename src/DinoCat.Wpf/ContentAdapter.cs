@@ -21,6 +21,8 @@ namespace DinoCat.Wpf
                     return dinoChild;
                 else if (Content is UIElement wpfChild)
                     return new RawUIElement(wpfChild);
+                else if (Content is string s)
+                    return new DinoCat.Elements.TextBlock(s);
 
                 return new ContentControl().Content(Content);
             }

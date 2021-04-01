@@ -81,14 +81,6 @@ namespace DinoCat.Elements
                 layer.Dispose();
         }
 
-        public override IEnumerable<(Node, Point)> HitTest(Point p)
-        {
-            foreach (var child in Children.Reverse())
-                foreach (var hit in child.HitTest(p))
-                    yield return hit;
-            yield return (this, p);
-        }
-
         protected override void RenderOverride(DrawingContext context)
         {
             foreach (var child in children)
