@@ -5,7 +5,7 @@ using static DinoCat.Elements.Factories;
 
 App.Run(() =>
     State.Inject<int>((count, setCount) => new Row(
-        Text("Hello World!!")
+        Text("Hello World 🐱‍🐉")
             .Margin(2).Center(),
         Button(
             content: $"Clicked {count} time(s)!!",

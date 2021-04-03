@@ -12,30 +12,28 @@ using System.Windows.Threading;
 using Colors = DinoCat.Drawing.Colors;
 using DpiScale = DinoCat.Drawing.DpiScale;
 using WpfDpiScale = System.Windows.DpiScale;
-using WpfDrawingContext = System.Windows.Media.DrawingContext;
 using WpfSize = System.Windows.Size;
 
 namespace DinoCat.Wpf
 {
     public class Host : global::System.Windows.Controls.Control
     {
-        private StateManager stateManager;
-        private Root root;
-        private RootLayer rootLayer;
-        // TODO default to current system dpi?
-        private DpiScale dpi = new();
-        private FontManager fontManager = new FontManager(SKFontManager.Default);
+        StateManager stateManager;
+        Root root;
+        Func<Element> rootElement = () => new Dummy();
+        bool initialized;
+        RootLayer rootLayer;
+        DpiScale dpi = new();
+        FontManager fontManager = new FontManager(SKFontManager.Default);
 
         public Host()
         {
             var source = PresentationSource.FromVisual(this);
             var source2 = PresentationSource.CurrentSources.Cast<PresentationSource>().FirstOrDefault();
-            stateManager = new StateManager(action => Dispatcher.BeginInvoke(DispatcherPriority.DataBind, action));
-            rootLayer = new RootLayer();
+            stateManager = new(action => Dispatcher.BeginInvoke(DispatcherPriority.DataBind, action));
+            rootLayer = new();
             AddVisualChild(rootLayer);
-            root = new Root(
-                CreateContext(),
-                root: () => new Dummy());
+            root = new(CreateContext(), rootElement);
             root.RootNodeChanged += Root_RootNodeChanged;
             rootLayer.RootNode = root.RootNode;
             Focusable = false;
@@ -43,26 +41,32 @@ namespace DinoCat.Wpf
 
         public Host(Func<Element> rootElement): this() => RootElement = rootElement;
 
-        private void Root_RootNodeChanged(object? sender, EventArgs e) =>
+        void Root_RootNodeChanged(object? sender, EventArgs e) =>
             rootLayer.RootNode = root.RootNode;
 
         public Func<Element> RootElement
         {
-            get => root.RootElement;
-            set => root.RootElement = value;
+            get => rootElement;
+            set
+            {
+                rootElement = value;
+                if (initialized)
+                    root.RootElement = value;
+            }
         }
 
         public void Refresh() => root.Refresh();
 
         protected override WpfSize ArrangeOverride(WpfSize finalSize)
         {
+            MaybeInitialize();
             rootLayer.Arrange(new(rootLayer.DesiredSize));
             return rootLayer.DesiredSize;
         }
 
         protected override WpfSize MeasureOverride(WpfSize availableSize)
         {
-            CheckDpi();
+            MaybeInitialize();
             rootLayer.Measure(availableSize);
             return rootLayer.DesiredSize;
         }
@@ -77,12 +81,6 @@ namespace DinoCat.Wpf
 
         protected override int VisualChildrenCount => 1;
 
-        protected override void OnRender(WpfDrawingContext drawingContext)
-        {
-            CheckDpi();
-            base.OnRender(drawingContext);
-        }
-
         protected override void OnDpiChanged(WpfDpiScale oldDpi, WpfDpiScale newDpi)
         {
             base.OnDpiChanged(oldDpi, newDpi);
@@ -94,13 +92,24 @@ namespace DinoCat.Wpf
         {
             base.OnPropertyChanged(e);
 
-            if (e.Property == FontSizeProperty)
+            var property = e.Property;
+            if (property == FontSizeProperty || property == FontFamilyProperty ||
+                property == FontStyleProperty || property == FontWeightProperty)
                 root.Context = CreateContext();
         }
 
-        private Context CreateContext()
+        Context CreateContext()
         {
-            var typeface = fontManager.CreateTypeface("Segoe UI Emoji");
+            var familyName = FontFamily.Source;
+            if (familyName == "Segoe UI")
+                familyName = "Segoe UI Emoji";
+            var fontSlant = FontSlant.Normal;
+            if (FontStyle == FontStyles.Italic)
+                fontSlant = FontSlant.Italic;
+            else if (FontStyle == FontStyles.Oblique)
+                fontSlant = FontSlant.Oblique;
+
+            var typeface = fontManager.CreateTypeface(familyName, fontSlant, FontWeight.ToOpenTypeWeight());
             return new Context(stateManager, rootLayer, new Dictionary<Type, object>
             {
                 { typeof(DpiScale), dpi },
@@ -109,8 +118,11 @@ namespace DinoCat.Wpf
             });
         }
 
-        private void CheckDpi()
+        void MaybeInitialize()
         {
+            if (initialized)
+                return;
+
             var source = PresentationSource.FromVisual(this);
             if (source != null)
             {
@@ -123,6 +135,9 @@ namespace DinoCat.Wpf
                     root.Context = CreateContext();
                 }
             }
+
+            initialized = true;
+            root.RootElement = rootElement;
         }
     }
 }
