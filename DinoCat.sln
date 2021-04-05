@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat", "src\DinoCat\Dino
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "examples\HelloWorld\HelloWorld.csproj", "{F673A21E-E6CC-470A-86A4-CC15B44E4BCF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Android", "src\DinoCat.Android\DinoCat.Android.csproj", "{CFECFC82-31C7-4FA5-9BBB-B09EFF5823AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interop.Android", "examples\Interop.Android\Interop.Android.csproj", "{F90D0CE1-A421-4331-8D9D-31865E5169BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,16 @@ Global
 		{F673A21E-E6CC-470A-86A4-CC15B44E4BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F673A21E-E6CC-470A-86A4-CC15B44E4BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F673A21E-E6CC-470A-86A4-CC15B44E4BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFECFC82-31C7-4FA5-9BBB-B09EFF5823AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFECFC82-31C7-4FA5-9BBB-B09EFF5823AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFECFC82-31C7-4FA5-9BBB-B09EFF5823AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFECFC82-31C7-4FA5-9BBB-B09EFF5823AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +75,7 @@ Global
 		{431B6453-DE12-4506-A40A-4B601CB8811A} = {8B0EB4EA-E149-4A09-9B7B-2F8D311E36BB}
 		{0F3FBDF1-E186-4673-9247-2859709FA3D1} = {8B0EB4EA-E149-4A09-9B7B-2F8D311E36BB}
 		{F673A21E-E6CC-470A-86A4-CC15B44E4BCF} = {8B0EB4EA-E149-4A09-9B7B-2F8D311E36BB}
+		{F90D0CE1-A421-4331-8D9D-31865E5169BA} = {8B0EB4EA-E149-4A09-9B7B-2F8D311E36BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F8E430A-A64E-4A01-82C6-47AC50663B54}

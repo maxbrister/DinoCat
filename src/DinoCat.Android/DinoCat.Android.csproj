@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-android</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DinoCat.Base\DinoCat.Base.csproj" />
+    <PackageReference Include="SkiaSharp.Views" Version="2.80.2" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.3.0.1-net6preview01" />
+    <PackageReference Include="Xamarin.AndroidX.Arch.Core.Runtime" Version="2.1.0.8-net6preview01" />
+	  
+  </ItemGroup>
+
+</Project>

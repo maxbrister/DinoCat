@@ -22,11 +22,11 @@ namespace DinoCat.Wpf
     internal class Layer : SKElement, ILayer
     {
         protected ILayerNode? root;
-        private Layer? parent;
-        private List<UIElement> children = new List<UIElement>();
-        private List<UIElement> renderedChildren = new List<UIElement>();
-        private double nextDesiredSize = 0;
-        private WpfSize size;
+        Layer? parent;
+        List<UIElement> children = new List<UIElement>();
+        List<UIElement> renderedChildren = new List<UIElement>();
+        double nextDesiredSize = 0;
+        WpfSize size;
 
         public Layer() { }
 
