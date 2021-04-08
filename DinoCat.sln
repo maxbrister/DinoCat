@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Wpf", "src\DinoCat.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Wpf.Generator", "src\DinoCat.Wpf.Generator\DinoCat.Wpf.Generator.csproj", "{12E79C15-9703-46E4-9FD4-75E93726E632}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BB18E4B9-5FB8-4916-904D-B88A805DAC76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinoCat.Base.Tests", "tests\DinoCat.Base.Tests\DinoCat.Base.Tests.csproj", "{C7D33067-BFD2-4212-B13F-094E521DFBA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,10 @@ Global
 		{12E79C15-9703-46E4-9FD4-75E93726E632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12E79C15-9703-46E4-9FD4-75E93726E632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12E79C15-9703-46E4-9FD4-75E93726E632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7D33067-BFD2-4212-B13F-094E521DFBA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7D33067-BFD2-4212-B13F-094E521DFBA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7D33067-BFD2-4212-B13F-094E521DFBA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7D33067-BFD2-4212-B13F-094E521DFBA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +69,7 @@ Global
 		{81B6BC61-CB65-4DEE-8859-3C756CBE5D14} = {5EC3B28B-C2AF-41C9-892B-5D9812FBDA48}
 		{F69A1278-9143-4622-BD98-5BCD96FC5B03} = {5EC3B28B-C2AF-41C9-892B-5D9812FBDA48}
 		{B3C32D12-7882-476B-8EF3-7211D1B22FDE} = {5EC3B28B-C2AF-41C9-892B-5D9812FBDA48}
+		{C7D33067-BFD2-4212-B13F-094E521DFBA1} = {BB18E4B9-5FB8-4916-904D-B88A805DAC76}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8012C9D-05EE-4A66-8077-97B984D6CC2D}
