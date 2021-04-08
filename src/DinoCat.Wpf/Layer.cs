@@ -154,9 +154,9 @@ namespace DinoCat.Wpf
                 RemoveChild(element);
         }
 
-        public void OnArrange(Size size)
+        public void OnArrange((Size, float?) result)
         {
-            this.size = size.Into();
+            this.size = result.Item1.Into();
             InvalidateVisual();
         }
 

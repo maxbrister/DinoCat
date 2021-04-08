@@ -60,9 +60,8 @@ namespace DinoCat.Drawing
             }
 
             var metrics = font.Metrics;
-            var height = metrics.Descent - metrics.Ascent;
             var blob = builder.Build();
-            return new FormattedText(blob, width / scale.X, height / scale.Y, metrics.Ascent, text, brush.Into());
+            return new FormattedText(blob, width / scale.X, metrics.Ascent / scale.Y, metrics.Descent / scale.Y, text, brush.Into());
         }
 
         private class Typeface : ITypeface

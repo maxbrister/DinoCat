@@ -18,8 +18,9 @@ namespace Interop.Android
 
             Host host = new(BaseContext);
             host.RootElement = () => Column(
-                Text("Hello World").Margin(3).Center(),
-                Button("Click Me (not working yet)", () => WriteLine("zzz")).Center()
+                HorizontalAlignment.Center,
+                Text("Hello World").Margin(3),
+                Button("Click Me (not working yet)", () => WriteLine("zzz"))
                 );
             SetContentView(host);
 

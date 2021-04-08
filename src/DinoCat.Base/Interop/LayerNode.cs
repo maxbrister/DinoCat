@@ -10,15 +10,15 @@ namespace DinoCat.Interop
 
         public abstract ILayer Layer { get; }
 
-        protected sealed override Size ArrangeOverride(Size availableSize)
+        protected sealed override (Size, float?) ArrangeOverride(Size availableSize)
         {
-            var size = ArrangeOverrideImpl(availableSize);
-            Layer.OnArrange(size);
-            return size;
+            var result = ArrangeOverrideImpl(availableSize);
+            Layer.OnArrange(result);
+            return result;
         }
 
         // OverrideImpl??? how else do we do this???
-        protected abstract Size ArrangeOverrideImpl(Size availableSize);
+        protected abstract (Size, float?) ArrangeOverrideImpl(Size availableSize);
 
         public override void Dispose()
         {

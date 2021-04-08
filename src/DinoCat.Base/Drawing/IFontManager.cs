@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DinoCat.Drawing
+﻿namespace DinoCat.Drawing
 {
     // FontManager (and FormattedText) are still in very early stages. A lot more effort needs
     // to be done before we have production quailty text layout/rendering.

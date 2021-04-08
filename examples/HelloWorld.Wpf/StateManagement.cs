@@ -133,6 +133,7 @@ App.Run(() => {
     var exampleNames = examples.Select(ex => ex.Item1).ToList();
 
     return State.Inject<int>((state, setState) => Column(
+            HorizontalAlignment.Center,
             WpfComboBox()
                 .ItemsSource(exampleNames)
                 .SelectedIndex(state)
@@ -142,7 +143,7 @@ App.Run(() => {
                     var index = examples.FindIndex(v => v.Item1 == selection);
                     setState(index);
                 })
-                .Margin(2).Center(),
+                .Margin(2),
             examples[state].Item2
         ));
 });

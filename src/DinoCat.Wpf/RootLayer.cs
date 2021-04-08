@@ -51,7 +51,7 @@ namespace DinoCat.Wpf
 
         private WpfSize DoLayout(WpfSize availableSize)
         {
-            var desired = rootNode!.Arrange(availableSize.Into());
+            var (desired, _) = rootNode!.Arrange(availableSize.Into());
             layout = new(availableSize, desired.Into());
             return layout.Value.Item2;
         }

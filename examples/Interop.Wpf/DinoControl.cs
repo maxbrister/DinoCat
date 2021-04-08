@@ -22,7 +22,12 @@ namespace Interop.Wpf
                 Button()
                     .Content("Increment 🐱‍🐉")
                     .OnClick(args => setState(state + 1))
-                    .Margin(2).Center(),
+                    .Margin(2)
+                    .Center(),
+                Row(VerticalAlignment.Baseline,
+                    Text("HELLO", fontSize: 32),
+                    Button("world", () => { }),
+                    Text(" trailing text")),
                 MyUserControlWrapper().MyValue(-state));
     }
 }

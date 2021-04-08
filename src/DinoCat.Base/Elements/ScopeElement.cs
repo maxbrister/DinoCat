@@ -40,7 +40,7 @@ namespace DinoCat.Elements
             }
         }
 
-        protected override Size ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
+        protected override (Size, float?) ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
 
         protected override void UpdateElement(ScopeElement oldElement, Context oldContext)
         {

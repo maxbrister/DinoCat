@@ -31,10 +31,10 @@ namespace DinoCat.Wpf
 
         public override IEnumerable<Node> Children => Enumerable.Empty<Node>();
 
-        protected override Size ArrangeOverride(Size availableSize)
+        protected override (Size, float?) ArrangeOverride(Size availableSize)
         {
             Current.Measure(availableSize.Into());
-            return Current.DesiredSize.Into();
+            return (Current.DesiredSize.Into(), null);
         }
 
         public override void Dispose()

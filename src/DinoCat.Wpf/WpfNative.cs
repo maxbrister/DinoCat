@@ -52,14 +52,14 @@ namespace DinoCat.Wpf
 
         public override IEnumerable<Node> Children => Enumerable.Empty<Node>();
 
-        protected override DinoCat.Size ArrangeOverride(DinoCat.Size availableSize)
+        protected override (DinoCat.Size, float?) ArrangeOverride(DinoCat.Size availableSize)
         {
             // Wpf controls need to know when their offset changes. Currently dino controls don't.
             // Need a good way to notify controls when their offset changes. Maybe an event on NativeLayer?
             // For now invalidating render works in most cases.
             Context.InvalidateRender();
             control.Measure(availableSize.Into());
-            return control.DesiredSize.Into();
+            return (control.DesiredSize.Into(), null);
         }
 
         public override void Dispose()
@@ -138,7 +138,7 @@ namespace DinoCat.Wpf
 
         public void InvalidateRender() => throw new NotImplementedException();
 
-        public void OnArrange(Size size) => throw new NotImplementedException();
+        public void OnArrange((Size, float?) size) => throw new NotImplementedException();
 
         public void OnRender(DrawingContext drawingContext) => throw new NotImplementedException();
 

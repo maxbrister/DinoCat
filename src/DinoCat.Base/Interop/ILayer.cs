@@ -11,7 +11,7 @@ namespace DinoCat.Interop
     public interface ILayer : IFocus, IDisposable
     {
         public ILayer AddChild(ILayerNode child);
-        public void OnArrange(Size size);
+        public void OnArrange((Size, float?) size);
         public void OnRender(DrawingContext drawingContext);
         public void OnUpdated();
         public void InvalidateLayout();

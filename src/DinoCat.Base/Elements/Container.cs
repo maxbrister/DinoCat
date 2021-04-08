@@ -1,34 +1,34 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Tree;
+﻿using DinoCat.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DinoCat.Elements
 {
-    public abstract class Container : Element
+    public abstract class Container<TChild> : Element
     {
-        public Container(IReadOnlyList<Element> children) => Children = children;
+        public Container(IReadOnlyList<TChild> children) => Children = children;
         public virtual string DescriptionSeparator { get; } = " ";
 
-        public IReadOnlyList<Element> Children { get; }
+        public IReadOnlyList<TChild> Children { get; }
 
-        public abstract Size Arrange(Size availableSize, List<Node> children);
+        public abstract (Size, float?) Arrange(Context context, Size availableSize, List<Node> children);
 
-        public override Node CreateNode(Node? parent, Context context) => new ContainerNode(parent, context, this);
+        public override Node CreateNode(Node? parent, Context context) => new ContainerNode<TChild>(parent, context, this);
 
-        public abstract bool IsLayoutInvalid(Container oldContainer);
+        public abstract bool IsLayoutInvalid(Container<TChild> oldContainer);
+        public abstract Element ToElement(TChild child);
     }
 
-    internal class ContainerNode : NodeBase<Container>
+    internal class ContainerNode<TChild> : NodeBase<Container<TChild>>
     {
         private List<Node> children;
 
-        public ContainerNode(Node? parent, Context context, Container container) : base(parent, context, container)
+        public ContainerNode(Node? parent, Context context, Container<TChild> container) : base(parent, context, container)
         {
-            children = Element.Children.Select(c => c.CreateNode(this, context)).ToList();
+            children = Element.Children
+                .Select(container.ToElement)
+                .Select(c => c.CreateNode(this, context)).ToList();
         }
 
         public override IEnumerable<Node> Children => children;
@@ -36,10 +36,10 @@ namespace DinoCat.Elements
         public override string Description =>
             string.Join(Element.DescriptionSeparator, Children.Select(c => c.Description).Where(s => !string.IsNullOrEmpty(s)));
 
-        protected override Size ArrangeOverride(Size availableSize) =>
-            Element.Arrange(availableSize, children);
+        protected override (Size, float?) ArrangeOverride(Size availableSize) =>
+            Element.Arrange(Context, availableSize, children);
 
-        protected override void UpdateElement(Container oldContainer, Context? oldContext)
+        protected override void UpdateElement(Container<TChild> oldContainer, Context? oldContext)
         {
             var newCount = Element.Children.Count;
             var updateCount = Math.Min(children.Count, newCount);
@@ -48,7 +48,8 @@ namespace DinoCat.Elements
                 Context.InvalidateLayout();
                 for (int i = children.Count; i < newCount; ++i)
                 {
-                    children.Add(Element.Children[i].CreateNode(this, Context));
+                    var child = Element.ToElement(Element.Children[i]);
+                    children.Add(child.CreateNode(this, Context));
                 }
             }
             else if (children.Count > newCount)
@@ -66,7 +67,8 @@ namespace DinoCat.Elements
             for (int i = 0; i < newCount; ++i)
             {
                 var node = children[i];
-                children[i] = node.UpdateElement(Element.Children[i], Context);
+                var child = Element.ToElement(Element.Children[i]);
+                children[i] = node.UpdateElement(child, Context);
             }
         }
     }

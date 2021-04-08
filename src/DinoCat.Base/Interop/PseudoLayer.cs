@@ -68,11 +68,11 @@ namespace DinoCat.Interop
             Node = Node.UpdateElement(newElement, childContext);
         }
 
-        public Size Arrange(Size availableSize)
+        public (Size, float?) Arrange(Size availableSize)
         {
-            var size = Node.Arrange(availableSize);
-            OnArrange(size);
-            return size;
+            var result = Node.Arrange(availableSize);
+            OnArrange(result);
+            return result;
         }
 
         public ILayer AddChild(ILayerNode child)
@@ -125,9 +125,9 @@ namespace DinoCat.Interop
                 Parent.InvalidateRender();
         }
 
-        public void OnArrange(Size size)
+        public void OnArrange((Size, float?) result)
         {
-            real?.OnArrange(size);
+            real?.OnArrange(result);
         }
 
         public void OnRender(DrawingContext drawingContext)

@@ -57,6 +57,7 @@ namespace DinoCat.Tree
         public Context Context { get; private set; }
         public Point Offset { get; set; }
         public Size Size { get; private set; }
+        public float? Baseline { get; private set; }
         public Rect Bounds
         {
             get => new Rect(Offset, Size);
@@ -67,10 +68,10 @@ namespace DinoCat.Tree
             }
         }
 
-        public Size Arrange(Size availableSize)
+        public (Size, float?) Arrange(Size availableSize)
         {
-            Size = ArrangeOverride(availableSize);
-            return Size;
+            (Size, Baseline) = ArrangeOverride(availableSize);
+            return (Size, Baseline);
         }
 
         public virtual void Dispose()
@@ -104,7 +105,7 @@ namespace DinoCat.Tree
             }
         }
         protected abstract void SetElement(Element newElement, Context oldContext);
-        protected abstract Size ArrangeOverride(Size availableSize);
+        protected abstract (Size, float?) ArrangeOverride(Size availableSize);
         protected virtual void RenderOverride(DrawingContext context)
         {
             foreach (var child in Children)

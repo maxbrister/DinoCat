@@ -26,7 +26,7 @@ namespace DinoCat.Elements
         public Thickness Value { get; }
 
         public override Node CreateNode(Node? parent, Context context) =>
-            new PadNode(parent, context, this);
+            new MarginNode(parent, context, this);
     }
 
     public static class MarginExtensions
@@ -41,11 +41,11 @@ namespace DinoCat.Elements
             new Margin(e, margin);
     }
 
-    internal class PadNode : NodeBase<Margin>
+    internal class MarginNode : NodeBase<Margin>
     {
-        private Node child;
+        Node child;
 
-        public PadNode(Node? parent, Context context, Margin pad) : base(parent, context, pad)
+        public MarginNode(Node? parent, Context context, Margin pad) : base(parent, context, pad)
         {
             child = pad.Child.CreateNode(this, context);
         }
@@ -58,7 +58,7 @@ namespace DinoCat.Elements
             }
         }
 
-        protected override Size ArrangeOverride(Size availableSize)
+        protected override (Size, float?) ArrangeOverride(Size availableSize)
         {
             var margin = Element.Value;
             var hmargin = margin.Left + margin.Right;
@@ -66,16 +66,16 @@ namespace DinoCat.Elements
             var childAvailable = new Size(
                 Math.Max(0, availableSize.Width - hmargin),
                 Math.Max(0, availableSize.Height - vmargin));
-            var childSize = child.Arrange(childAvailable);
+            var (childSize, childBaseline) = child.Arrange(childAvailable);
             child.Offset = new Point(margin.Left, margin.Top);
-            return new Size(childSize.Width + hmargin, childSize.Height + vmargin);
+            return (new Size(childSize.Width + hmargin, childSize.Height + vmargin),
+                childBaseline != null ? childBaseline + margin.Top : null);
         }
 
         protected override void UpdateElement(Margin oldMargin, Context oldContext)
         {
             if (oldMargin.Value != Element.Value)
                 Context.InvalidateLayout();
-
             child = child.UpdateElement(Element.Child, Context);
         }
     }

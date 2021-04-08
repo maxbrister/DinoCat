@@ -62,7 +62,7 @@ namespace DinoCat.Interop
         }
 
         public Size Arrange(Size availableSpace) =>
-            rootNode.Arrange(availableSpace);
+            rootNode.Arrange(availableSpace).Item1;
 
         public void Render(DrawingContext context) =>
             rootNode.Render(context);

@@ -76,7 +76,7 @@ namespace DinoCat.Elements
             }
         }
 
-        protected override Size ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
+        protected override (Size, float?) ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
 
         public override void Dispose()
         {

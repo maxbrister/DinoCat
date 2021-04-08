@@ -12,7 +12,9 @@ namespace DinoCat.Elements
             Text(text, foreground, fontSize, typeface);
         public static Button Button(Element content, Action click) =>
             new(content, click);
+        public static Row Row(VerticalAlignment alignment, params Expand[] children) => new(alignment, children);
         public static Row Row(params Expand[] children) => new(children);
+        public static Column Column(HorizontalAlignment alignment, params Expand[] children) => new(alignment, children);
         public static Column Column(params Expand[] children) => new(children);
         public static Stack Stack(params Expand[] children) => new(children);
         public static Input Input(

@@ -22,7 +22,7 @@ namespace DinoCat.Elements
 
         public override IEnumerable<Node> Children => Enumerable.Empty<Node>();
 
-        protected override Size ArrangeOverride(Size availableSize) => new Size();
+        protected override (Size, float?) ArrangeOverride(Size availableSize) => (new Size(), null);
 
 
         protected override void UpdateElement(Dummy oldElement, Context oldContext) { }

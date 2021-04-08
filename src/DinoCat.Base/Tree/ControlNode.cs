@@ -25,7 +25,7 @@ namespace DinoCat.Tree
             }
         }
 
-        protected override Size ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
+        protected override (Size, float?) ArrangeOverride(Size availableSize) => child.Arrange(availableSize);
 
         protected override void UpdateElement(Control oldElement, Context oldContext)
         {
@@ -66,7 +66,7 @@ namespace DinoCat.Tree
             }
         }
 
-        protected override Size ArrangeOverride(Size availableSize) =>
+        protected override (Size, float?) ArrangeOverride(Size availableSize) =>
             child.Arrange(availableSize);
 
         public override void Dispose()

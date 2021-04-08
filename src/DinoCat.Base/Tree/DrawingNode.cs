@@ -15,8 +15,8 @@ namespace DinoCat.Tree
         public override IEnumerable<Node> Children =>
             Enumerable.Empty<Node>();
 
-        protected override Size ArrangeOverride(Size availableSize) =>
-            Element.Arrange(availableSize);
+        protected override (Size, float?) ArrangeOverride(Size availableSize) =>
+            (Element.Arrange(availableSize), null);
 
         protected override void RenderOverride(DrawingContext context) =>
             Element.Render(context, Size);

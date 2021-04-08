@@ -82,8 +82,9 @@ namespace DinoCat.Android
 
         void ILayer.InvalidateRender() => Invalidate();
 
-        void ILayer.OnArrange(Size size)
+        void ILayer.OnArrange((Size, float?) result)
         {
+            var size = result.Item1;
             WriteLine($"Layer.OnArrange({size})");
             arrangeWidth = (int)Math.Ceiling(size.Width * scaledDensity);
             arrangeHeight = (int)Math.Ceiling(size.Height * scaledDensity);

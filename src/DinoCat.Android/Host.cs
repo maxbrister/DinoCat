@@ -66,7 +66,7 @@ namespace DinoCat.Android
             int availableWidth = MeasureSpec.GetSize(widthMeasureSpec);
             int availableHeight = MeasureSpec.GetSize(heightMeasureSpec);
             var size = root.Arrange(new(availableWidth, availableHeight));
-            ((ILayer)rootLayer).OnArrange(size);
+            ((ILayer)rootLayer).OnArrange((size, null));
 
             int measuredWith = (int)Math.Ceiling(size.Width * dpiScale.X);
             int measuredHeight = (int)Math.Ceiling(size.Height * dpiScale.Y);

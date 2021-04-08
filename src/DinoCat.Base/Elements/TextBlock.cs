@@ -34,24 +34,7 @@ namespace DinoCat.Elements
 
         public override string Description => Element.Content;
 
-        protected override Size ArrangeOverride(Size availableSize)
-        {
-            return new Size(Formatted.Width, Formatted.Height);
-        }
-
-        protected override void RenderOverride(DrawingContext context)
-        {
-            context.DrawText(Formatted, new Point());
-        }
-
-        protected override void UpdateElement(TextBlock oldElement, Context oldContext)
-        {
-            formatted = null;
-            Context.InvalidateLayout();
-            Context.InvalidateRender();
-        }
-
-        private IFormattedText Formatted
+        public IFormattedText Formatted
         {
             get
             {
@@ -69,6 +52,23 @@ namespace DinoCat.Elements
 
                 return formatted;
             }
+        }
+
+        protected override (Size, float?) ArrangeOverride(Size availableSize)
+        {
+            return (new Size(Formatted.Width, Formatted.Height), -Formatted.Ascent);
+        }
+
+        protected override void RenderOverride(DrawingContext context)
+        {
+            context.DrawText(Formatted, new Point());
+        }
+
+        protected override void UpdateElement(TextBlock oldElement, Context oldContext)
+        {
+            formatted = null;
+            Context.InvalidateLayout();
+            Context.InvalidateRender();
         }
     }
 }

@@ -126,6 +126,6 @@ namespace DinoCat.Elements
                 ElementChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        protected override Size ArrangeOverrideImpl(Size availableSize) => child.Arrange(availableSize);
+        protected override (Size, float?) ArrangeOverrideImpl(Size availableSize) => child.Arrange(availableSize);
     }
 }

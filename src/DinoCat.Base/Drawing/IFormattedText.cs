@@ -11,6 +11,8 @@ namespace DinoCat.Drawing
         string Text { get; }
         float Width { get; }
         float Height { get; }
+        float Ascent { get; }
+        float Descent { get; }
         object NativeObject { get; }
     }
 }
