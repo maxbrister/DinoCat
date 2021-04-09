@@ -4,7 +4,7 @@
     <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <RootNamespace>StandardUI</RootNamespace>
+    <RootNamespace>DinoCat</RootNamespace>
   </PropertyGroup>
 
 
