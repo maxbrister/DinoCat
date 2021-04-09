@@ -1,4 +1,4 @@
-﻿namespace DinoCat.Drawing
+﻿namespace Microsoft.StandardUI.Drawing
 {
     // FontManager (and FormattedText) are still in very early stages. A lot more effort needs
     // to be done before we have production quailty text layout/rendering.

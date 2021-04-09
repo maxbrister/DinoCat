@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Drawing
+namespace Microsoft.StandardUI.Drawing
 {
     public struct Color : IEquatable<Color>
     {

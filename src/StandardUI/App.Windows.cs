@@ -1,12 +1,12 @@
 ﻿#if WINDOWS
-using DinoCat.Elements;
-using DinoCat.Wpf;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Wpf;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 
-namespace DinoCat
+namespace Microsoft.StandardUI
 {
     public static class App
     {

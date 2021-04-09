@@ -1,12 +1,12 @@
-﻿using DinoCat;
-using DinoCat.Drawing;
+﻿using Microsoft.StandardUI;
+using Microsoft.StandardUI.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Pen = DinoCat.Drawing.Pen;
+using Pen = Microsoft.StandardUI.Drawing.Pen;
 using WpfColor = System.Windows.Media.Color;
 using WpfSize = System.Windows.Size;
 using WpfRect = System.Windows.Rect;
@@ -16,10 +16,10 @@ using WpfSolidColorBrush = System.Windows.Media.SolidColorBrush;
 using WpfPen = System.Windows.Media.Pen;
 using WpfDashStyle = System.Windows.Media.DashStyle;
 using WpfDpiScale = System.Windows.DpiScale;
-using DinoCat.Elements.Events;
+using Microsoft.StandardUI.Elements.Events;
 using System.Windows.Input;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public static class Extensions
     {

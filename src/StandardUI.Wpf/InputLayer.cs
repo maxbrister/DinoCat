@@ -1,10 +1,10 @@
-﻿using DinoCat.Elements;
-using DinoCat.Wpf.Automation;
+﻿using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Wpf.Automation;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     internal class InputLayer : Layer
     {

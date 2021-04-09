@@ -1,11 +1,11 @@
-﻿using DinoCat.State;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.State;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using static DinoCat.Elements.Factories;
+using static Microsoft.StandardUI.Elements.Factories;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public abstract class BindingElementBase : Element, INotifyPropertyChanged
     {

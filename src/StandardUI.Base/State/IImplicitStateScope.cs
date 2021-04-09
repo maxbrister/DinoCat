@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DinoCat.State
+namespace Microsoft.StandardUI.State
 {
     public interface IImplicitStateScope
     {

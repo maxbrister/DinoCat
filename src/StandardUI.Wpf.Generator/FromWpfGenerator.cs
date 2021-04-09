@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DinoCat.Wpf.Generator
+namespace Microsoft.StandardUI.Wpf.Generator
 {
     [Generator]
     public class FromWpfGenerator : ISourceGenerator
@@ -22,7 +22,7 @@ namespace DinoCat.Wpf.Generator
             {
                 // TODO localize and come up with a real code
                 var diagnostic = Diagnostic.Create(
-                    "DINO404", "DinoCat", $"Failed to find type {e.QualifiedTypeName}",
+                    "DINO404", "StandardUI", $"Failed to find type {e.QualifiedTypeName}",
                     DiagnosticSeverity.Error, DiagnosticSeverity.Error, true, 0);
                 context.ReportDiagnostic(diagnostic);
             }
@@ -38,11 +38,11 @@ namespace DinoCat.Wpf.Generator
 #pragma warning disable RS1024 // Compare symbols correctly
             Dictionary<INamedTypeSymbol, string> translated = new(SymbolEqualityComparer.Default);
 #pragma warning restore RS1024 // Compare symbols correctly
-            translated[types.DependencyObject] = "DinoCat.Wpf.System.Windows.DependencyObjectBase";
+            translated[types.DependencyObject] = "Microsoft.StandardUI.Wpf.System.Windows.DependencyObjectBase";
             TranslateTypes translate = new(context, translated, types, generatePlatformTypes);
             if (generatePlatformTypes)
             {
-                translate.NamespacePrefix = "DinoCat.Wpf.";
+                translate.NamespacePrefix = "Microsoft.StandardUI.Wpf.";
                 types.Button.ContainingAssembly.Accept(translate);
                 types.UserControl.ContainingAssembly.Accept(translate);
             }
@@ -147,7 +147,7 @@ namespace DinoCat.Wpf.Generator
                 var qualifiedWpfType = wpfType.ToDisplayString();
                 if (!generatePlatformTypes && qualifiedWpfType.StartsWith("System.Windows"))
                 {
-                    var dinoTypeName = $"global::DinoCat.Wpf.{qualifiedWpfType}Base";
+                    var dinoTypeName = $"global::Microsoft.StandardUI.Wpf.{qualifiedWpfType}Base";
                     translated[wpfType] = dinoTypeName;
                     return dinoTypeName;
                 }
@@ -235,13 +235,13 @@ namespace {dinoNamespace}
                 // I can't find a way to see the generator output. Just write it to a file for debugging.
                 if (generatePlatformTypes)
                 {
-                    //Directory.CreateDirectory("C:\\DinoCat\\src\\DinoCat.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.FromWpfGenerator");
-                    //File.WriteAllText($"C:\\DinoCat\\src\\DinoCat.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.FromWpfGenerator\\{sourceFile}.cs", source.ToString());
+                    //Directory.CreateDirectory("C:\\DinoCat\\src\\DinoCat.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.FromWpfGenerator");
+                    //File.WriteAllText($"C:\\DinoCat\\src\\DinoCat.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.FromWpfGenerator\\{sourceFile}.cs", source.ToString());
                 }
                 else
                 {
-                    //Directory.CreateDirectory("C:\\DinoCat\\examples\\Interop.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.FromWpfGenerator");
-                    //File.WriteAllText($"\\DinoCat\\examples\\Interop.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.FromWpfGenerator\\{sourceFile}.cs", source.ToString());
+                    //Directory.CreateDirectory("C:\\DinoCat\\examples\\Interop.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.FromWpfGenerator");
+                    //File.WriteAllText($"\\DinoCat\\examples\\Interop.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.FromWpfGenerator\\{sourceFile}.cs", source.ToString());
                 }
 
                 return dinoBaseType;
@@ -251,11 +251,11 @@ namespace {dinoNamespace}
             {
                 source.AppendLine($@"
         public {name}() {{}}
-        public {name}((global::System.Windows.DependencyProperty, object?)[] localValues, global::DinoCat.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>?[] operations) : base(localValues, operations)
+        public {name}((global::System.Windows.DependencyProperty, object?)[] localValues, global::Microsoft.StandardUI.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>?[] operations) : base(localValues, operations)
         {{}}
         public {name}(
             global::System.Collections.Immutable.ImmutableDictionary<global::System.Windows.DependencyProperty, object> localValues,
-            global::System.Collections.Immutable.ImmutableList<global::DinoCat.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>> operations) : base(localValues, operations)
+            global::System.Collections.Immutable.ImmutableList<global::Microsoft.StandardUI.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>> operations) : base(localValues, operations)
         {{}}
 ");
             }
@@ -301,7 +301,7 @@ namespace {dinoNamespace}
             {{
                 callback(args);
             }}
-            return NewImpl(LocalValues, Operations.Add(new global::DinoCat.Wpf.System.Windows.Internal.Operation<{tWpf}>
+            return NewImpl(LocalValues, Operations.Add(new global::Microsoft.StandardUI.Wpf.System.Windows.Internal.Operation<{tWpf}>
             {{
                 Apply = element => element.{evt.Name} += OnEvent,
                 Unapply = element => element.{evt.Name} -= OnEvent
@@ -354,7 +354,7 @@ namespace {dinoNamespace}
                 source.AppendLine($@"
         protected override {name} NewImpl(
             global::System.Collections.Immutable.ImmutableDictionary<global::System.Windows.DependencyProperty, object> localValues,
-            global::System.Collections.Immutable.ImmutableList<global::DinoCat.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>> operations) =>
+            global::System.Collections.Immutable.ImmutableList<global::Microsoft.StandardUI.Wpf.System.Windows.Internal.Operation<{qualifiedWpfType}>> operations) =>
             new(localValues, operations);
 ");
             }

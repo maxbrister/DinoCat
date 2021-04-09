@@ -1,8 +1,8 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Tree;
 
-namespace DinoCat.Interop
+namespace Microsoft.StandardUI.Interop
 {
     public abstract class LayerNode<TElement> : NodeBase<TElement>, ILayerNode where TElement : Element
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace DinoCat
+namespace Microsoft.StandardUI
 {
     [DebuggerDisplay("{X}, {Y}")]
     public struct Point : IEquatable<Point>

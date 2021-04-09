@@ -1,4 +1,4 @@
-﻿namespace DinoCat.Drawing
+﻿namespace Microsoft.StandardUI.Drawing
 {
     public enum FontSlant
     {

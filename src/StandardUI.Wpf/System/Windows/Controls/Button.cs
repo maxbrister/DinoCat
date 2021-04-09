@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace DinoCat.Wpf.System.Windows.Controls
+namespace Microsoft.StandardUI.Wpf.System.Windows.Controls
 {
     public partial class Button
     {

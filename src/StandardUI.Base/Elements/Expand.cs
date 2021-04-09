@@ -1,7 +1,7 @@
-﻿using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Tree;
 using System.Collections.Generic;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     /// <summary>
     /// Take up remaining space in a <see cref="Row"/>, <see cref="Column"/>, or <see cref="Stack"/>.

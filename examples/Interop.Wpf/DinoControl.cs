@@ -1,15 +1,15 @@
-﻿using DinoCat;
-using DinoCat.Elements;
-using DinoCat.Wpf;
+﻿using Microsoft.StandardUI;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Wpf;
 using System;
-using static DinoCat.Elements.Factories;
-using static DinoCat.Wpf.System.Windows.Controls.Factories;
+using static Microsoft.StandardUI.Elements.Factories;
+using static Microsoft.StandardUI.Wpf.System.Windows.Controls.Factories;
 using static Interop.Wpf.Factories;
 
 namespace Interop.Wpf
 {
     [ToWpfType("Interop.Wpf.DinoControlWrapper")]
-    class DinoControl : DinoCat.Elements.Control<int>
+    class DinoControl : Microsoft.StandardUI.Elements.Control<int>
     {
         public DinoControl(string incomming) => Incomming = incomming;
 

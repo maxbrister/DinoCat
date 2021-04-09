@@ -1,6 +1,6 @@
 using SkiaSharp;
 
-namespace DinoCat.Drawing
+namespace Microsoft.StandardUI.Drawing
 {
     record FormattedText(SKTextBlob Blob, float Width, float Ascent, float Descent, string Text, SKPaint Paint) : IFormattedText
     {

@@ -1,10 +1,10 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     class LinearLayout
     {

@@ -1,11 +1,11 @@
-﻿using DinoCat;
-using DinoCat.Elements;
-using DinoCat.State;
+﻿using Microsoft.StandardUI;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.State;
 using System.Collections.Generic;
 using System.Linq;
-using static DinoCat.Elements.Factories;
-using WpfButton = DinoCat.Wpf.System.Windows.Controls.Button;
-using WpfComboBox = DinoCat.Wpf.System.Windows.Controls.ComboBox;
+using static Microsoft.StandardUI.Elements.Factories;
+using WpfButton = Microsoft.StandardUI.Wpf.System.Windows.Controls.Button;
+using WpfComboBox = Microsoft.StandardUI.Wpf.System.Windows.Controls.ComboBox;
 
 WpfButton WpfButton() => new();
 WpfComboBox WpfComboBox() => new();
@@ -18,7 +18,7 @@ WpfComboBox WpfComboBox() => new();
 /// Cons: Does more work on state change than Wpf
 /// 
 /// For effienct render/animations layout+rendering the framework needs to optimize layout/rendering/state
-/// transfer anyways. On complex state updates DinoCat controls can skip any "diff" logic and just invalidate
+/// transfer anyways. On complex state updates StandardUI controls can skip any "diff" logic and just invalidate
 /// layout+render. For native controls this may be less efficient.
 /// 
 /// Note: Common misconception is that the "entire" application will be invalidated every time state changes.

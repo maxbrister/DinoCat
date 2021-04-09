@@ -1,14 +1,14 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements.Events;
-using DinoCat.Elements.State;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements.Events;
+using Microsoft.StandardUI.Elements.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static DinoCat.Elements.Factories;
+using static Microsoft.StandardUI.Elements.Factories;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public class Button : Control<ButtonState>
     {

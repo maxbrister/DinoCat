@@ -1,8 +1,8 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements.Events;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements.Events;
 using System;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public static class Factories
     {

@@ -1,9 +1,9 @@
-﻿using DinoCat.State;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.State;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.ComponentModel;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public abstract class Control : Element
     {

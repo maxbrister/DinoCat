@@ -9,7 +9,7 @@
     <Grid>
         <TextBlock>
             <TextBlock.Inlines>
-                <Run>Hello from Wpf. MyUserControl is embeded into DinoCat Count:</Run>
+                <Run>Hello from Wpf. MyUserControl is embeded into StandardUI Count:</Run>
                 <Run Text="{Binding ElementName=root, Path=MyValue}"/>
                 <Run>Id:</Run>
                 <Run Text="{Binding ElementName=root, Path=Id}"/>

@@ -1,8 +1,8 @@
-﻿using DinoCat;
-using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Interop;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI;
+using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Interop;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-using DrawingContext = DinoCat.Drawing.DrawingContext;
+using DrawingContext = Microsoft.StandardUI.Drawing.DrawingContext;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class WpfNative<TNative> : Element where TNative : UIElement, new()
     {
@@ -52,7 +52,7 @@ namespace DinoCat.Wpf
 
         public override IEnumerable<Node> Children => Enumerable.Empty<Node>();
 
-        protected override (DinoCat.Size, float?) ArrangeOverride(DinoCat.Size availableSize)
+        protected override (Microsoft.StandardUI.Size, float?) ArrangeOverride(Microsoft.StandardUI.Size availableSize)
         {
             // Wpf controls need to know when their offset changes. Currently dino controls don't.
             // Need a good way to notify controls when their offset changes. Maybe an event on NativeLayer?
@@ -69,7 +69,7 @@ namespace DinoCat.Wpf
             (control as IDisposable)?.Dispose();
         }
 
-        public override IEnumerable<(Node, DinoCat.Point)> HitTest(DinoCat.Point p)
+        public override IEnumerable<(Node, Microsoft.StandardUI.Point)> HitTest(Microsoft.StandardUI.Point p)
         {
             yield return (this, p);
         }

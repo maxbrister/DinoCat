@@ -1,9 +1,9 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Tree;
 using System;
 
-namespace DinoCat.Interop
+namespace Microsoft.StandardUI.Interop
 {
     public class Root
     {

@@ -1,12 +1,12 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Tree
+namespace Microsoft.StandardUI.Tree
 {
     public class DrawingNode : NodeBase<DrawingElementBase>
     {

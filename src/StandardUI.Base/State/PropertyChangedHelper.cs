@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.State
+namespace Microsoft.StandardUI.State
 {
     public static class PropertyChangedHelper
     {

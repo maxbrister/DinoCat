@@ -3,7 +3,7 @@ using SkiaSharp;
 using SkiaSharp.HarfBuzz;
 using System;
 
-namespace DinoCat.Drawing
+namespace Microsoft.StandardUI.Drawing
 {
     public class FontManager : IFontManager
     {

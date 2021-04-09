@@ -1,10 +1,10 @@
-﻿using DinoCat.Interop;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Interop;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DinoCat
+namespace Microsoft.StandardUI
 {
     public class Context
     {

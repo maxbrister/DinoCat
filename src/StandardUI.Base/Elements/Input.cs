@@ -1,12 +1,12 @@
-﻿using DinoCat.Elements;
-using DinoCat.Elements.Events;
-using DinoCat.Interop;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Elements.Events;
+using Microsoft.StandardUI.Interop;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public class Input : Element
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace DinoCat
+namespace Microsoft.StandardUI
 {
     [DebuggerDisplay("{Width} x {Height}")]
     public struct Size : IEquatable<Size>

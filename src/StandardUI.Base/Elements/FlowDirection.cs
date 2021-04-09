@@ -1,4 +1,4 @@
-﻿namespace DinoCat.Elements
+﻿namespace Microsoft.StandardUI.Elements
 {
     /// <summary>
     /// Defines the direction that content should be layed out.

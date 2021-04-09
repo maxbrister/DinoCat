@@ -1,7 +1,7 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Interop;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Interop;
+using Microsoft.StandardUI.Tree;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,12 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Colors = DinoCat.Drawing.Colors;
-using DpiScale = DinoCat.Drawing.DpiScale;
+using Colors = Microsoft.StandardUI.Drawing.Colors;
+using DpiScale = Microsoft.StandardUI.Drawing.DpiScale;
 using WpfDpiScale = System.Windows.DpiScale;
 using WpfSize = System.Windows.Size;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class Host : global::System.Windows.Controls.Control
     {

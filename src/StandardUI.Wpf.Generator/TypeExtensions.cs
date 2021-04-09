@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace DinoCat.Wpf.Generator
+namespace Microsoft.StandardUI.Wpf.Generator
 {
     static class TypeExtensions
     {

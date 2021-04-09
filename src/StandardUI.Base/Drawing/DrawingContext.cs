@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace DinoCat.Drawing
+namespace Microsoft.StandardUI.Drawing
 {
     public class DrawingContext
     {
