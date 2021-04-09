@@ -13,15 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interop.Wpf", "examples\Int
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateManagement", "examples\StateManagement\StateManagement.csproj", "{B3C32D12-7882-476B-8EF3-7211D1B22FDE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat", "src\DinoCat\DinoCat.csproj", "{C74E8C92-61E0-46E4-A793-6457DF1D0215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI", "src\StandardUI\StandardUI.csproj", "{C74E8C92-61E0-46E4-A793-6457DF1D0215}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Android", "src\DinoCat.Android\DinoCat.Android.csproj", "{036DC76C-97AD-4B7D-8482-3E2520591DB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.Android", "src\StandardUI.Android\StandardUI.Android.csproj", "{036DC76C-97AD-4B7D-8482-3E2520591DB9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Base", "src\DinoCat.Base\DinoCat.Base.csproj", "{31B61149-38F4-4905-A9D2-462631B51EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.Base", "src\StandardUI.Base\StandardUI.Base.csproj", "{31B61149-38F4-4905-A9D2-462631B51EE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Wpf", "src\DinoCat.Wpf\DinoCat.Wpf.csproj", "{3A630720-66E1-428C-BE7C-7EC2E6DB7099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.Wpf", "src\StandardUI.Wpf\StandardUI.Wpf.csproj", "{3A630720-66E1-428C-BE7C-7EC2E6DB7099}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DinoCat.Wpf.Generator", "src\DinoCat.Wpf.Generator\DinoCat.Wpf.Generator.csproj", "{12E79C15-9703-46E4-9FD4-75E93726E632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardUI.Wpf.Generator", "src\StandardUI.Wpf.Generator\StandardUI.Wpf.Generator.csproj", "{12E79C15-9703-46E4-9FD4-75E93726E632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,8 +10,8 @@
   <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" Condition="'$(TargetFramework)'=='net472'" />
-    <ProjectReference Include="..\DinoCat.Base\DinoCat.Base.csproj" />
-    <ProjectReference Include="..\DinoCat.Wpf.Generator\DinoCat.Wpf.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\StandardUI.Base\StandardUI.Base.csproj" />
+    <ProjectReference Include="..\StandardUI.Wpf.Generator\StandardUI.Wpf.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

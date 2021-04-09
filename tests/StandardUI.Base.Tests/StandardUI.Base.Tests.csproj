@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DinoCat.Base\DinoCat.Base.csproj" />
+    <ProjectReference Include="..\..\src\StandardUI.Base\StandardUI.Base.csproj" />
   </ItemGroup>
 
 </Project>

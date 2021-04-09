@@ -31,7 +31,7 @@ namespace DinoCat.Wpf.Generator
         private void DoExecute(GeneratorExecutionContext context)
         {
             var compilation = context.Compilation;
-            bool generatePlatformTypes = compilation.AssemblyName == "DinoCat.Wpf";
+            bool generatePlatformTypes = compilation.AssemblyName == "StandardUI.Wpf";
 
             Types types = new(compilation);
 
