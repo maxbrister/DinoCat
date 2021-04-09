@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DinoCat.Wpf.Generator
+namespace Microsoft.StandardUI.Wpf.Generator
 {
     [Generator]
     public class ToWpfGenerator : ISourceGenerator
@@ -22,7 +22,7 @@ namespace DinoCat.Wpf.Generator
             {
                 // TODO localize and come up with a real code
                 var diagnostic = Diagnostic.Create(
-                    "DINO404", "DinoCat", $"Failed to find type {e.QualifiedTypeName}",
+                    "DINO404", "StandardUI", $"Failed to find type {e.QualifiedTypeName}",
                     DiagnosticSeverity.Error, DiagnosticSeverity.Error, true, 0);
                 context.ReportDiagnostic(diagnostic);
             }
@@ -92,7 +92,7 @@ namespace DinoCat.Wpf.Generator
                 if (!generatePlatformTypes && toWpf == null)
                     return;
 
-                const string platformPrefix = "global::DinoCat.Elements.";
+                const string platformPrefix = "global::Microsoft.StandardUI.Elements.";
                 var originalQualifiedName = symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
                 string projectedNamespace;
                 string projectedTypeName;
@@ -108,7 +108,7 @@ namespace DinoCat.Wpf.Generator
                 {
                     string partialName = originalQualifiedName.Substring(platformPrefix.Length);
                     int split = partialName.LastIndexOf('.');
-                    projectedNamespace = "DinoCat.Wpf.Projected";
+                    projectedNamespace = "Microsoft.StandardUI.Wpf.Projected";
                     if (split != -1)
                         projectedNamespace += partialName.Substring(0, split);
                     projectedTypeName = partialName.Substring(split + 1);
@@ -143,7 +143,7 @@ namespace {projectedNamespace}
                 }
 
                 source.Append(' ', 4);
-                source.AppendLine($@"{symbol.DeclaredAccessibility.Format()} class {projectedTypeName} : global::DinoCat.Wpf.Host
+                source.AppendLine($@"{symbol.DeclaredAccessibility.Format()} class {projectedTypeName} : global::Microsoft.StandardUI.Wpf.Host
     {{
         public {projectedTypeName}()
         {{
@@ -200,13 +200,13 @@ namespace {projectedNamespace}
                 // I can't find a way to see the generator output. Just write it to a file for debugging.
                 if (generatePlatformTypes)
                 {
-                    //Directory.CreateDirectory("C:\\DinoCat\\src\\DinoCat.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.ToWpfGenerator");
-                    //File.WriteAllText($"C:\\DinoCat\\src\\DinoCat.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.ToWpfGenerator\\{sourceFile}.cs", source.ToString());
+                    //Directory.CreateDirectory("C:\\DinoCat\\src\\DinoCat.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.ToWpfGenerator");
+                    //File.WriteAllText($"C:\\DinoCat\\src\\DinoCat.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.ToWpfGenerator\\{sourceFile}.cs", source.ToString());
                 }
                 else
                 {
-                    //Directory.CreateDirectory("C:\\DinoCat\\examples\\Interop.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.ToWpfGenerator");
-                    //File.WriteAllText($"\\DinoCat\\examples\\Interop.Wpf\\DinoCat.Wpf.Generator\\DinoCat.Wpf.Generator.ToWpfGenerator\\{sourceFile}.cs", source.ToString());
+                    //Directory.CreateDirectory("C:\\DinoCat\\examples\\Interop.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.ToWpfGenerator");
+                    //File.WriteAllText($"\\DinoCat\\examples\\Interop.Wpf\\Microsoft.StandardUI.Wpf.Generator\\Microsoft.StandardUI.Wpf.Generator.ToWpfGenerator\\{sourceFile}.cs", source.ToString());
                 }
             }
 

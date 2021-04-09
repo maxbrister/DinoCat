@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Elements.Events
+namespace Microsoft.StandardUI.Elements.Events
 {
     public enum Key
     {

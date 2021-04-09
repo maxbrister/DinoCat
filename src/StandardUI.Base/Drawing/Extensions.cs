@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SkiaSharp;
 
-namespace DinoCat.Drawing
+namespace Microsoft.StandardUI.Drawing
 {
     public static class Extensions
     {

@@ -1,12 +1,12 @@
-using DinoCat.Base.Tests.Mocks;
-using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Tree;
+using Microsoft.StandardUI.Base.Tests.Mocks;
+using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Tree;
 using System.Collections.Generic;
 using Xunit;
-using static DinoCat.Elements.Factories;
+using static Microsoft.StandardUI.Elements.Factories;
 
-namespace DinoCat.Base.Tests
+namespace Microsoft.StandardUI.Base.Tests
 {
     public class BaselineTests
     {

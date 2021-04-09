@@ -1,9 +1,9 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public class Aligned : Control
     {

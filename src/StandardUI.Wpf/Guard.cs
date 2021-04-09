@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     internal class Guard : IDisposable
     {

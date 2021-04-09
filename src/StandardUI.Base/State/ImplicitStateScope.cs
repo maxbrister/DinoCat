@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace DinoCat.State
+namespace Microsoft.StandardUI.State
 {
     public sealed class ImplicitStateScope<T> : IImplicitStateScope, INotifyPropertyChanged, IDisposable
     {

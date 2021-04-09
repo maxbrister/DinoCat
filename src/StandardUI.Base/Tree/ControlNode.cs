@@ -1,11 +1,11 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 
-namespace DinoCat.Tree
+namespace Microsoft.StandardUI.Tree
 {
     internal sealed class ControlNode : NodeBase<Control>
     {

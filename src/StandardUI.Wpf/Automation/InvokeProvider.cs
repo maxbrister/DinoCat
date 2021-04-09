@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Automation.Provider;
 
-namespace DinoCat.Wpf.Automation
+namespace Microsoft.StandardUI.Wpf.Automation
 {
     internal class InvokeProvider : IInvokeProvider
     {

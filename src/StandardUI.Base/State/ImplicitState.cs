@@ -1,4 +1,4 @@
-﻿using DinoCat.Elements;
+﻿using Microsoft.StandardUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DinoCat.State
+namespace Microsoft.StandardUI.State
 {
     public static class ImplicitState
     {

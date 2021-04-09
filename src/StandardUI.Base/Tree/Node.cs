@@ -1,11 +1,11 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DinoCat.Tree
+namespace Microsoft.StandardUI.Tree
 {
     public abstract class Node : IDisposable
     {

@@ -1,11 +1,11 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Interop;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Interop;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public class Stack : Container<Expand>
     {

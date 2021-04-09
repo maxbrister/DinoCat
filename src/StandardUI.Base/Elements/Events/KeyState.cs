@@ -1,4 +1,4 @@
-﻿namespace DinoCat.Elements.Events
+﻿namespace Microsoft.StandardUI.Elements.Events
 {
     public enum KeyState
     {

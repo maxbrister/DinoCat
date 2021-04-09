@@ -1,7 +1,7 @@
-﻿using DinoCat.Elements;
+﻿using Microsoft.StandardUI.Elements;
 using System.Windows.Automation.Peers;
 
-namespace DinoCat.Wpf.Automation
+namespace Microsoft.StandardUI.Wpf.Automation
 {
     internal class InputGroupAutomationPeer : FrameworkElementAutomationPeer
     {

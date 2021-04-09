@@ -1,4 +1,4 @@
-﻿using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Tree;
 using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-using DrawingContext = DinoCat.Drawing.DrawingContext;
+using DrawingContext = Microsoft.StandardUI.Drawing.DrawingContext;
 using WpfSize = System.Windows.Size;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     internal class RootLayer : Layer
     {

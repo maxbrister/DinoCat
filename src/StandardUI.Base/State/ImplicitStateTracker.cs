@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace DinoCat.State
+namespace Microsoft.StandardUI.State
 {
     public class ImplicitStateTracker : IDisposable
     {

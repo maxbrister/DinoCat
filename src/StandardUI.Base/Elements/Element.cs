@@ -1,7 +1,7 @@
-﻿using DinoCat.Tree;
-using static DinoCat.Elements.Factories;
+﻿using Microsoft.StandardUI.Tree;
+using static Microsoft.StandardUI.Elements.Factories;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public abstract class Element
     {

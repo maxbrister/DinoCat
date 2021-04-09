@@ -1,7 +1,7 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Elements;
-using DinoCat.Interop;
-using DinoCat.Wpf.Automation;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Interop;
+using Microsoft.StandardUI.Wpf.Automation;
 using SkiaSharp.Views.Desktop;
 using SkiaSharp.Views.WPF;
 using System;
@@ -13,11 +13,11 @@ using System.Windows.Media;
 using Colors = System.Windows.Media.Colors;
 using WpfRect = System.Windows.Rect;
 using WpfSize = System.Windows.Size;
-using DrawingContext = DinoCat.Drawing.DrawingContext;
+using DrawingContext = Microsoft.StandardUI.Drawing.DrawingContext;
 using WpfDrawingContext = System.Windows.Media.DrawingContext;
 using SkiaSharp;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     internal class Layer : SKElement, ILayer
     {
@@ -38,7 +38,7 @@ namespace DinoCat.Wpf
             Focusable = false;
         }
 
-        public DinoCat.Matrix TotalTransform { get; private set; } = DinoCat.Matrix.Identity;
+        public Microsoft.StandardUI.Matrix TotalTransform { get; private set; } = Microsoft.StandardUI.Matrix.Identity;
 
         public void AddChild(UIElement child)
         {
@@ -167,7 +167,7 @@ namespace DinoCat.Wpf
             TotalTransform = drawingContext.TotalTransform;
 
             // TODO support rotation. Render transform somehow?
-            var parentTransform = parent?.TotalTransform ?? DinoCat.Matrix.Identity;
+            var parentTransform = parent?.TotalTransform ?? Microsoft.StandardUI.Matrix.Identity;
             var parentOffsetX = parentTransform.m31 / parentTransform.m11;
             var parentOffsetY = parentTransform.m32 / parentTransform.m22;
             var offsetX = TotalTransform.m31 / TotalTransform.m11;

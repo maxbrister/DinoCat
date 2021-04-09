@@ -1,12 +1,12 @@
-﻿using DinoCat.Drawing;
-using DinoCat.Interop;
+﻿using Microsoft.StandardUI.Drawing;
+using Microsoft.StandardUI.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Base.Tests.Mocks
+namespace Microsoft.StandardUI.Base.Tests.Mocks
 {
     class Layer : ILayer
     {

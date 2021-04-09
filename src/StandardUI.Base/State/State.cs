@@ -1,9 +1,9 @@
-﻿using DinoCat.Elements;
+﻿using Microsoft.StandardUI.Elements;
 using System;
 using System.ComponentModel;
 using System.Threading;
 
-namespace DinoCat.State
+namespace Microsoft.StandardUI.State
 {
     public static class State
     {

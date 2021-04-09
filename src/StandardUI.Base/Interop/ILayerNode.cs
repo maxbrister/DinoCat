@@ -1,6 +1,6 @@
-﻿using DinoCat.Drawing;
+﻿using Microsoft.StandardUI.Drawing;
 
-namespace DinoCat.Interop
+namespace Microsoft.StandardUI.Interop
 {
     public interface ILayerNode
     {

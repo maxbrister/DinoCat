@@ -1,6 +1,6 @@
-﻿using DinoCat.Elements;
-using DinoCat.State;
-using DinoCat.Wpf.System.Windows.Internal;
+﻿using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.State;
+using Microsoft.StandardUI.Wpf.System.Windows.Internal;
 using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DinoCat.Wpf.System.Windows
+namespace Microsoft.StandardUI.Wpf.System.Windows
 {
     public abstract class DependencyObjectBase<TSubclass, TDependencyObject> : Elements.UnsafeControl<DependencyObjectState<TSubclass, TDependencyObject>> where TDependencyObject : DependencyObject, new()
     {

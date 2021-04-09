@@ -1,12 +1,12 @@
-﻿using DinoCat.Elements;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using Control = DinoCat.Elements.Control;
-using ContentControl = DinoCat.Wpf.System.Windows.Controls.ContentControl;
+using Control = Microsoft.StandardUI.Elements.Control;
+using ContentControl = Microsoft.StandardUI.Wpf.System.Windows.Controls.ContentControl;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class ContentAdapter : Control
     {
@@ -22,7 +22,7 @@ namespace DinoCat.Wpf
                 else if (Content is UIElement wpfChild)
                     return new RawUIElement(wpfChild);
                 else if (Content is string s)
-                    return new DinoCat.Elements.TextBlock(s);
+                    return new Microsoft.StandardUI.Elements.TextBlock(s);
 
                 return new ContentControl().Content(Content);
             }

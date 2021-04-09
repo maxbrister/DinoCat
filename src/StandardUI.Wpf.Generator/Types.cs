@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DinoCat.Wpf.Generator
+namespace Microsoft.StandardUI.Wpf.Generator
 {
     class Types
     {
@@ -18,9 +18,9 @@ namespace DinoCat.Wpf.Generator
             DependencyObject = Load("System.Windows.DependencyObject");
             Thickness = Load("System.Windows.Thickness").SetDinoType("Dino.Thickness");
             Brush = Load("System.Windows.Media.Brush").SetDinoType("Dino.Drawing.Brush");
-            FromWpfTypeAttribute = Load("DinoCat.Wpf.FromWpfTypeAttribute");
-            ToWpfTypeAttribute = Load("DinoCat.Wpf.ToWpfTypeAttribute");
-            Element = Load("DinoCat.Elements.Element");
+            FromWpfTypeAttribute = Load("Microsoft.StandardUI.Wpf.FromWpfTypeAttribute");
+            ToWpfTypeAttribute = Load("Microsoft.StandardUI.Wpf.ToWpfTypeAttribute");
+            Element = Load("Microsoft.StandardUI.Elements.Element");
             Action = Load("System.Action");
         }
 

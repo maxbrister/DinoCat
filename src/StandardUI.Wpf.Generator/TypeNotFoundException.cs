@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DinoCat.Wpf.Generator
+namespace Microsoft.StandardUI.Wpf.Generator
 {
     class TypeNotFoundException : Exception
     {

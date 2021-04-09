@@ -1,11 +1,11 @@
-﻿using DinoCat.Elements;
+﻿using Microsoft.StandardUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Tree
+namespace Microsoft.StandardUI.Tree
 {
     public abstract class NodeBase<TElement>: Node where TElement: Element
     {

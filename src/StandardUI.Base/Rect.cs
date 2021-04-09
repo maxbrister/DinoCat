@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat
+namespace Microsoft.StandardUI
 {
     public struct Rect : IEquatable<Rect>
     {

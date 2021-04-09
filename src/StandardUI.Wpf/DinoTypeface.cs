@@ -1,4 +1,4 @@
-﻿using DinoCat.Drawing;
+﻿using Microsoft.StandardUI.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace DinoCat.Wpf
+namespace Microsoft.StandardUI.Wpf
 {
     public class DinoTypeface : ITypeface
     {

@@ -1,5 +1,5 @@
-﻿using DinoCat.State;
-using DinoCat.Tree;
+﻿using Microsoft.StandardUI.State;
+using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public class ScopeElement : Element
     {

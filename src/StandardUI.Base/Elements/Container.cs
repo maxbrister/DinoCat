@@ -1,9 +1,9 @@
-﻿using DinoCat.Tree;
+﻿using Microsoft.StandardUI.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DinoCat.Elements
+namespace Microsoft.StandardUI.Elements
 {
     public abstract class Container<TChild> : Element
     {

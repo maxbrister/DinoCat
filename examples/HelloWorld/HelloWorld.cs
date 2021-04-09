@@ -1,7 +1,7 @@
-﻿using DinoCat;
-using DinoCat.Elements;
-using DinoCat.State;
-using static DinoCat.Elements.Factories;
+﻿using Microsoft.StandardUI;
+using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.State;
+using static Microsoft.StandardUI.Elements.Factories;
 
 App.Run(() =>
     State.Inject<int>((count, setCount) => Row(

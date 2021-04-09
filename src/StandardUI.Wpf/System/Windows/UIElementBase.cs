@@ -1,5 +1,5 @@
-﻿using DinoCat.Elements;
-using DinoCat.Wpf.System.Windows.Internal;
+﻿using Microsoft.StandardUI.Elements;
+using Microsoft.StandardUI.Wpf.System.Windows.Internal;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace DinoCat.Wpf.System.Windows
+namespace Microsoft.StandardUI.Wpf.System.Windows
 {
     public partial class UIElementBase<TSubclass, TWpf>
     {
