@@ -47,6 +47,7 @@ namespace Microsoft.StandardUI.Elements
                         Element.Foreground ?? theme.Foreground,
                         Element.FontSize ?? theme.FontSize,
                         Context.Get<DpiScale>(),
+                        Context.Get<FlowDirection>(),
                         Element.Content);
                 }
 

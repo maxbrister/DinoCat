@@ -1,4 +1,5 @@
 using HarfBuzzSharp;
+using Microsoft.StandardUI.Elements;
 using SkiaSharp;
 using SkiaSharp.HarfBuzz;
 using System;
@@ -22,7 +23,7 @@ namespace Microsoft.StandardUI.Drawing
             return new Typeface(skTypeface);
         }
 
-        public IFormattedText FormatText(ITypeface typeface, Brush brush, float fontPt, DpiScale scale, string text)
+        public IFormattedText FormatText(ITypeface typeface, Brush brush, float fontPt, DpiScale scale, FlowDirection flow, string text)
         {
             var realFontPt = fontPt * scale.X;
             var paint = brush.Into();
@@ -30,7 +31,7 @@ namespace Microsoft.StandardUI.Drawing
             paint.TextSize = realFontPt;
 
             HarfBuzzSharp.Buffer buffer = new();
-            buffer.Direction = Direction.LeftToRight;
+            buffer.Direction = flow == FlowDirection.LeftToRight ? Direction.LeftToRight : Direction.RightToLeft;
             buffer.AddUtf16(text);
 
             SKShaper shaper = new((SKTypeface)typeface.NativeObject);

@@ -18,13 +18,13 @@ If you're already using an existing C# UI framework (WinForms, Wpf, Xamarin, Uwp
   * Projections from Wpf to DinoCat (need better container support)
   * Projections from DinoCat to Wpf (very early)
 * Cross platform rendering with SkiaSharp
+* RTL layout
 
 ## Missing Features
 
 * Animations
 * Control library
 * Rich text layout
-* RTL layout
 * WinForms/Xamarin/Uwp/WinUI integration
 * HotReload integration (DinoCat is set up for hot reload. Once the tooling catches up this should be easy...)
 * Publish to NuGet

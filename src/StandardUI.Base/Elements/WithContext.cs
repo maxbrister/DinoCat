@@ -50,7 +50,7 @@ namespace Microsoft.StandardUI.Elements
         public WithContextNode(Node? parent, Context context, WithContextElement element) : base(parent, context, element)
         {
             var childContext = element.CreateChildContext(context);
-            child = element.Child.CreateNode(this, context);
+            child = element.Child.CreateNode(this, childContext);
         }
 
         public override IEnumerable<Node> Children
