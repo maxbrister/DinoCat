@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <!-- For now DinoCat only supports windows. Hopefully that will change soon.  -->
+    <!-- For now StandardUI only supports windows. Hopefully that will change soon.  -->
     <TargetFramework>net5.0-windows</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DinoCat\DinoCat.csproj" />
+    <ProjectReference Include="..\..\src\StandardUI\StandardUI.csproj" />
   </ItemGroup>
 
 </Project>

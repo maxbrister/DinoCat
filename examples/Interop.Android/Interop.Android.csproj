@@ -8,6 +8,6 @@
     <PackageReference Include="Xamarin.AndroidX.Arch.Core.Runtime" Version="2.1.0.8-net6preview01" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DinoCat.Android\DinoCat.Android.csproj" />
+    <ProjectReference Include="..\..\src\StandardUI.Android\StandardUI.Android.csproj" />
   </ItemGroup>
 </Project>

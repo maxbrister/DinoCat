@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DinoCat.Base\DinoCat.Base.csproj" />
-    <ProjectReference Include="..\..\src\DinoCat\DinoCat.csproj" />
+    <ProjectReference Include="..\..\src\StandardUI.Base\StandardUI.Base.csproj" />
+    <ProjectReference Include="..\..\src\StandardUI\StandardUI.csproj" />
   </ItemGroup>
 
 </Project>

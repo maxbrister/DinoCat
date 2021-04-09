@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DinoCat.Base\DinoCat.Base.csproj" />
-    <ProjectReference Include="..\DinoCat.Wpf\DinoCat.Wpf.csproj" Condition="$(IsWindows)" />
+    <ProjectReference Include="..\StandardUI.Base\StandardUI.Base.csproj" />
+    <ProjectReference Include="..\StandardUI.Wpf\StandardUI.Wpf.csproj" Condition="$(IsWindows)" />
   </ItemGroup>
 
 </Project>
